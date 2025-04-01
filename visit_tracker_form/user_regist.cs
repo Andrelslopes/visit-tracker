@@ -5,11 +5,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Resources.ResXFileRef;
+using WinFormsTextBox = System.Windows.Forms.TextBox;
 
 namespace visit_tracker_form
 {
@@ -126,6 +129,12 @@ namespace visit_tracker_form
             {
                 errorMessage += "Senha: \n";
                 txtPass.BackColor = ColorTranslator.FromHtml("#FEC6C6");
+            }
+
+            if (string.IsNullOrWhiteSpace(txtConfPass.Text))
+            {
+                errorMessage += "Senha: \n";
+                txtConfPass.BackColor = ColorTranslator.FromHtml("#FEC6C6");
             }
 
             if (!string.IsNullOrEmpty(errorMessage))
@@ -252,11 +261,66 @@ namespace visit_tracker_form
         private void txtName_TextChanged(object sender, EventArgs e)
         {
             Text = txtName.Text;
+
+            txtName.BackColor = ColorTranslator.FromHtml(default);
+
+            // Converte o texto digitado para Title Case
+            // (onde a primeira letra de cada palavra fica maiúscula).
+            if (sender is WinFormsTextBox textBox)
+            {
+                // Guarda a posição atual do cursor dentro do TextBox
+                int selectionStart = textBox.SelectionStart;
+
+                // Guarda o tamanho do texto selecionado (se houver).
+                int selectionLength = textBox.SelectionLength;
+
+                // Use a versão específica do "ToTitleCase" para respeitar a cultura atual
+                textBox.Text = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(textBox.Text.ToLower());
+
+                // Restaurar a seleção original
+                textBox.Select(selectionStart, selectionLength);
+            }
         }
 
         private void txtCpf_TextChanged(object sender, EventArgs e)
         {
             txtCpf.BackColor = ColorTranslator.FromHtml(default);
+
+            /*FORMATAÇAO DO TEXTBOX CPF*/
+            // Obtém o texto do TextBox
+            string cpf = txtCpf.Text;
+
+            // Filtra apenas os dígitos do texto, removendo qualquer caractere não numérico
+            cpf = new string(cpf.Where(char.IsDigit).ToArray());
+
+            // Limita o comprimento do CPF a no máximo 11 dígitos
+            if (cpf.Length > 11)
+                cpf = cpf.Substring(0, 11);
+
+            // Variável para armazenar o CPF formatado
+            string formattedCpf = string.Empty;
+
+            // Adiciona os primeiros 3 dígitos
+            if (cpf.Length > 0)
+                formattedCpf += cpf.Substring(0, Math.Min(3, cpf.Length));
+
+            // Adiciona o segundo grupo de 3 dígitos com um ponto na frente
+            if (cpf.Length > 3)
+                formattedCpf += "." + cpf.Substring(3, Math.Min(3, cpf.Length - 3));
+
+            // Adiciona o terceiro grupo de 3 dígitos com outro ponto na frente
+            if (cpf.Length > 6)
+                formattedCpf += "." + cpf.Substring(6, Math.Min(3, cpf.Length - 6));
+
+            // Adiciona os últimos 2 dígitos com um traço na frente
+            if (cpf.Length > 9)
+                formattedCpf += "-" + cpf.Substring(9, Math.Min(2, cpf.Length - 9));
+
+            // Define o texto do TextBox como o CPF formatado
+            txtCpf.Text = formattedCpf;
+
+            // Ajusta a posição do cursor para o final do texto
+            txtCpf.SelectionStart = formattedCpf.Length;
         }
 
         private void txtEmail_TextChanged(object sender, EventArgs e)
