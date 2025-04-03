@@ -92,6 +92,54 @@ namespace visit_tracker_form
             }
         }
 
+        private void checksEmpty() // Metodo verifica se todas as TextBox forem preenchidas
+        {
+            string errorMessage = "";
+
+            if (string.IsNullOrWhiteSpace(txtName.Text))
+            {
+                errorMessage += "Nome: \n";
+                txtName.BackColor = ColorTranslator.FromHtml("#FEC6C6");
+            }
+
+            if (string.IsNullOrWhiteSpace(txtCpf.Text))
+            {
+                errorMessage += "CPF: \n";
+                txtCpf.BackColor = ColorTranslator.FromHtml("#FEC6C6");
+            }
+
+            if (string.IsNullOrWhiteSpace(txtEmail.Text))
+            {
+                errorMessage += "Email: \n";
+                txtEmail.BackColor = ColorTranslator.FromHtml("#FEC6C6");
+            }
+
+            if (string.IsNullOrWhiteSpace(txtUser.Text))
+            {
+                errorMessage += "Usuário: \n";
+                txtUser.BackColor = ColorTranslator.FromHtml("#FEC6C6");
+            }
+
+            if (string.IsNullOrWhiteSpace(txtPass.Text))
+            {
+                errorMessage += "Senha: \n";
+                txtPass.BackColor = ColorTranslator.FromHtml("#FEC6C6");
+            }
+
+            if (string.IsNullOrWhiteSpace(txtConfPass.Text))
+            {
+                errorMessage += "Senha: \n";
+                txtConfPass.BackColor = ColorTranslator.FromHtml("#FEC6C6");
+            }
+
+            if (!string.IsNullOrEmpty(errorMessage))
+            {
+                MessageBox.Show($"Os seguintes campos são obrigatórios:\n\n{errorMessage}",
+                    "Campos Obrigatórios", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+        }
+
         private void user_regist_Load(object sender, EventArgs e)
         {
             ResetColor();
@@ -143,96 +191,98 @@ namespace visit_tracker_form
                     "Campos Obrigatórios", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-
-            // Verifica se o CPF é válido
-            if (!CpfValidator.IsValid(txtCpf.Text))
+            else
             {
-                MessageBox.Show("CPF inválido. Por favor, insira um CPF válido.",
-                    "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                txtCpf.Select(); // Coloca o foco no campo de CPF caso seja inválido
-                return;
-            }
-
-            MySqlConnection conn = new MySqlConnection(Program.connect);
-            conn.Open();
-
-            try
-            {
-                if (conn.State != ConnectionState.Open)
+                // Verifica se o CPF é válido
+                if (!CpfValidator.IsValid(txtCpf.Text))
                 {
-                    conn.Open();
-                }
+                    MessageBox.Show("CPF inválido. Por favor, insira um CPF válido.",
+                        "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                int UserId = 1; // Substituir pelo valor real da sessão quando aplicável
-
-                // Remover os caracteres não numéricos do TextBox
-                string cleanCpf = new string(txtCpf.Text.Where(char.IsDigit).ToArray());
-
-                // Define as queries SQL para verificar o login,CPF e email individualmente
-                string checkLoginQuery = "SELECT COUNT(*) FROM users WHERE username = @Username";
-                string checkCpfQuery = "SELECT COUNT(*) FROM users WHERE cpf = @CPF";
-                string checkEmailQuery = "SELECT COUNT(*) FROM users WHERE email = @Email";
-
-                // Cria comandos MySQL separados para cada query
-                MySqlCommand checkLoginCmd = new MySqlCommand(checkLoginQuery, conn);
-                MySqlCommand checkCpfCmd = new MySqlCommand(checkCpfQuery, conn);
-                MySqlCommand checkEmailCmd = new MySqlCommand(checkEmailQuery, conn);
-
-                // Adiciona os valores dos parâmetros @Login, @CPF e @Email
-                checkLoginCmd.Parameters.Add("@Username", MySqlDbType.VarChar).Value = txtUser.Text;
-                checkCpfCmd.Parameters.Add("@Cpf", MySqlDbType.VarChar).Value = cleanCpf;
-                checkEmailCmd.Parameters.Add("Email", MySqlDbType.VarChar).Value = txtEmail.Text;
-                
-                // Executa as queries e converte o resultado para inteiros
-                int loginExists = Convert.ToInt32(checkLoginCmd.ExecuteScalar());
-                int cpfExists = Convert.ToInt32(checkCpfCmd.ExecuteScalar());
-                int emailExists = Convert.ToInt32(checkEmailCmd.ExecuteScalar());
-
-                if (loginExists > 0)
-                {
-                    MessageBox.Show("Usuário já cadastrado!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-                else if (cpfExists > 0)
-                {
-                    MessageBox.Show("CPF já cadastrado!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-                else if (emailExists > 0)
-                {
-                    MessageBox.Show("Email já cadastrado!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtCpf.Select(); // Coloca o foco no campo de CPF caso seja inválido
                     return;
                 }
 
-                MySqlCommand insertDB = new MySqlCommand(
-                    "INSERT INTO users (name, cpf, email, username, password, created_by, updated_by) " +
-                    "VALUES (@Name, @Cpf, @Email, @Username, @Password, @Created_by, @Updated_by);", conn);
+                MySqlConnection conn = new MySqlConnection(Program.connect);
+                conn.Open();
 
-                insertDB.Parameters.Add("@Name", MySqlDbType.VarChar).Value = txtName.Text;
-                insertDB.Parameters.Add("@Cpf", MySqlDbType.VarChar).Value = cleanCpf;
-                insertDB.Parameters.Add("@Email", MySqlDbType.VarChar).Value = txtEmail.Text;
-                insertDB.Parameters.Add("@Username", MySqlDbType.VarChar).Value = txtUser.Text;
-                insertDB.Parameters.Add("@Password", MySqlDbType.VarChar).Value = BCrypt.Net.BCrypt.HashPassword(txtPass.Text);
-                insertDB.Parameters.Add("@Created_by", MySqlDbType.Int32).Value = UserId;
-                insertDB.Parameters.Add("@Updated_by", MySqlDbType.Int32).Value = UserId;
-
-                insertDB.ExecuteNonQuery();
-
-                MessageBox.Show("Usuário cadastrado com sucesso!", 
-                    "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                ClearTextbox(); // Apenas aqui
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Erro ao salvar as informações: " + ex.Message,
-                    "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                if (conn.State == ConnectionState.Open)
+                try
                 {
-                    conn.Close();
+                    if (conn.State != ConnectionState.Open)
+                    {
+                        conn.Open();
+                    }
+
+                    int UserId = 1; // Substituir pelo valor real da sessão quando aplicável
+
+                    // Remover os caracteres não numéricos do TextBox
+                    string cleanCpf = new string(txtCpf.Text.Where(char.IsDigit).ToArray());
+
+                    // Define as queries SQL para verificar o login,CPF e email individualmente
+                    string checkLoginQuery = "SELECT COUNT(*) FROM users WHERE username = @Username";
+                    string checkCpfQuery = "SELECT COUNT(*) FROM users WHERE cpf = @CPF";
+                    string checkEmailQuery = "SELECT COUNT(*) FROM users WHERE email = @Email";
+
+                    // Cria comandos MySQL separados para cada query
+                    MySqlCommand checkLoginCmd = new MySqlCommand(checkLoginQuery, conn);
+                    MySqlCommand checkCpfCmd = new MySqlCommand(checkCpfQuery, conn);
+                    MySqlCommand checkEmailCmd = new MySqlCommand(checkEmailQuery, conn);
+
+                    // Adiciona os valores dos parâmetros @Login, @CPF e @Email
+                    checkLoginCmd.Parameters.Add("@Username", MySqlDbType.VarChar).Value = txtUser.Text;
+                    checkCpfCmd.Parameters.Add("@Cpf", MySqlDbType.VarChar).Value = cleanCpf;
+                    checkEmailCmd.Parameters.Add("Email", MySqlDbType.VarChar).Value = txtEmail.Text;
+
+                    // Executa as queries e converte o resultado para inteiros
+                    int loginExists = Convert.ToInt32(checkLoginCmd.ExecuteScalar());
+                    int cpfExists = Convert.ToInt32(checkCpfCmd.ExecuteScalar());
+                    int emailExists = Convert.ToInt32(checkEmailCmd.ExecuteScalar());
+
+                    if (loginExists > 0)
+                    {
+                        MessageBox.Show("Usuário já cadastrado!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                    else if (cpfExists > 0)
+                    {
+                        MessageBox.Show("CPF já cadastrado!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                    else if (emailExists > 0)
+                    {
+                        MessageBox.Show("Email já cadastrado!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    MySqlCommand insertDB = new MySqlCommand(
+                        "INSERT INTO users (name, cpf, email, username, password, created_by, updated_by) " +
+                        "VALUES (@Name, @Cpf, @Email, @Username, @Password, @Created_by, @Updated_by);", conn);
+
+                    insertDB.Parameters.Add("@Name", MySqlDbType.VarChar).Value = txtName.Text;
+                    insertDB.Parameters.Add("@Cpf", MySqlDbType.VarChar).Value = cleanCpf;
+                    insertDB.Parameters.Add("@Email", MySqlDbType.VarChar).Value = txtEmail.Text;
+                    insertDB.Parameters.Add("@Username", MySqlDbType.VarChar).Value = txtUser.Text;
+                    insertDB.Parameters.Add("@Password", MySqlDbType.VarChar).Value = BCrypt.Net.BCrypt.HashPassword(txtPass.Text);
+                    insertDB.Parameters.Add("@Created_by", MySqlDbType.Int32).Value = UserId;
+                    insertDB.Parameters.Add("@Updated_by", MySqlDbType.Int32).Value = UserId;
+
+                    insertDB.ExecuteNonQuery();
+
+                    MessageBox.Show("Usuário cadastrado com sucesso!",
+                        "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ClearTextbox(); // Apenas aqui
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erro ao salvar as informações: " + ex.Message,
+                        "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    if (conn.State == ConnectionState.Open)
+                    {
+                        conn.Close();
+                    }
                 }
             }
 
@@ -240,7 +290,74 @@ namespace visit_tracker_form
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
+            string errorMessage = "";
 
+            if (string.IsNullOrWhiteSpace(txtName.Text))
+            {
+                errorMessage += "Nome: \n";
+                txtName.BackColor = ColorTranslator.FromHtml("#FEC6C6");
+            }
+
+            if (string.IsNullOrWhiteSpace(txtCpf.Text))
+            {
+                errorMessage += "CPF: \n";
+                txtCpf.BackColor = ColorTranslator.FromHtml("#FEC6C6");
+            }
+
+            if (string.IsNullOrWhiteSpace(txtEmail.Text))
+            {
+                errorMessage += "Email: \n";
+                txtEmail.BackColor = ColorTranslator.FromHtml("#FEC6C6");
+            }
+
+            if (string.IsNullOrWhiteSpace(txtUser.Text))
+            {
+                errorMessage += "Usuário: \n";
+                txtUser.BackColor = ColorTranslator.FromHtml("#FEC6C6");
+            }
+
+            if (string.IsNullOrWhiteSpace(txtPass.Text))
+            {
+                errorMessage += "Senha: \n";
+                txtPass.BackColor = ColorTranslator.FromHtml("#FEC6C6");
+            }
+
+            if (string.IsNullOrWhiteSpace(txtConfPass.Text))
+            {
+                errorMessage += "Senha: \n";
+                txtConfPass.BackColor = ColorTranslator.FromHtml("#FEC6C6");
+            }
+
+            if (!string.IsNullOrEmpty(errorMessage))
+            {
+                MessageBox.Show($"Os seguintes campos são obrigatórios:\n\n{errorMessage}",
+                    "Campos Obrigatórios", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            else
+            {
+                MySqlConnection conn = new MySqlConnection(Program.connect);
+
+                try
+                {
+                    if (conn.State != ConnectionState.Open)
+                    {
+                        conn.Open();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erro ao editar as informações: " + ex.Message,
+                        "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    if (conn.State != ConnectionState.Closed)
+                    {
+                        conn.Close();
+                    }
+                }
+            }
         }
 
         private void btnDelet_Click(object sender, EventArgs e)
