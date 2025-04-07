@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using Org.BouncyCastle.Bcpg;
 using Org.BouncyCastle.Crypto.Generators;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace visit_tracker_form
         {
             InitializeComponent();
             ResetColor();
+            UpdateDgvUsers();
         }
 
         private void ResetColor()
@@ -89,6 +91,68 @@ namespace visit_tracker_form
                 digit += remainder.ToString();
 
                 return cpf.EndsWith(digit);
+            }
+        }
+
+        private void UpdateDgvUsers()
+        {
+            using (MySqlConnection conn = new MySqlConnection(Program.connect))
+
+
+            {
+                // Abre a conexão com o banco de dados MySQL
+                conn.Open();
+                try
+                {
+                    // Define a consulta SQL para selecionar os dados desejados da tabela 'usuario'
+                    string query = "SELECT id, name, cpf, email, username FROM users";
+                    //"WHERE is_activated = 1";
+
+                    // Cria um MySqlCommand para executar a consulta
+                    using (MySqlCommand command = new MySqlCommand(query, conn))
+                    {
+                        // Usa um MySqlDataAdapter para preencher um DataTable com os resultados da consulta
+                        using (MySqlDataAdapter adapter = new MySqlDataAdapter(command))
+                        {
+                            DataTable dt = new DataTable();
+                            adapter.Fill(dt);
+
+                            // Renomeia as colunas conforme necessário, verificando se cada coluna existe antes de renomear
+                            if (dt.Columns.Contains("id"))
+                                dt.Columns["id"].ColumnName = "ID";
+                            if (dt.Columns.Contains("name"))
+                                dt.Columns["name"].ColumnName = "NOME";
+                            if (dt.Columns.Contains("cpf"))
+                                dt.Columns["cpf"].ColumnName = "CPF";
+                            if (dt.Columns.Contains("email"))
+                                dt.Columns["email"].ColumnName = "EMAIL";
+                            if (dt.Columns.Contains("username"))
+                                dt.Columns["username"].ColumnName = "USUÁRIO";
+
+
+                            // Define o DataTable como a fonte de dados do DataGridView chamado 'dgvUsers'
+                            dgvUsers.DataSource = dt;
+                            // Define o tamanho de cada coluna como automático
+                            dgvUsers.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Exibe uma mensagem de erro em um MessageBox se ocorrer uma exceção
+                    MessageBox.Show($"Erro!\nNão foi possível carregar as informações.\nDetalhes: {ex.Message}",
+                        "Erro de Carregamento", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    // Verifica se aconexão está fechada
+                    // Fecha a conexão com o banco de dados,
+                    // garantindo que seja fechada mesmo se ocorrer uma exceção
+                    if (conn.State != ConnectionState.Closed)
+                    {
+                        conn.Close();
+                    }
+                }
             }
         }
 
@@ -340,10 +404,30 @@ namespace visit_tracker_form
 
                 try
                 {
+                    int UserId = 1; // Substituir pelo valor real da sessão quando aplicável
+
+                    // Remover os caracteres não numéricos do TextBox
+                    string cleanCpf = new string(txtCpf.Text.Where(char.IsDigit).ToArray());
+
                     if (conn.State != ConnectionState.Open)
                     {
                         conn.Open();
                     }
+
+                    MySqlCommand insertDB = new MySqlCommand(
+                        "UPDATE users " +
+                        "SET name=@Name, cpf=@Cpf, email=@Email, username=@Username, password=@Password, updated_by=@Update_by " +
+                        "WHERE id=@Id", conn);
+
+                    insertDB.Parameters.Add("@Name", MySqlDbType.VarChar).Value = txtName.Text;
+                    insertDB.Parameters.Add("@Cpf", MySqlDbType.VarChar).Value = cleanCpf;
+                    insertDB.Parameters.Add("@Email", MySqlDbType.VarChar).Value = txtEmail.Text;
+                    insertDB.Parameters.Add("@Username", MySqlDbType.VarChar).Value = txtUser.Text;
+                    insertDB.Parameters.Add("@Password", MySqlDbType.VarChar).Value = BCrypt.Net.BCrypt.HashPassword(txtPass.Text);
+                    insertDB.Parameters.Add("@Updated_by", MySqlDbType.Int32).Value = UserId;
+                    insertDB.Parameters.Add("@Id", MySqlDbType.Int32).Value = UserId;
+
+                    insertDB.ExecuteNonQuery();
                 }
                 catch (Exception ex)
                 {

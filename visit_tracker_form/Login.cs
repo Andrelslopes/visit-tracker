@@ -25,35 +25,65 @@ namespace visit_tracker_form
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtLogin.Text) || string.IsNullOrWhiteSpace(txtPass.Text))
+            string usuario = txtLogin.Text.Trim();
+            string senhaDigitada = txtPass.Text;
+
+            if (string.IsNullOrWhiteSpace(usuario) || string.IsNullOrWhiteSpace(senhaDigitada))
             {
                 MessageBox.Show("Todos os campos devem ser preenchidos!",
                     "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Cria uma nova conexão com o banco de dados.
-            MySqlConnection conn = new MySqlConnection(Program.connect);
-            // Abra a conexão
-            conn.Open();
-
             try
             {
-                // Cria um objeto MySqlCommand para executar a consulta SQL
-                MySqlCommand cmd = new MySqlCommand();
+                using (MySqlConnection conn = new MySqlConnection(Program.connect))
+                {
+                    conn.Open();
 
-                string passEncrypt = txtPass.Text;
+                    string query = "SELECT password FROM users WHERE username = @Username";
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@Username", usuario);
 
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                string hashSalvo = reader.GetString("password");
 
+                                bool senhaCorreta = BCrypt.Net.BCrypt.Verify(senhaDigitada, hashSalvo);
+
+                                if (senhaCorreta)
+                                {
+                                    MessageBox.Show("Login bem-sucedido!", "Sucesso",
+                                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                    // Exemplo: abrir tela principal
+                                    // new TelaPrincipal().Show();
+                                    // this.Hide();
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Senha incorreta.", "Erro",
+                                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("Usuário não encontrado.", "Erro",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                        }
+                    }
+                }
             }
             catch (MySqlException ex)
             {
-                MessageBox.Show("Erro ao conectar com banco de dados:" +  ex.Message,"Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                conn.Close();
+                MessageBox.Show("Erro ao conectar com o banco de dados: " + ex.Message,
+                    "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
     }
 }
