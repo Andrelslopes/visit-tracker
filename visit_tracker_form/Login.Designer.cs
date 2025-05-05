@@ -39,24 +39,25 @@
             // txtPass
             // 
             this.txtPass.Font = new System.Drawing.Font("Berlin Sans FB", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPass.Location = new System.Drawing.Point(23, 146);
+            this.txtPass.Location = new System.Drawing.Point(12, 131);
             this.txtPass.Name = "txtPass";
-            this.txtPass.Size = new System.Drawing.Size(223, 43);
+            this.txtPass.Size = new System.Drawing.Size(411, 43);
             this.txtPass.TabIndex = 8;
+            this.txtPass.UseSystemPasswordChar = true;
             // 
             // txtLogin
             // 
             this.txtLogin.Font = new System.Drawing.Font("Berlin Sans FB", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtLogin.Location = new System.Drawing.Point(23, 62);
+            this.txtLogin.Location = new System.Drawing.Point(12, 47);
             this.txtLogin.Name = "txtLogin";
-            this.txtLogin.Size = new System.Drawing.Size(223, 43);
+            this.txtLogin.Size = new System.Drawing.Size(411, 43);
             this.txtLogin.TabIndex = 7;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Berlin Sans FB", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(90, 108);
+            this.label2.Location = new System.Drawing.Point(12, 93);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(97, 35);
             this.label2.TabIndex = 6;
@@ -66,7 +67,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Berlin Sans FB", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(90, 24);
+            this.label1.Location = new System.Drawing.Point(12, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(89, 35);
             this.label1.TabIndex = 5;
@@ -75,7 +76,7 @@
             // btnLogin
             // 
             this.btnLogin.Font = new System.Drawing.Font("Berlin Sans FB", 18F);
-            this.btnLogin.Location = new System.Drawing.Point(65, 195);
+            this.btnLogin.Location = new System.Drawing.Point(288, 180);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(135, 49);
             this.btnLogin.TabIndex = 10;
@@ -86,7 +87,7 @@
             // btnShowPass
             // 
             this.btnShowPass.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnShowPass.Location = new System.Drawing.Point(203, 146);
+            this.btnShowPass.Location = new System.Drawing.Point(380, 131);
             this.btnShowPass.Name = "btnShowPass";
             this.btnShowPass.Size = new System.Drawing.Size(43, 43);
             this.btnShowPass.TabIndex = 11;
@@ -96,7 +97,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(268, 269);
+            this.ClientSize = new System.Drawing.Size(435, 243);
             this.Controls.Add(this.btnShowPass);
             this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.txtPass);

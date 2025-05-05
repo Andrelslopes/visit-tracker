@@ -33,6 +33,8 @@
             this.btnDelet = new System.Windows.Forms.Button();
             this.BtnExit = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtId = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.btnShowPass2 = new System.Windows.Forms.Button();
             this.txtConfPass = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -50,6 +52,7 @@
             this.btnClear = new System.Windows.Forms.Button();
             this.dgvUsers = new System.Windows.Forms.DataGridView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUsers)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -97,6 +100,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.txtId);
+            this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.btnShowPass2);
             this.groupBox1.Controls.Add(this.txtConfPass);
             this.groupBox1.Controls.Add(this.label6);
@@ -113,32 +118,51 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(11, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(481, 177);
+            this.groupBox1.Size = new System.Drawing.Size(481, 237);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             // 
+            // txtId
+            // 
+            this.txtId.Location = new System.Drawing.Point(6, 41);
+            this.txtId.Name = "txtId";
+            this.txtId.Size = new System.Drawing.Size(51, 25);
+            this.txtId.TabIndex = 15;
+            this.txtId.TextChanged += new System.EventHandler(this.txtId_TextChanged);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 21);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(23, 17);
+            this.label7.TabIndex = 14;
+            this.label7.Text = "Id:";
+            // 
             // btnShowPass2
             // 
+            this.btnShowPass2.BackColor = System.Drawing.SystemColors.Window;
             this.btnShowPass2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnShowPass2.Location = new System.Drawing.Point(450, 134);
+            this.btnShowPass2.Location = new System.Drawing.Point(452, 137);
             this.btnShowPass2.Name = "btnShowPass2";
             this.btnShowPass2.Size = new System.Drawing.Size(25, 25);
             this.btnShowPass2.TabIndex = 13;
-            this.btnShowPass2.UseVisualStyleBackColor = true;
+            this.btnShowPass2.UseVisualStyleBackColor = false;
             this.btnShowPass2.Click += new System.EventHandler(this.btnShowPass2_Click);
             // 
             // txtConfPass
             // 
-            this.txtConfPass.Location = new System.Drawing.Point(322, 134);
+            this.txtConfPass.Location = new System.Drawing.Point(324, 137);
             this.txtConfPass.Name = "txtConfPass";
             this.txtConfPass.Size = new System.Drawing.Size(153, 25);
             this.txtConfPass.TabIndex = 12;
+            this.txtConfPass.UseSystemPasswordChar = true;
             this.txtConfPass.TextChanged += new System.EventHandler(this.txtConfPass_TextChanged);
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(322, 114);
+            this.label6.Location = new System.Drawing.Point(324, 117);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(77, 17);
             this.label6.TabIndex = 11;
@@ -146,25 +170,27 @@
             // 
             // btnShowPass
             // 
+            this.btnShowPass.BackColor = System.Drawing.SystemColors.Window;
             this.btnShowPass.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnShowPass.Location = new System.Drawing.Point(293, 134);
+            this.btnShowPass.Location = new System.Drawing.Point(295, 137);
             this.btnShowPass.Name = "btnShowPass";
             this.btnShowPass.Size = new System.Drawing.Size(25, 25);
             this.btnShowPass.TabIndex = 10;
-            this.btnShowPass.UseVisualStyleBackColor = true;
+            this.btnShowPass.UseVisualStyleBackColor = false;
             this.btnShowPass.Click += new System.EventHandler(this.btnShowPass_Click);
             // 
             // txtPass
             // 
-            this.txtPass.Location = new System.Drawing.Point(165, 134);
+            this.txtPass.Location = new System.Drawing.Point(167, 137);
             this.txtPass.Name = "txtPass";
             this.txtPass.Size = new System.Drawing.Size(153, 25);
             this.txtPass.TabIndex = 9;
+            this.txtPass.UseSystemPasswordChar = true;
             this.txtPass.TextChanged += new System.EventHandler(this.txtPass_TextChanged);
             // 
             // txtUser
             // 
-            this.txtUser.Location = new System.Drawing.Point(6, 134);
+            this.txtUser.Location = new System.Drawing.Point(8, 137);
             this.txtUser.Name = "txtUser";
             this.txtUser.Size = new System.Drawing.Size(153, 25);
             this.txtUser.TabIndex = 8;
@@ -172,15 +198,15 @@
             // 
             // txtEmail
             // 
-            this.txtEmail.Location = new System.Drawing.Point(6, 87);
+            this.txtEmail.Location = new System.Drawing.Point(150, 89);
             this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(469, 25);
+            this.txtEmail.Size = new System.Drawing.Size(325, 25);
             this.txtEmail.TabIndex = 7;
             this.txtEmail.TextChanged += new System.EventHandler(this.txtEmail_TextChanged);
             // 
             // txtCpf
             // 
-            this.txtCpf.Location = new System.Drawing.Point(337, 40);
+            this.txtCpf.Location = new System.Drawing.Point(6, 89);
             this.txtCpf.Name = "txtCpf";
             this.txtCpf.Size = new System.Drawing.Size(138, 25);
             this.txtCpf.TabIndex = 6;
@@ -188,16 +214,16 @@
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(6, 40);
+            this.txtName.Location = new System.Drawing.Point(63, 42);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(325, 25);
+            this.txtName.Size = new System.Drawing.Size(412, 25);
             this.txtName.TabIndex = 5;
             this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(165, 114);
+            this.label5.Location = new System.Drawing.Point(167, 117);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(54, 17);
             this.label5.TabIndex = 4;
@@ -206,7 +232,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 114);
+            this.label4.Location = new System.Drawing.Point(8, 117);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(62, 17);
             this.label4.TabIndex = 3;
@@ -215,7 +241,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 67);
+            this.label3.Location = new System.Drawing.Point(150, 70);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(49, 17);
             this.label3.TabIndex = 2;
@@ -224,7 +250,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(337, 20);
+            this.label2.Location = new System.Drawing.Point(8, 69);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(42, 17);
             this.label2.TabIndex = 1;
@@ -233,7 +259,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 20);
+            this.label1.Location = new System.Drawing.Point(63, 22);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(51, 17);
             this.label1.TabIndex = 0;
@@ -252,26 +278,36 @@
             // dgvUsers
             // 
             this.dgvUsers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvUsers.Location = new System.Drawing.Point(9, 23);
+            this.dgvUsers.Location = new System.Drawing.Point(9, 60);
             this.dgvUsers.Name = "dgvUsers";
-            this.dgvUsers.Size = new System.Drawing.Size(466, 144);
+            this.dgvUsers.Size = new System.Drawing.Size(568, 155);
             this.dgvUsers.TabIndex = 6;
+            this.dgvUsers.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvUsers_CellContentDoubleClick);
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.textBox1);
             this.groupBox2.Controls.Add(this.dgvUsers);
-            this.groupBox2.Location = new System.Drawing.Point(11, 195);
+            this.groupBox2.Location = new System.Drawing.Point(11, 255);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(481, 173);
+            this.groupBox2.Size = new System.Drawing.Size(583, 221);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "groupBox2";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(8, 24);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(290, 25);
+            this.textBox1.TabIndex = 7;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // user_regist
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(602, 380);
+            this.ClientSize = new System.Drawing.Size(602, 488);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.groupBox1);
@@ -288,6 +324,7 @@
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUsers)).EndInit();
             this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -316,5 +353,8 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.DataGridView dgvUsers;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.TextBox txtId;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }

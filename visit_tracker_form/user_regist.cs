@@ -24,6 +24,7 @@ namespace visit_tracker_form
             InitializeComponent();
             ResetColor();
             UpdateDgvUsers();
+            ClearTextbox();
         }
 
         private void ResetColor()
@@ -36,6 +37,7 @@ namespace visit_tracker_form
         }
         private void ClearTextbox()
         {
+            txtId.Text = string.Empty;
             txtName.Text = "";
             txtCpf.Text = "";
             txtEmail.Text = "";
@@ -129,7 +131,6 @@ namespace visit_tracker_form
                             if (dt.Columns.Contains("username"))
                                 dt.Columns["username"].ColumnName = "USUÁRIO";
 
-
                             // Define o DataTable como a fonte de dados do DataGridView chamado 'dgvUsers'
                             dgvUsers.DataSource = dt;
                             // Define o tamanho de cada coluna como automático
@@ -153,54 +154,6 @@ namespace visit_tracker_form
                         conn.Close();
                     }
                 }
-            }
-        }
-
-        private void checksEmpty() // Metodo verifica se todas as TextBox forem preenchidas
-        {
-            string errorMessage = "";
-
-            if (string.IsNullOrWhiteSpace(txtName.Text))
-            {
-                errorMessage += "Nome: \n";
-                txtName.BackColor = ColorTranslator.FromHtml("#FEC6C6");
-            }
-
-            if (string.IsNullOrWhiteSpace(txtCpf.Text))
-            {
-                errorMessage += "CPF: \n";
-                txtCpf.BackColor = ColorTranslator.FromHtml("#FEC6C6");
-            }
-
-            if (string.IsNullOrWhiteSpace(txtEmail.Text))
-            {
-                errorMessage += "Email: \n";
-                txtEmail.BackColor = ColorTranslator.FromHtml("#FEC6C6");
-            }
-
-            if (string.IsNullOrWhiteSpace(txtUser.Text))
-            {
-                errorMessage += "Usuário: \n";
-                txtUser.BackColor = ColorTranslator.FromHtml("#FEC6C6");
-            }
-
-            if (string.IsNullOrWhiteSpace(txtPass.Text))
-            {
-                errorMessage += "Senha: \n";
-                txtPass.BackColor = ColorTranslator.FromHtml("#FEC6C6");
-            }
-
-            if (string.IsNullOrWhiteSpace(txtConfPass.Text))
-            {
-                errorMessage += "Senha: \n";
-                txtConfPass.BackColor = ColorTranslator.FromHtml("#FEC6C6");
-            }
-
-            if (!string.IsNullOrEmpty(errorMessage))
-            {
-                MessageBox.Show($"Os seguintes campos são obrigatórios:\n\n{errorMessage}",
-                    "Campos Obrigatórios", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
             }
         }
 
@@ -335,6 +288,7 @@ namespace visit_tracker_form
                     MessageBox.Show("Usuário cadastrado com sucesso!",
                         "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     ClearTextbox(); // Apenas aqui
+                    UpdateDgvUsers();
                 }
                 catch (Exception ex)
                 {
@@ -402,22 +356,19 @@ namespace visit_tracker_form
             {
                 MySqlConnection conn = new MySqlConnection(Program.connect);
 
+                int UserId = 1; // Substituir pelo valor real da sessão quando aplicável
+
+                // Remover os caracteres não numéricos do TextBox
+                string cleanCpf = new string(txtCpf.Text.Where(char.IsDigit).ToArray());
+
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+
                 try
                 {
-                    int UserId = 1; // Substituir pelo valor real da sessão quando aplicável
-
-                    // Remover os caracteres não numéricos do TextBox
-                    string cleanCpf = new string(txtCpf.Text.Where(char.IsDigit).ToArray());
-
-                    if (conn.State != ConnectionState.Open)
-                    {
-                        conn.Open();
-                    }
-
-                    MySqlCommand insertDB = new MySqlCommand(
-                        "UPDATE users " +
-                        "SET name=@Name, cpf=@Cpf, email=@Email, username=@Username, password=@Password, updated_by=@Update_by " +
-                        "WHERE id=@Id", conn);
+                    MySqlCommand insertDB = new MySqlCommand("UPDATE users SET name=@Name, cpf=@Cpf, email=@Email, username=@Username, password=@Password, updated_by=@Updated_by WHERE id=@Id", conn);
 
                     insertDB.Parameters.Add("@Name", MySqlDbType.VarChar).Value = txtName.Text;
                     insertDB.Parameters.Add("@Cpf", MySqlDbType.VarChar).Value = cleanCpf;
@@ -425,9 +376,14 @@ namespace visit_tracker_form
                     insertDB.Parameters.Add("@Username", MySqlDbType.VarChar).Value = txtUser.Text;
                     insertDB.Parameters.Add("@Password", MySqlDbType.VarChar).Value = BCrypt.Net.BCrypt.HashPassword(txtPass.Text);
                     insertDB.Parameters.Add("@Updated_by", MySqlDbType.Int32).Value = UserId;
-                    insertDB.Parameters.Add("@Id", MySqlDbType.Int32).Value = UserId;
-
+                    insertDB.Parameters.Add("@Id", MySqlDbType.Int32).Value = Convert.ToInt32(txtId.Text);
                     insertDB.ExecuteNonQuery();
+
+                    MessageBox.Show("Dados Alterados com Sucesso.",
+                        "Sucesso!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    ClearTextbox(); // Apenas aqui
+                    UpdateDgvUsers();
                 }
                 catch (Exception ex)
                 {
@@ -451,12 +407,17 @@ namespace visit_tracker_form
 
         private void btnClear_Click(object sender, EventArgs e)
         {
-
+            ClearTextbox();
         }
 
         private void BtnExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void txtId_TextChanged(object sender, EventArgs e)
+        {
+
         }
 
         private void txtName_TextChanged(object sender, EventArgs e)
@@ -550,6 +511,20 @@ namespace visit_tracker_form
         }
 
         private void btnShowPass2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dgvUsers_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            txtId.Text = dgvUsers.Rows[e.RowIndex].Cells[0].Value.ToString();
+            txtName.Text = dgvUsers.Rows[e.RowIndex].Cells[1].Value.ToString();
+            txtCpf.Text = dgvUsers.Rows[e.RowIndex].Cells[2].Value.ToString();
+            txtEmail.Text = dgvUsers.Rows[e.RowIndex].Cells[3].Value.ToString();
+            txtUser.Text = dgvUsers.Rows[e.RowIndex].Cells[4].Value.ToString();
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
         }

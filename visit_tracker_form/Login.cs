@@ -56,12 +56,12 @@ namespace visit_tracker_form
 
                                 if (senhaCorreta)
                                 {
-                                    MessageBox.Show("Login bem-sucedido!", "Sucesso",
+                                    MessageBox.Show("Login Bem-sucedido!", "Sucesso",
                                         MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                                     // Exemplo: abrir tela principal
-                                    // new TelaPrincipal().Show();
-                                    // this.Hide();
+                                    new user_regist().Show();
+                                    this.Hide();
                                 }
                                 else
                                 {
