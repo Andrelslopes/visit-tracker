@@ -99,8 +99,6 @@ namespace visit_tracker_form
         private void UpdateDgvUsers()
         {
             using (MySqlConnection conn = new MySqlConnection(Program.connect))
-
-
             {
                 // Abre a conexão com o banco de dados MySQL
                 conn.Open();
@@ -444,6 +442,63 @@ namespace visit_tracker_form
             }
         }
 
+        private string RemoveAcentos(string texto)
+        {
+            string textoNormalizado = texto.Normalize(NormalizationForm.FormD);
+            StringBuilder sb = new StringBuilder();
+
+            foreach (char c in textoNormalizado)
+            {
+                if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+                {
+                    sb.Append(c);
+                }
+            }
+            return sb.ToString().Normalize(NormalizationForm.FormC);
+        }
+
+        private void txtName_Leave(object sender, EventArgs e)
+        {
+            // Adquirir o nome completo do TextBox
+            string fullName = txtName.Text.Trim();
+
+            // Divide o nome completo em partes
+            string[] nameParts = fullName.Split(new char[] { ' ' });
+
+            if (nameParts.Length > 1)
+            {
+                // Obter o primeiro nome
+                string firstName = nameParts[0];
+
+                // Obter o último Sobrenome
+                string lastName = nameParts[nameParts.Length - 1];
+
+                // Define os valores para txtUser com o devido nome e sobrenome.
+                txtUser.Text = $"{firstName}.{lastName}";
+
+                //Formata a cor do texto dentro do textBox para default
+                txtUser.BackColor = ColorTranslator.FromHtml(default);
+                
+                // Obter o nome do textBox
+                string textOriginal = txtUser.Text;
+
+                //Retorna o mesmo valor contido em txtUser porém em minúsculo.
+                string textProcessado = RemoveAcentos(textOriginal.ToLower());
+
+                // Verifica se o texto contido em txtUser está em minusculo, caso não, será convertido.
+                if (txtUser.Text != textProcessado)
+                {
+                    txtUser.Text = textProcessado;
+                    txtUser.SelectionStart = textProcessado.Length;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Favor Digite o nome completo.",
+                    "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void txtCpf_TextChanged(object sender, EventArgs e)
         {
             txtCpf.BackColor = ColorTranslator.FromHtml(default);
@@ -525,6 +580,11 @@ namespace visit_tracker_form
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dgvUsers_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }

@@ -18,7 +18,7 @@ namespace visit_tracker_form
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Login());
+            Application.Run(new user_regist());
         }
     }
 }
