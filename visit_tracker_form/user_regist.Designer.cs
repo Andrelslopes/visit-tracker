@@ -58,6 +58,9 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.progressBar2 = new ProgressBarCustomized();
             this.progressBar1 = new ProgressBarCustomized();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.btnCadClient = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUsers)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -66,9 +69,9 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(77, 201);
+            this.btnSave.Location = new System.Drawing.Point(102, 201);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(95, 28);
+            this.btnSave.Size = new System.Drawing.Size(89, 28);
             this.btnSave.TabIndex = 7;
             this.btnSave.Text = "Salvar";
             this.btnSave.UseVisualStyleBackColor = true;
@@ -76,9 +79,9 @@
             // 
             // btnEdit
             // 
-            this.btnEdit.Location = new System.Drawing.Point(178, 201);
+            this.btnEdit.Location = new System.Drawing.Point(197, 201);
             this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(95, 28);
+            this.btnEdit.Size = new System.Drawing.Size(89, 28);
             this.btnEdit.TabIndex = 8;
             this.btnEdit.Text = "Editar";
             this.btnEdit.UseVisualStyleBackColor = true;
@@ -86,9 +89,9 @@
             // 
             // btnDelet
             // 
-            this.btnDelet.Location = new System.Drawing.Point(279, 201);
+            this.btnDelet.Location = new System.Drawing.Point(291, 201);
             this.btnDelet.Name = "btnDelet";
-            this.btnDelet.Size = new System.Drawing.Size(95, 28);
+            this.btnDelet.Size = new System.Drawing.Size(89, 28);
             this.btnDelet.TabIndex = 9;
             this.btnDelet.Text = "Apagar";
             this.btnDelet.UseVisualStyleBackColor = true;
@@ -106,6 +109,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnCadClient);
+            this.groupBox1.Controls.Add(this.checkBox1);
             this.groupBox1.Controls.Add(this.lblWarning);
             this.groupBox1.Controls.Add(this.progressBar2);
             this.groupBox1.Controls.Add(this.progressBar1);
@@ -138,9 +143,9 @@
             // 
             // lblWarning
             // 
-            this.lblWarning.Location = new System.Drawing.Point(6, 181);
+            this.lblWarning.Location = new System.Drawing.Point(167, 181);
             this.lblWarning.Name = "lblWarning";
-            this.lblWarning.Size = new System.Drawing.Size(469, 17);
+            this.lblWarning.Size = new System.Drawing.Size(308, 17);
             this.lblWarning.TabIndex = 17;
             this.lblWarning.Text = "lblWarning";
             // 
@@ -154,9 +159,9 @@
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(380, 201);
+            this.btnClear.Location = new System.Drawing.Point(386, 201);
             this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(95, 28);
+            this.btnClear.Size = new System.Drawing.Size(89, 28);
             this.btnClear.TabIndex = 10;
             this.btnClear.Text = "Limpar";
             this.btnClear.UseVisualStyleBackColor = true;
@@ -364,11 +369,41 @@
             this.progressBar1.TabIndex = 15;
             this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(6, 168);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(117, 21);
+            this.checkBox1.TabIndex = 18;
+            this.checkBox1.Text = "Administrador";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(12, 549);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(95, 27);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "Login";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // btnCadClient
+            // 
+            this.btnCadClient.Location = new System.Drawing.Point(6, 201);
+            this.btnCadClient.Name = "btnCadClient";
+            this.btnCadClient.Size = new System.Drawing.Size(90, 28);
+            this.btnCadClient.TabIndex = 19;
+            this.btnCadClient.Text = "CadClient";
+            this.btnCadClient.UseVisualStyleBackColor = true;
+            this.btnCadClient.Click += new System.EventHandler(this.btnCadClient_Click);
+            // 
             // user_regist
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(797, 588);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -421,5 +456,8 @@
         private System.Windows.Forms.Label lblWarning;
         private ProgressBarCustomized progressBar2;
         private ProgressBarCustomized progressBar1;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Button btnCadClient;
+        private System.Windows.Forms.Button button1;
     }
 }

@@ -68,6 +68,9 @@ namespace visit_tracker_form
 
                                 bool isBlocked = reader.GetBoolean("is_blocked");
 
+                                UserSession.Id = userId;
+                                UserSession.Name = fullName;
+
                                 if (isBlocked)
                                 {
                                     MessageBox.Show("Este Usuário está bloqueado. \nPor favor entre em contato com o administrador.", "Erro",
@@ -79,7 +82,7 @@ namespace visit_tracker_form
                                     {
                                         if (isAdmin)
                                         {
-                                            MessageBox.Show("Login Bem-sucedido! \n Seja Bem Vindo Usuário Administrador.", "Sucesso",
+                                            MessageBox.Show($"Login Bem-sucedido! \n Seja Bem Vindo {fullName}.", "Sucesso",
                                             MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                                             // Exemplo: abrir tela principal
@@ -88,24 +91,25 @@ namespace visit_tracker_form
                                         }
                                         else
                                         {
-                                            MessageBox.Show("Login Bem-sucedido! \n Seja Bem Vindo Usuário  Operador.", "Sucesso",
+                                            MessageBox.Show($"Login Bem-sucedido! \n Seja Bem Vindo {fullName}.", "Sucesso",
                                             MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                                            // Exemplo: abrir tela principal
                                             new client_regist().Show();
                                             this.Hide();
                                         }
                                     }
                                     else
                                     {
-                                        MessageBox.Show("Senha incorreta.", "Erro",
-                                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        // Se o usuário digitar a senha errada
+                                        MessageBox.Show("Usuário ou Senha inválidos.", "Erro",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                                     }
                                 }
                             }
                             else
                             {
-                                MessageBox.Show("Usuário não encontrado.", "Erro",
+                                //Se o usuário não foi localizado no banco.
+                                MessageBox.Show("Usuário ou Senha inválidos.", "Erro",
                                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
                         }

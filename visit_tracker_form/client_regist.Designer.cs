@@ -51,6 +51,7 @@
             this.btnEditClient = new System.Windows.Forms.Button();
             this.btnDeleteClient = new System.Windows.Forms.Button();
             this.btnClearClient = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvClient)).BeginInit();
@@ -58,6 +59,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.textBox8);
             this.groupBox1.Controls.Add(this.textBox7);
             this.groupBox1.Controls.Add(this.label8);
@@ -283,6 +285,16 @@
             this.btnClearClient.UseVisualStyleBackColor = true;
             this.btnClearClient.Click += new System.EventHandler(this.btnClearClient_Click);
             // 
+            // label9
+            // 
+            this.label9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label9.Location = new System.Drawing.Point(164, 15);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(474, 24);
+            this.label9.TabIndex = 16;
+            this.label9.Text = "label9";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // client_regist
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
@@ -332,5 +344,6 @@
         private System.Windows.Forms.Button btnEditClient;
         private System.Windows.Forms.Button btnDeleteClient;
         private System.Windows.Forms.Button btnClearClient;
+        private System.Windows.Forms.Label label9;
     }
 }

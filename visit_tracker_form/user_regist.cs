@@ -895,5 +895,11 @@ namespace visit_tracker_form
                 lblWarning.Text = "Senhas São iguais.";
             }
         }
+
+        private void btnCadClient_Click(object sender, EventArgs e)
+        {
+            new client_regist().Show();
+            this.Hide();
+        }
     }
 }
