@@ -16,6 +16,10 @@ namespace visit_tracker_form
         public Login()
         {
             InitializeComponent();
+
+
+            btnShowPass.Image = Properties.Resources.olho2;
+            pictureBox1.Image = Properties.Resources.login_da_conta;
         }
 
         private void Login_Load(object sender, EventArgs e)
@@ -26,7 +30,7 @@ namespace visit_tracker_form
         private void btnLogin_Click(object sender, EventArgs e)
         {
             string usuario = txtLogin.Text.Trim();
-            string senhaDigitada = txtPass.Text;
+            string senhaDigitada = txtPass.Text.Trim();
 
             if (string.IsNullOrWhiteSpace(usuario) || string.IsNullOrWhiteSpace(senhaDigitada))
             {
@@ -41,7 +45,7 @@ namespace visit_tracker_form
                 {
                     conn.Open();
 
-                    string query = "SELECT password FROM users WHERE username = @Username";
+                    string query = "SELECT id, name, username, password, is_admin, is_activated, is_blocked FROM users WHERE username = @Username";
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@Username", usuario);
@@ -50,23 +54,53 @@ namespace visit_tracker_form
                         {
                             if (reader.Read())
                             {
+                                int userId = reader.GetInt32("id"); // Obtém o valor da coluna especicada.
+
+                                string fullName = reader.GetString("name"); 
+
                                 string hashSalvo = reader.GetString("password");
 
                                 bool senhaCorreta = BCrypt.Net.BCrypt.Verify(senhaDigitada, hashSalvo);
 
-                                if (senhaCorreta)
-                                {
-                                    MessageBox.Show("Login Bem-sucedido!", "Sucesso",
-                                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                bool isAdmin = reader.GetBoolean("is_admin");
 
-                                    // Exemplo: abrir tela principal
-                                    new user_regist().Show();
-                                    this.Hide();
+                                bool isActivated = reader.GetBoolean("is_activated");
+
+                                bool isBlocked = reader.GetBoolean("is_blocked");
+
+                                if (isBlocked)
+                                {
+                                    MessageBox.Show("Este Usuário está bloqueado. \nPor favor entre em contato com o administrador.", "Erro",
+                                            MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Senha incorreta.", "Erro",
-                                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    if (senhaCorreta)
+                                    {
+                                        if (isAdmin)
+                                        {
+                                            MessageBox.Show("Login Bem-sucedido! \n Seja Bem Vindo Usuário Administrador.", "Sucesso",
+                                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                            // Exemplo: abrir tela principal
+                                            new user_regist().Show();
+                                            this.Hide();
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show("Login Bem-sucedido! \n Seja Bem Vindo Usuário  Operador.", "Sucesso",
+                                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                            // Exemplo: abrir tela principal
+                                            new client_regist().Show();
+                                            this.Hide();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("Senha incorreta.", "Erro",
+                                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    }
                                 }
                             }
                             else

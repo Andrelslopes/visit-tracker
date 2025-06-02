@@ -114,6 +114,9 @@
     <Compile Include="Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
+    <Compile Include="ProgressBarCustomized.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UserSession.cs" />
     <Compile Include="user_regist.cs">
       <SubType>Form</SubType>
@@ -137,6 +140,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="user_regist.resx">
       <DependentUpon>user_regist.cs</DependentUpon>
@@ -158,6 +162,28 @@
   <ItemGroup>
     <Content Include="ILLink\ILLink.Descriptors.LibraryBuild.xml" />
     <Content Include="LICENSE.txt" />
+    <None Include="Resources\ChatGPT Image 31_05_2025, 21_03_271.png" />
+    <None Include="Resources\ChatGPT Image 31_05_2025, 21_04_381.png" />
+    <None Include="Resources\ChatGPT Image 31_05_2025, 21_03_27.png" />
+    <None Include="Resources\ChatGPT Image 31_05_2025, 21_04_38.png" />
+    <None Include="Resources\webcam2.png" />
+    <None Include="Resources\webcam.png" />
+    <None Include="Resources\web_cam.png" />
+    <None Include="Resources\salve.png" />
+    <None Include="Resources\salvar.png" />
+    <None Include="Resources\pasta.png" />
+    <None Include="Resources\olho2.png" />
+    <None Include="Resources\olho1.png" />
+    <None Include="Resources\olho_2.png" />
+    <None Include="Resources\olho_1.png" />
+    <None Include="Resources\lupa.png" />
+    <None Include="Resources\login-da-conta.png" />
+    <None Include="Resources\icon_masc.jpg" />
+    <None Include="Resources\icon_femin.jpg" />
+    <None Include="Resources\find.png" />
+    <None Include="Resources\camera.png" />
+    <None Include="Resources\botao-atualizar.png" />
+    <None Include="Resources\admin.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -42,9 +42,9 @@
             // 
             this.txtPass.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtPass.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPass.Location = new System.Drawing.Point(197, 138);
+            this.txtPass.Location = new System.Drawing.Point(42, 367);
             this.txtPass.Name = "txtPass";
-            this.txtPass.Size = new System.Drawing.Size(318, 26);
+            this.txtPass.Size = new System.Drawing.Size(213, 26);
             this.txtPass.TabIndex = 8;
             this.txtPass.UseSystemPasswordChar = true;
             // 
@@ -52,16 +52,16 @@
             // 
             this.txtLogin.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtLogin.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtLogin.Location = new System.Drawing.Point(197, 81);
+            this.txtLogin.Location = new System.Drawing.Point(42, 310);
             this.txtLogin.Name = "txtLogin";
-            this.txtLogin.Size = new System.Drawing.Size(318, 26);
+            this.txtLogin.Size = new System.Drawing.Size(213, 26);
             this.txtLogin.TabIndex = 7;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Cambria", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(193, 110);
+            this.label2.Location = new System.Drawing.Point(115, 339);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(66, 25);
             this.label2.TabIndex = 6;
@@ -71,7 +71,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Cambria", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(197, 53);
+            this.label1.Location = new System.Drawing.Point(117, 265);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(62, 25);
             this.label1.TabIndex = 5;
@@ -80,7 +80,7 @@
             // btnLogin
             // 
             this.btnLogin.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLogin.Location = new System.Drawing.Point(360, 170);
+            this.btnLogin.Location = new System.Drawing.Point(71, 399);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(155, 49);
             this.btnLogin.TabIndex = 10;
@@ -90,20 +90,22 @@
             // 
             // btnShowPass
             // 
+            this.btnShowPass.BackColor = System.Drawing.SystemColors.Window;
             this.btnShowPass.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnShowPass.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnShowPass.Location = new System.Drawing.Point(489, 138);
+            this.btnShowPass.Location = new System.Drawing.Point(229, 367);
             this.btnShowPass.Name = "btnShowPass";
             this.btnShowPass.Size = new System.Drawing.Size(26, 26);
             this.btnShowPass.TabIndex = 11;
-            this.btnShowPass.UseVisualStyleBackColor = true;
+            this.btnShowPass.UseVisualStyleBackColor = false;
             // 
             // pictureBox1
             // 
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox1.Location = new System.Drawing.Point(12, 12);
+            this.pictureBox1.Location = new System.Drawing.Point(37, 12);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(179, 207);
+            this.pictureBox1.Size = new System.Drawing.Size(223, 250);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 12;
             this.pictureBox1.TabStop = false;
             // 
@@ -111,7 +113,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(527, 231);
+            this.ClientSize = new System.Drawing.Size(304, 460);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btnShowPass);
             this.Controls.Add(this.btnLogin);

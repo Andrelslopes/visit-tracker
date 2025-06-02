@@ -19,12 +19,28 @@ namespace visit_tracker_form
 {
     public partial class user_regist : Form
     {
+        private int idUser;
+        private bool visiblePass = false;
+
         public user_regist()
         {
             InitializeComponent();
             ResetColor();
             UpdateDgvUsers();
             ClearTextbox();
+            ShowId();
+
+            txtId.Enabled = false;
+            txtId.TextAlign = HorizontalAlignment.Center;
+            
+            lblWarning.TextAlign = ContentAlignment.MiddleCenter;
+            lblWarning.Text = string.Empty;
+
+            btnShowPass.Image = Properties.Resources.olho2;
+            btnShowPass2.Image = Properties.Resources.olho2;
+
+            txtPass.UseSystemPasswordChar = true;
+            txtConfPass.UseSystemPasswordChar = true;
         }
 
         private void ResetColor()
@@ -44,6 +60,7 @@ namespace visit_tracker_form
             txtUser.Text = "";
             txtPass.Text = "";
             txtConfPass.Text = "";
+            lblWarning.Text = string.Empty;
         }
 
         public static class CpfValidator
@@ -105,7 +122,7 @@ namespace visit_tracker_form
                 try
                 {
                     // Define a consulta SQL para selecionar os dados desejados da tabela 'usuario'
-                    string query = "SELECT id, name, cpf, email, username FROM users";
+                    string query = "SELECT id, name, cpf, email, username FROM users WHERE is_activated = \"1\";";
                     //"WHERE is_activated = 1";
 
                     // Cria um MySqlCommand para executar a consulta
@@ -155,9 +172,117 @@ namespace visit_tracker_form
             }
         }
 
+        private string RemoveAcentos(string texto)
+        {
+            string textoNormalizado = texto.Normalize(NormalizationForm.FormD);
+            StringBuilder sb = new StringBuilder();
+
+            foreach (char c in textoNormalizado)
+            {
+                if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+                {
+                    sb.Append(c);
+                }
+            }
+            return sb.ToString().Normalize(NormalizationForm.FormC);
+        }
+
+        private void nameForUser()
+        {
+            //Formata a cor do texto dentro do textBox para default
+            txtUser.BackColor = ColorTranslator.FromHtml(default);
+
+
+            // Adquirir o nome completo do TextBox
+            string fullName = txtName.Text.Trim();
+
+            // Divide o nome completo em partes
+            string[] nameParts = fullName.Split(new char[] { ' ' });
+
+            if (nameParts.Length > 1)
+            {
+                // Obter o primeiro nome
+                string firstName = nameParts[0];
+
+                // Obter o último Sobrenome
+                string lastName = nameParts[nameParts.Length - 1];
+
+                // Define os valores para txtUser com o devido nome e sobrenome.
+                txtUser.Text = $"{firstName}.{lastName}";
+
+                
+
+                // Obter o nome do textBox
+                string textOriginal = txtUser.Text;
+
+                //Retorna o mesmo valor contido em txtUser em minúsculo e sem acentos.
+                string textProcessado = RemoveAcentos(textOriginal.ToLower());
+
+                // Verifica se o texto contido em txtUser está em minusculo, caso não, será convertido.
+                if (txtUser.Text != textProcessado)
+                {
+                    txtUser.Text = textProcessado;
+                    txtUser.SelectionStart = textProcessado.Length;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Favor Digite o nome completo.",
+                    "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtName.Select(); // Coloca o foco no campo de CPF caso seja inválido
+                return;
+            }
+        }
+
+
+
+        private void ShowId()
+        {
+            // Cria uma nova conexão com o banco de dados
+            MySqlConnection conn = new MySqlConnection(Program.connect);
+
+            try
+            {
+                // Abre a conexão
+                conn.Open();
+
+                // Define a consulta SQL para obter o próximo id
+                string countId = "SELECT MAX(id) + 1 AS proximo_id FROM users;";
+
+                // Cria um comando MySQL com a consulta SQL
+                using (MySqlCommand cmd = new MySqlCommand(countId, conn))
+                {
+                    // Executa a consulta e obtém o resultado
+                    object result = cmd.ExecuteScalar();
+
+                    // Verifica se o resultado não é nulo
+                    if (result != null)
+                    {
+                        // Converte o resultado para string e define o texto no controle TxtIdUser
+                        txtId.Text = result.ToString();
+                    }
+                    else
+                    {
+                        // Se não houver resultado, define o texto como "1"
+                        txtId.Text = "1";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Exibe uma mensagem de erro caso ocorra uma exceção
+                MessageBox.Show("Erro ao carregar id: " + ex.Message);
+            }
+            finally
+            {
+                // Fecha a conexão
+                conn.Close();
+            }
+        }
+
         private void user_regist_Load(object sender, EventArgs e)
         {
-            ResetColor();
+
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -217,6 +342,7 @@ namespace visit_tracker_form
                     txtCpf.Select(); // Coloca o foco no campo de CPF caso seja inválido
                     return;
                 }
+
 
                 MySqlConnection conn = new MySqlConnection(Program.connect);
                 conn.Open();
@@ -400,12 +526,64 @@ namespace visit_tracker_form
 
         private void btnDelet_Click(object sender, EventArgs e)
         {
+            DialogResult result = MessageBox.Show("Deseja realmente excluir este usuário?",
+    "Excluir Usuário.", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
+            if (result == DialogResult.No)
+            {
+                return;
+            }
+            else
+            {
+                MySqlConnection conn = new MySqlConnection(Program.connect);
+
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+
+                try
+                {
+                    string valueActive = "0";
+
+                    MySqlCommand insertDB = new MySqlCommand
+                        ("UPDATE users SET is_activated=@IsActivated WHERE id=@IdUser", conn);
+
+                    insertDB.Parameters.Add("@IsActivated", MySqlDbType.Int32).Value = valueActive;
+                    insertDB.Parameters.Add("@IdUser", MySqlDbType.Int32).Value = Convert.ToInt32(idUser);
+
+                    // Executa o comando de inserção
+                    insertDB.ExecuteNonQuery();
+
+                    // Exibe uma mensagem de sucesso
+                    MessageBox.Show("Dados excluidos com sucesso!",
+                        "Sucesso", MessageBoxButtons.OK);
+
+                    ClearTextbox();
+                    ResetColor();
+                    UpdateDgvUsers();
+                    ClearTextbox();
+                    ShowId();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erro ao apagar as informações: " + ex.Message,
+                        "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    if (conn.State != ConnectionState.Closed)
+                    {
+                        conn.Close();
+                    }
+                }
+            }
         }
 
         private void btnClear_Click(object sender, EventArgs e)
         {
             ClearTextbox();
+            ShowId();
         }
 
         private void BtnExit_Click(object sender, EventArgs e)
@@ -420,7 +598,7 @@ namespace visit_tracker_form
 
         private void txtName_TextChanged(object sender, EventArgs e)
         {
-            Text = txtName.Text;
+            //Text = txtName.Text;
 
             txtName.BackColor = ColorTranslator.FromHtml(default);
 
@@ -442,68 +620,54 @@ namespace visit_tracker_form
             }
         }
 
-        private string RemoveAcentos(string texto)
-        {
-            string textoNormalizado = texto.Normalize(NormalizationForm.FormD);
-            StringBuilder sb = new StringBuilder();
-
-            foreach (char c in textoNormalizado)
-            {
-                if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
-                {
-                    sb.Append(c);
-                }
-            }
-            return sb.ToString().Normalize(NormalizationForm.FormC);
-        }
-
         private void txtName_Leave(object sender, EventArgs e)
         {
-            // Adquirir o nome completo do TextBox
-            string fullName = txtName.Text.Trim();
+            nameForUser();
+            //// Adquirir o nome completo do TextBox
+            //string fullName = txtName.Text.Trim();
 
-            // Divide o nome completo em partes
-            string[] nameParts = fullName.Split(new char[] { ' ' });
+            //// Divide o nome completo em partes
+            //string[] nameParts = fullName.Split(new char[] { ' ' });
 
-            if (nameParts.Length > 1)
-            {
-                // Obter o primeiro nome
-                string firstName = nameParts[0];
+            //if (nameParts.Length > 1)
+            //{
+            //    // Obter o primeiro nome
+            //    string firstName = nameParts[0];
 
-                // Obter o último Sobrenome
-                string lastName = nameParts[nameParts.Length - 1];
+            //    // Obter o último Sobrenome
+            //    string lastName = nameParts[nameParts.Length - 1];
 
-                // Define os valores para txtUser com o devido nome e sobrenome.
-                txtUser.Text = $"{firstName}.{lastName}";
+            //    // Define os valores para txtUser com o devido nome e sobrenome.
+            //    txtUser.Text = $"{firstName}.{lastName}";
 
-                //Formata a cor do texto dentro do textBox para default
-                txtUser.BackColor = ColorTranslator.FromHtml(default);
+            //    //Formata a cor do texto dentro do textBox para default
+            //    txtUser.BackColor = ColorTranslator.FromHtml(default);
                 
-                // Obter o nome do textBox
-                string textOriginal = txtUser.Text;
+            //    // Obter o nome do textBox
+            //    string textOriginal = txtUser.Text;
 
-                //Retorna o mesmo valor contido em txtUser porém em minúsculo.
-                string textProcessado = RemoveAcentos(textOriginal.ToLower());
+            //    //Retorna o mesmo valor contido em txtUser porém em minúsculo.
+            //    string textProcessado = RemoveAcentos(textOriginal.ToLower());
 
-                // Verifica se o texto contido em txtUser está em minusculo, caso não, será convertido.
-                if (txtUser.Text != textProcessado)
-                {
-                    txtUser.Text = textProcessado;
-                    txtUser.SelectionStart = textProcessado.Length;
-                }
-            }
-            else
-            {
-                MessageBox.Show("Favor Digite o nome completo.",
-                    "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            //    // Verifica se o texto contido em txtUser está em minusculo, caso não, será convertido.
+            //    if (txtUser.Text != textProcessado)
+            //    {
+            //        txtUser.Text = textProcessado;
+            //        txtUser.SelectionStart = textProcessado.Length;
+            //    }
+            //}
+            //else
+            //{
+            //    MessageBox.Show("Favor Digite o nome completo.",
+            //        "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
         }
 
         private void txtCpf_TextChanged(object sender, EventArgs e)
         {
             txtCpf.BackColor = ColorTranslator.FromHtml(default);
 
-            /*FORMATAÇAO DO TEXTBOX CPF*/
+            /* FORMATAÇAO DO TEXTBOX CPF */
             // Obtém o texto do TextBox
             string cpf = txtCpf.Text;
 
@@ -550,33 +714,159 @@ namespace visit_tracker_form
             txtUser.BackColor = ColorTranslator.FromHtml(default);
         }
 
+        private int CalcularForcaSenha(string senha)
+        {
+            int pontuacao = 0;
+
+            if (senha.Length >= 8)
+                pontuacao += 20;
+            if (Regex.IsMatch(senha, @"[a-z]"))
+                pontuacao += 20;
+            if (Regex.IsMatch(senha, @"[A-Z]"))
+                pontuacao += 20;
+            if (Regex.IsMatch(senha, @"[0-9]"))
+                pontuacao += 20;
+            if (Regex.IsMatch(senha, @"[\W_]"))
+                pontuacao += 20;
+
+            return pontuacao;
+        }
+
         private void txtPass_TextChanged(object sender, EventArgs e)
         {
             txtPass.BackColor = ColorTranslator.FromHtml(default);
+
+            string senha = txtPass.Text;
+            int forca = CalcularForcaSenha(senha);
+
+            progressBar1.Value = forca;
+            progressBar1.Invalidate();  // Força a atualização da barra de progresso
+
+            // Muda cor da barra — você precisa criar uma ProgressBar customizada, pois a padrão não permite mudar cor diretamente.
+
+            if (forca == 0)
+            {
+                progressBar1.ForeColor = Color.Red;
+                //lblPass1.Text = "";
+                //lblWarning.Text = string.Empty;
+            }
+            else if (forca <= 40)
+            {
+                progressBar1.ForeColor = Color.Red;
+                //lblPass1.Text = "Senha fraca";
+            }
+            else if (forca <= 80)
+            {
+                progressBar1.ForeColor = Color.Orange;
+                //lblPass1.Text = "Senha média";
+            }
+            else
+            {
+                progressBar1.ForeColor = Color.Green;
+                //lblPass1.Text = "Senha forte";
+            }
         }
 
         private void txtConfPass_TextChanged(object sender, EventArgs e)
         {
             txtConfPass.BackColor = ColorTranslator.FromHtml(default);
+
+            string senha = txtConfPass.Text;
+            int forca = CalcularForcaSenha(senha);
+
+            progressBar2.Value = forca;
+            progressBar2.Invalidate();  // Força a atualização da barra de progresso
+
+            // Muda cor da barra — você precisa criar uma ProgressBar customizada, pois a padrão não permite mudar cor diretamente.
+
+            if (forca == 0)
+            {
+                progressBar2.ForeColor = Color.Red;
+                //lblPass1.Text = "";
+                //lblWarning.Text = string.Empty;
+            }
+            else if (forca <= 40)
+            {
+                progressBar2.ForeColor = Color.Red;
+                //lblPass1.Text = "Senha fraca";
+            }
+            else if (forca <= 80)
+            {
+                progressBar2.ForeColor = Color.Orange;
+                //lblPass1.Text = "Senha média";
+            }
+            else
+            {
+                progressBar2.ForeColor = Color.Green;
+                //lblPass1.Text = "Senha forte";
+            }
+        }
+
+        private void UpdateButtonView()
+        {
+            if (visiblePass)
+            {
+                // Se a senha estiver visível, mostra a imagem de olho fechado
+                btnShowPass.Image = Properties.Resources.olho1;
+                txtPass.UseSystemPasswordChar = false;
+            }
+            else
+            {
+                // Se a senha estiver oculta, mostra a imagem de olho aberto
+                btnShowPass.Image = Properties.Resources.olho2;
+                txtPass.UseSystemPasswordChar = true;
+            }
         }
 
         private void btnShowPass_Click(object sender, EventArgs e)
         {
+            // Alterar a visibilidade da senha
+            visiblePass = !visiblePass;
+            UpdateButtonView();
 
+        }
+
+        private void UpdateButtonView2()
+        {
+            if (visiblePass)
+            {
+                // Se a senha estiver visível, mostra a imagem de olho fechado
+                btnShowPass2.Image = Properties.Resources.olho1;
+                txtConfPass.UseSystemPasswordChar = false;
+            }
+            else
+            {
+                // Se a senha estiver oculta, mostra a imagem de olho aberto
+                btnShowPass2.Image = Properties.Resources.olho2;
+                txtConfPass.UseSystemPasswordChar = true;
+            }
         }
 
         private void btnShowPass2_Click(object sender, EventArgs e)
         {
-
+            // Alterar a visibilidade da senha
+            visiblePass = !visiblePass;
+            UpdateButtonView2();
         }
 
         private void dgvUsers_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            txtId.Text = dgvUsers.Rows[e.RowIndex].Cells[0].Value.ToString();
+            // Obtendo o ID da linha quando clicado duas vezes dentro do dgvUser.
+            int Selected_Id = Convert.ToInt32(dgvUsers.Rows[e.RowIndex].Cells[0].Value);
+
+            // Atribui o valor de 'Selected_Id' a variavel global 'idUser'
+            idUser = Selected_Id;
+
+            txtId.Text = Selected_Id.ToString();
             txtName.Text = dgvUsers.Rows[e.RowIndex].Cells[1].Value.ToString();
             txtCpf.Text = dgvUsers.Rows[e.RowIndex].Cells[2].Value.ToString();
             txtEmail.Text = dgvUsers.Rows[e.RowIndex].Cells[3].Value.ToString();
             txtUser.Text = dgvUsers.Rows[e.RowIndex].Cells[4].Value.ToString();
+        }
+
+        private void dgvUsers_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -584,9 +874,26 @@ namespace visit_tracker_form
 
         }
 
-        private void dgvUsers_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void progressBar1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void progressBar2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtConfPass_Leave(object sender, EventArgs e)
+        {
+            if(txtConfPass.Text != txtPass.Text)
+            {
+                lblWarning.Text = "Senhas não conferem. Por favor verifique.";
+            }
+            else
+            {
+                lblWarning.Text = "Senhas São iguais.";
+            }
         }
     }
 }
