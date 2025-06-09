@@ -33,7 +33,11 @@
             this.btnDelet = new System.Windows.Forms.Button();
             this.BtnExit = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnCadClient = new System.Windows.Forms.Button();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.lblWarning = new System.Windows.Forms.Label();
+            this.progressBar2 = new ProgressBarCustomized();
+            this.progressBar1 = new ProgressBarCustomized();
             this.txtId = new System.Windows.Forms.TextBox();
             this.btnClear = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
@@ -56,11 +60,7 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.progressBar2 = new ProgressBarCustomized();
-            this.progressBar1 = new ProgressBarCustomized();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.button1 = new System.Windows.Forms.Button();
-            this.btnCadClient = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUsers)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -141,6 +141,26 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Novo Usuário:";
             // 
+            // btnCadClient
+            // 
+            this.btnCadClient.Location = new System.Drawing.Point(6, 201);
+            this.btnCadClient.Name = "btnCadClient";
+            this.btnCadClient.Size = new System.Drawing.Size(90, 28);
+            this.btnCadClient.TabIndex = 19;
+            this.btnCadClient.Text = "CadClient";
+            this.btnCadClient.UseVisualStyleBackColor = true;
+            this.btnCadClient.Click += new System.EventHandler(this.btnCadClient_Click);
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(6, 168);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(117, 21);
+            this.checkBox1.TabIndex = 18;
+            this.checkBox1.Text = "Administrador";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
             // lblWarning
             // 
             this.lblWarning.Location = new System.Drawing.Point(167, 181);
@@ -148,6 +168,23 @@
             this.lblWarning.Size = new System.Drawing.Size(308, 17);
             this.lblWarning.TabIndex = 17;
             this.lblWarning.Text = "lblWarning";
+            // 
+            // progressBar2
+            // 
+            this.progressBar2.Location = new System.Drawing.Point(324, 168);
+            this.progressBar2.Name = "progressBar2";
+            this.progressBar2.Size = new System.Drawing.Size(151, 10);
+            this.progressBar2.TabIndex = 16;
+            this.progressBar2.Click += new System.EventHandler(this.progressBar2_Click);
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(167, 168);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(151, 10);
+            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.progressBar1.TabIndex = 15;
+            this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
             // 
             // txtId
             // 
@@ -352,33 +389,6 @@
             this.pictureBox1.TabIndex = 8;
             this.pictureBox1.TabStop = false;
             // 
-            // progressBar2
-            // 
-            this.progressBar2.Location = new System.Drawing.Point(324, 168);
-            this.progressBar2.Name = "progressBar2";
-            this.progressBar2.Size = new System.Drawing.Size(151, 10);
-            this.progressBar2.TabIndex = 16;
-            this.progressBar2.Click += new System.EventHandler(this.progressBar2_Click);
-            // 
-            // progressBar1
-            // 
-            this.progressBar1.Location = new System.Drawing.Point(167, 168);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(151, 10);
-            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.progressBar1.TabIndex = 15;
-            this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(6, 168);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(117, 21);
-            this.checkBox1.TabIndex = 18;
-            this.checkBox1.Text = "Administrador";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(12, 549);
@@ -387,16 +397,6 @@
             this.button1.TabIndex = 9;
             this.button1.Text = "Login";
             this.button1.UseVisualStyleBackColor = true;
-            // 
-            // btnCadClient
-            // 
-            this.btnCadClient.Location = new System.Drawing.Point(6, 201);
-            this.btnCadClient.Name = "btnCadClient";
-            this.btnCadClient.Size = new System.Drawing.Size(90, 28);
-            this.btnCadClient.TabIndex = 19;
-            this.btnCadClient.Text = "CadClient";
-            this.btnCadClient.UseVisualStyleBackColor = true;
-            this.btnCadClient.Click += new System.EventHandler(this.btnCadClient_Click);
             // 
             // user_regist
             // 
