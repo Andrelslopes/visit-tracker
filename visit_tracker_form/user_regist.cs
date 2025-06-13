@@ -122,8 +122,7 @@ namespace visit_tracker_form
                 try
                 {
                     // Define a consulta SQL para selecionar os dados desejados da tabela 'usuario'
-                    string query = "SELECT id, name, cpf, email, username FROM users WHERE is_activated = \"1\";";
-                    //"WHERE is_activated = 1";
+                    string query = "SELECT id, name, cpf, email, username FROM users WHERE is_activated = 1";
 
                     // Cria um MySqlCommand para executar a consulta
                     using (MySqlCommand command = new MySqlCommand(query, conn))
@@ -354,7 +353,7 @@ namespace visit_tracker_form
                         conn.Open();
                     }
 
-                    int UserId = 1; // Substituir pelo valor real da sessão quando aplicável
+                    int UserId = UserSession.Id; // Substituir pelo valor real da sessão quando aplicável
 
                     // Remover os caracteres não numéricos do TextBox
                     string cleanCpf = new string(txtCpf.Text.Where(char.IsDigit).ToArray());
@@ -480,15 +479,27 @@ namespace visit_tracker_form
             {
                 MySqlConnection conn = new MySqlConnection(Program.connect);
 
-                int UserId = 1; // Substituir pelo valor real da sessão quando aplicável
-
-                // Remover os caracteres não numéricos do TextBox
-                string cleanCpf = new string(txtCpf.Text.Where(char.IsDigit).ToArray());
-
                 if (conn.State != ConnectionState.Open)
                 {
                     conn.Open();
                 }
+
+                int UserId = UserSession.Id; // Substituir pelo valor real da sessão quando aplicável
+
+                // Remover os caracteres não numéricos do TextBox
+                string cleanCpf = new string(txtCpf.Text.Where(char.IsDigit).ToArray());
+
+                // Verifica se o CPF é válido
+                if (!CpfValidator.IsValid(txtCpf.Text))
+                {
+                    MessageBox.Show("CPF inválido. Por favor, insira um CPF válido.",
+                        "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    txtCpf.Select(); // Coloca o foco no campo de CPF caso seja inválido
+                    return;
+                }
+
+
 
                 try
                 {
@@ -869,9 +880,64 @@ namespace visit_tracker_form
 
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private async void txtSearch_TextChanged(object sender, EventArgs e)
         {
+            string filter = txtSearch.Text.Trim(); // Remove espaços desnecessários
 
+            if (string.IsNullOrWhiteSpace(filter))
+            {
+                UpdateDgvUsers(); // Recarrega todos os dados se o campo estiver vazio
+                return;
+            }
+
+            string query = "SELECT id, name, cpf, email, username FROM users WHERE is_activated = 1 AND cpf LIKE @Filter";
+
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(Program.connect))
+                {
+                    await conn.OpenAsync();
+
+                    using (MySqlCommand comando = new MySqlCommand(query, conn))
+                    {
+                        // Busca pelo início do CPF
+                        comando.Parameters.AddWithValue("@Filter", filter + "%");
+
+                        using (MySqlDataAdapter adapter = new MySqlDataAdapter(comando))
+                        {
+                            DataTable dt = new DataTable();
+                            adapter.Fill(dt);
+
+                            // Renomeia as colunas conforme necessário, verificando se cada coluna existe antes de renomear
+                            if (dt.Columns.Contains("id"))
+                                dt.Columns["id"].ColumnName = "ID";
+
+                            if (dt.Columns.Contains("name"))
+                                dt.Columns["name"].ColumnName = "NOME";
+
+                            if (dt.Columns.Contains("cpf"))
+                                dt.Columns["cpf"].ColumnName = "CPF";
+
+                            if (dt.Columns.Contains("email"))
+                                dt.Columns["email"].ColumnName = "EMAIL";
+
+                            if (dt.Columns.Contains("username"))
+                                dt.Columns["username"].ColumnName = "USUÁRIO";
+
+                            // Define o DataTable como a fonte de dados do DataGridView chamado 'dgvUsers'
+                            // Atualiza o DataGridView com os dados filtrados
+                            dgvUsers.DataSource = dt;
+
+                            // Define o tamanho de cada coluna como automático
+                            dgvUsers.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ocorreu um erro ao buscar os dados: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void progressBar1_Click(object sender, EventArgs e)

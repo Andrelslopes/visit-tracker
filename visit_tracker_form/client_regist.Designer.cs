@@ -29,29 +29,29 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.textBox8 = new System.Windows.Forms.TextBox();
+            this.txtNeighborhood = new System.Windows.Forms.TextBox();
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.textBox6 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.txtStreet = new System.Windows.Forms.TextBox();
             this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtCEP = new System.Windows.Forms.TextBox();
+            this.txtName = new System.Windows.Forms.TextBox();
+            this.txtCod = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dgvClient = new System.Windows.Forms.DataGridView();
             this.btnSaveClient = new System.Windows.Forms.Button();
             this.btnEditClient = new System.Windows.Forms.Button();
             this.btnDeleteClient = new System.Windows.Forms.Button();
             this.btnClearClient = new System.Windows.Forms.Button();
-            this.label9 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvClient)).BeginInit();
@@ -59,24 +59,23 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.label9);
-            this.groupBox1.Controls.Add(this.textBox8);
+            this.groupBox1.Controls.Add(this.txtNeighborhood);
             this.groupBox1.Controls.Add(this.textBox7);
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.textBox6);
-            this.groupBox1.Controls.Add(this.textBox5);
+            this.groupBox1.Controls.Add(this.txtStreet);
             this.groupBox1.Controls.Add(this.textBox4);
-            this.groupBox1.Controls.Add(this.textBox3);
-            this.groupBox1.Controls.Add(this.textBox2);
-            this.groupBox1.Controls.Add(this.textBox1);
+            this.groupBox1.Controls.Add(this.txtCEP);
+            this.groupBox1.Controls.Add(this.txtName);
+            this.groupBox1.Controls.Add(this.txtCod);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(13, 12);
+            this.groupBox1.Location = new System.Drawing.Point(13, 37);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
@@ -85,12 +84,12 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Clientes:";
             // 
-            // textBox8
+            // txtNeighborhood
             // 
-            this.textBox8.Location = new System.Drawing.Point(8, 142);
-            this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(207, 25);
-            this.textBox8.TabIndex = 15;
+            this.txtNeighborhood.Location = new System.Drawing.Point(8, 142);
+            this.txtNeighborhood.Name = "txtNeighborhood";
+            this.txtNeighborhood.Size = new System.Drawing.Size(207, 25);
+            this.txtNeighborhood.TabIndex = 15;
             // 
             // textBox7
             // 
@@ -135,13 +134,13 @@
             this.textBox6.Size = new System.Drawing.Size(204, 25);
             this.textBox6.TabIndex = 10;
             // 
-            // textBox5
+            // txtStreet
             // 
-            this.textBox5.Location = new System.Drawing.Point(136, 93);
-            this.textBox5.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(424, 25);
-            this.textBox5.TabIndex = 9;
+            this.txtStreet.Location = new System.Drawing.Point(136, 93);
+            this.txtStreet.Margin = new System.Windows.Forms.Padding(4);
+            this.txtStreet.Name = "txtStreet";
+            this.txtStreet.Size = new System.Drawing.Size(424, 25);
+            this.txtStreet.TabIndex = 9;
             // 
             // textBox4
             // 
@@ -151,29 +150,30 @@
             this.textBox4.Size = new System.Drawing.Size(70, 25);
             this.textBox4.TabIndex = 8;
             // 
-            // textBox3
+            // txtCEP
             // 
-            this.textBox3.Location = new System.Drawing.Point(8, 93);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(120, 25);
-            this.textBox3.TabIndex = 7;
+            this.txtCEP.Location = new System.Drawing.Point(8, 93);
+            this.txtCEP.Margin = new System.Windows.Forms.Padding(4);
+            this.txtCEP.Name = "txtCEP";
+            this.txtCEP.Size = new System.Drawing.Size(120, 25);
+            this.txtCEP.TabIndex = 7;
+            this.txtCEP.TextChanged += new System.EventHandler(this.txtCEP_TextChanged_1);
             // 
-            // textBox2
+            // txtName
             // 
-            this.textBox2.Location = new System.Drawing.Point(100, 43);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(538, 25);
-            this.textBox2.TabIndex = 6;
+            this.txtName.Location = new System.Drawing.Point(100, 43);
+            this.txtName.Margin = new System.Windows.Forms.Padding(4);
+            this.txtName.Name = "txtName";
+            this.txtName.Size = new System.Drawing.Size(538, 25);
+            this.txtName.TabIndex = 6;
             // 
-            // textBox1
+            // txtCod
             // 
-            this.textBox1.Location = new System.Drawing.Point(8, 43);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(84, 25);
-            this.textBox1.TabIndex = 5;
+            this.txtCod.Location = new System.Drawing.Point(8, 43);
+            this.txtCod.Margin = new System.Windows.Forms.Padding(4);
+            this.txtCod.Name = "txtCod";
+            this.txtCod.Size = new System.Drawing.Size(84, 25);
+            this.txtCod.TabIndex = 5;
             // 
             // label5
             // 
@@ -225,14 +225,24 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Código:";
             // 
+            // label9
+            // 
+            this.label9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label9.Location = new System.Drawing.Point(186, 9);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(474, 24);
+            this.label9.TabIndex = 16;
+            this.label9.Text = "label9";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.dgvClient);
-            this.groupBox2.Location = new System.Drawing.Point(13, 232);
+            this.groupBox2.Location = new System.Drawing.Point(13, 257);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox2.Size = new System.Drawing.Size(646, 396);
+            this.groupBox2.Size = new System.Drawing.Size(646, 371);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Lista de Clientes:";
@@ -242,12 +252,12 @@
             this.dgvClient.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvClient.Location = new System.Drawing.Point(7, 25);
             this.dgvClient.Name = "dgvClient";
-            this.dgvClient.Size = new System.Drawing.Size(632, 364);
+            this.dgvClient.Size = new System.Drawing.Size(632, 326);
             this.dgvClient.TabIndex = 0;
             // 
             // btnSaveClient
             // 
-            this.btnSaveClient.Location = new System.Drawing.Point(341, 198);
+            this.btnSaveClient.Location = new System.Drawing.Point(333, 223);
             this.btnSaveClient.Name = "btnSaveClient";
             this.btnSaveClient.Size = new System.Drawing.Size(75, 27);
             this.btnSaveClient.TabIndex = 3;
@@ -257,7 +267,7 @@
             // 
             // btnEditClient
             // 
-            this.btnEditClient.Location = new System.Drawing.Point(422, 198);
+            this.btnEditClient.Location = new System.Drawing.Point(414, 223);
             this.btnEditClient.Name = "btnEditClient";
             this.btnEditClient.Size = new System.Drawing.Size(75, 27);
             this.btnEditClient.TabIndex = 4;
@@ -267,7 +277,7 @@
             // 
             // btnDeleteClient
             // 
-            this.btnDeleteClient.Location = new System.Drawing.Point(503, 198);
+            this.btnDeleteClient.Location = new System.Drawing.Point(495, 223);
             this.btnDeleteClient.Name = "btnDeleteClient";
             this.btnDeleteClient.Size = new System.Drawing.Size(75, 27);
             this.btnDeleteClient.TabIndex = 5;
@@ -277,7 +287,7 @@
             // 
             // btnClearClient
             // 
-            this.btnClearClient.Location = new System.Drawing.Point(584, 198);
+            this.btnClearClient.Location = new System.Drawing.Point(576, 223);
             this.btnClearClient.Name = "btnClearClient";
             this.btnClearClient.Size = new System.Drawing.Size(75, 27);
             this.btnClearClient.TabIndex = 6;
@@ -285,21 +295,12 @@
             this.btnClearClient.UseVisualStyleBackColor = true;
             this.btnClearClient.Click += new System.EventHandler(this.btnClearClient_Click);
             // 
-            // label9
-            // 
-            this.label9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label9.Location = new System.Drawing.Point(164, 15);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(474, 24);
-            this.label9.TabIndex = 16;
-            this.label9.Text = "label9";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // client_regist
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(672, 641);
+            this.Controls.Add(this.label9);
             this.Controls.Add(this.btnClearClient);
             this.Controls.Add(this.btnDeleteClient);
             this.Controls.Add(this.btnEditClient);
@@ -324,18 +325,18 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox txtStreet;
         private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtCEP;
+        private System.Windows.Forms.TextBox txtName;
+        private System.Windows.Forms.TextBox txtCod;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.TextBox textBox8;
+        private System.Windows.Forms.TextBox txtNeighborhood;
         private System.Windows.Forms.TextBox textBox7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;

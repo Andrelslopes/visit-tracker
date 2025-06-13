@@ -46,6 +46,7 @@
             this.txtPass.Name = "txtPass";
             this.txtPass.Size = new System.Drawing.Size(213, 26);
             this.txtPass.TabIndex = 8;
+            this.txtPass.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtPass.UseSystemPasswordChar = true;
             // 
             // txtLogin
@@ -56,6 +57,7 @@
             this.txtLogin.Name = "txtLogin";
             this.txtLogin.Size = new System.Drawing.Size(213, 26);
             this.txtLogin.TabIndex = 7;
+            this.txtLogin.TextChanged += new System.EventHandler(this.txtLogin_TextChanged);
             // 
             // label2
             // 
@@ -80,7 +82,7 @@
             // btnLogin
             // 
             this.btnLogin.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLogin.Location = new System.Drawing.Point(67, 382);
+            this.btnLogin.Location = new System.Drawing.Point(68, 399);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(155, 49);
             this.btnLogin.TabIndex = 10;

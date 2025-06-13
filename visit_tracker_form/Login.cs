@@ -210,5 +210,10 @@ namespace visit_tracker_form
             visiblePass = !visiblePass;
             UpdateButtonView();
         }
+
+        private void txtLogin_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
