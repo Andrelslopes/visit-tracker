@@ -33,9 +33,6 @@ namespace visit_tracker_form
             txtId.Enabled = false;
             txtId.TextAlign = HorizontalAlignment.Center;
             
-            lblWarning.TextAlign = ContentAlignment.MiddleCenter;
-            lblWarning.Text = string.Empty;
-
             btnShowPass.Image = Properties.Resources.olho2;
             btnShowPass2.Image = Properties.Resources.olho2;
 
@@ -60,7 +57,6 @@ namespace visit_tracker_form
             txtUser.Text = "";
             txtPass.Text = "";
             txtConfPass.Text = "";
-            lblWarning.Text = string.Empty;
         }
 
         public static class CpfValidator
@@ -198,38 +194,39 @@ namespace visit_tracker_form
             // Divide o nome completo em partes
             string[] nameParts = fullName.Split(new char[] { ' ' });
 
-            if (nameParts.Length > 1)
+            if (txtName.Text != string.Empty)
             {
-                // Obter o primeiro nome
-                string firstName = nameParts[0];
-
-                // Obter o último Sobrenome
-                string lastName = nameParts[nameParts.Length - 1];
-
-                // Define os valores para txtUser com o devido nome e sobrenome.
-                txtUser.Text = $"{firstName}.{lastName}";
-
-                
-
-                // Obter o nome do textBox
-                string textOriginal = txtUser.Text;
-
-                //Retorna o mesmo valor contido em txtUser em minúsculo e sem acentos.
-                string textProcessado = RemoveAcentos(textOriginal.ToLower());
-
-                // Verifica se o texto contido em txtUser está em minusculo, caso não, será convertido.
-                if (txtUser.Text != textProcessado)
+                if (nameParts.Length > 1)
                 {
-                    txtUser.Text = textProcessado;
-                    txtUser.SelectionStart = textProcessado.Length;
+                    // Obter o primeiro nome
+                    string firstName = nameParts[0];
+
+                    // Obter o último Sobrenome
+                    string lastName = nameParts[nameParts.Length - 1];
+
+                    // Define os valores para txtUser com o devido nome e sobrenome.
+                    txtUser.Text = $"{firstName}.{lastName}";
+
+                    // Obter o nome do textBox
+                    string textOriginal = txtUser.Text;
+
+                    //Retorna o mesmo valor contido em txtUser em minúsculo e sem acentos.
+                    string textProcessado = RemoveAcentos(textOriginal.ToLower());
+
+                    // Verifica se o texto contido em txtUser está em minusculo, caso não, será convertido.
+                    if (txtUser.Text != textProcessado)
+                    {
+                        txtUser.Text = textProcessado;
+                        txtUser.SelectionStart = textProcessado.Length;
+                    }
                 }
-            }
-            else
-            {
-                MessageBox.Show("Favor Digite o nome completo.",
-                    "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtName.Select(); // Coloca o foco no campo de CPF caso seja inválido
-                return;
+                else
+                {
+                    MessageBox.Show("Favor Digite o nome completo.",
+                        "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtName.Select(); // Coloca o foco no campo de CPF caso seja inválido
+                    return;
+                }
             }
         }
 
@@ -342,7 +339,6 @@ namespace visit_tracker_form
                     return;
                 }
 
-
                 MySqlConnection conn = new MySqlConnection(Program.connect);
                 conn.Open();
 
@@ -393,25 +389,33 @@ namespace visit_tracker_form
                         MessageBox.Show("Email já cadastrado!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
+                    else if (passForce <= 80)
+                    {
+                        MessageBox.Show("Senha não possui os requisitos mínimos de seguraça, Por favor verifique!", "Aviso", 
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                    else
+                    {
+                        MySqlCommand insertDB = new MySqlCommand(
+                            "INSERT INTO users (name, cpf, email, username, password, created_by, updated_by) " +
+                            "VALUES (@Name, @Cpf, @Email, @Username, @Password, @Created_by, @Updated_by);", conn);
 
-                    MySqlCommand insertDB = new MySqlCommand(
-                        "INSERT INTO users (name, cpf, email, username, password, created_by, updated_by) " +
-                        "VALUES (@Name, @Cpf, @Email, @Username, @Password, @Created_by, @Updated_by);", conn);
+                        insertDB.Parameters.Add("@Name", MySqlDbType.VarChar).Value = txtName.Text;
+                        insertDB.Parameters.Add("@Cpf", MySqlDbType.VarChar).Value = cleanCpf;
+                        insertDB.Parameters.Add("@Email", MySqlDbType.VarChar).Value = txtEmail.Text;
+                        insertDB.Parameters.Add("@Username", MySqlDbType.VarChar).Value = txtUser.Text;
+                        insertDB.Parameters.Add("@Password", MySqlDbType.VarChar).Value = BCrypt.Net.BCrypt.HashPassword(txtPass.Text);
+                        insertDB.Parameters.Add("@Created_by", MySqlDbType.Int32).Value = UserId;
+                        insertDB.Parameters.Add("@Updated_by", MySqlDbType.Int32).Value = UserId;
 
-                    insertDB.Parameters.Add("@Name", MySqlDbType.VarChar).Value = txtName.Text;
-                    insertDB.Parameters.Add("@Cpf", MySqlDbType.VarChar).Value = cleanCpf;
-                    insertDB.Parameters.Add("@Email", MySqlDbType.VarChar).Value = txtEmail.Text;
-                    insertDB.Parameters.Add("@Username", MySqlDbType.VarChar).Value = txtUser.Text;
-                    insertDB.Parameters.Add("@Password", MySqlDbType.VarChar).Value = BCrypt.Net.BCrypt.HashPassword(txtPass.Text);
-                    insertDB.Parameters.Add("@Created_by", MySqlDbType.Int32).Value = UserId;
-                    insertDB.Parameters.Add("@Updated_by", MySqlDbType.Int32).Value = UserId;
+                        insertDB.ExecuteNonQuery();
 
-                    insertDB.ExecuteNonQuery();
-
-                    MessageBox.Show("Usuário cadastrado com sucesso!",
-                        "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    ClearTextbox(); // Apenas aqui
-                    UpdateDgvUsers();
+                        MessageBox.Show("Usuário cadastrado com sucesso!",
+                            "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        ClearTextbox(); // Apenas aqui
+                        UpdateDgvUsers();
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -634,44 +638,6 @@ namespace visit_tracker_form
         private void txtName_Leave(object sender, EventArgs e)
         {
             nameForUser();
-            //// Adquirir o nome completo do TextBox
-            //string fullName = txtName.Text.Trim();
-
-            //// Divide o nome completo em partes
-            //string[] nameParts = fullName.Split(new char[] { ' ' });
-
-            //if (nameParts.Length > 1)
-            //{
-            //    // Obter o primeiro nome
-            //    string firstName = nameParts[0];
-
-            //    // Obter o último Sobrenome
-            //    string lastName = nameParts[nameParts.Length - 1];
-
-            //    // Define os valores para txtUser com o devido nome e sobrenome.
-            //    txtUser.Text = $"{firstName}.{lastName}";
-
-            //    //Formata a cor do texto dentro do textBox para default
-            //    txtUser.BackColor = ColorTranslator.FromHtml(default);
-                
-            //    // Obter o nome do textBox
-            //    string textOriginal = txtUser.Text;
-
-            //    //Retorna o mesmo valor contido em txtUser porém em minúsculo.
-            //    string textProcessado = RemoveAcentos(textOriginal.ToLower());
-
-            //    // Verifica se o texto contido em txtUser está em minusculo, caso não, será convertido.
-            //    if (txtUser.Text != textProcessado)
-            //    {
-            //        txtUser.Text = textProcessado;
-            //        txtUser.SelectionStart = textProcessado.Length;
-            //    }
-            //}
-            //else
-            //{
-            //    MessageBox.Show("Favor Digite o nome completo.",
-            //        "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //}
         }
 
         private void txtCpf_TextChanged(object sender, EventArgs e)
@@ -743,12 +709,15 @@ namespace visit_tracker_form
             return pontuacao;
         }
 
+        int passForce = 0;
+
         private void txtPass_TextChanged(object sender, EventArgs e)
         {
             txtPass.BackColor = ColorTranslator.FromHtml(default);
 
             string senha = txtPass.Text;
             int forca = CalcularForcaSenha(senha);
+            passForce = forca;
 
             progressBar1.Value = forca;
             progressBar1.Invalidate();  // Força a atualização da barra de progresso
@@ -811,6 +780,25 @@ namespace visit_tracker_form
                 progressBar2.ForeColor = Color.Green;
                 //lblPass1.Text = "Senha forte";
             }
+        }
+
+        private void checkPasswords()
+        {
+            if(txtConfPass.Text != string.Empty)
+            {
+                if (txtConfPass.Text != txtPass.Text)
+                {
+                    MessageBox.Show("Senhas não conferem. Por favor verifique.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtConfPass.Select();
+                    txtConfPass.Text = string.Empty;
+                    return;
+                }
+            }
+        }
+
+        private void txtConfPass_Leave(object sender, EventArgs e)
+        {
+            checkPasswords();
         }
 
         private void UpdateButtonView()
@@ -948,18 +936,6 @@ namespace visit_tracker_form
         private void progressBar2_Click(object sender, EventArgs e)
         {
 
-        }
-
-        private void txtConfPass_Leave(object sender, EventArgs e)
-        {
-            if(txtConfPass.Text != txtPass.Text)
-            {
-                lblWarning.Text = "Senhas não conferem. Por favor verifique.";
-            }
-            else
-            {
-                lblWarning.Text = "Senhas São iguais.";
-            }
         }
 
         private void btnCadClient_Click(object sender, EventArgs e)

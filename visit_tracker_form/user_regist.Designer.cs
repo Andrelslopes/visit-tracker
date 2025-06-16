@@ -34,7 +34,8 @@
             this.BtnExit = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnCadClient = new System.Windows.Forms.Button();
-            this.lblWarning = new System.Windows.Forms.Label();
+            this.progressBar2 = new ProgressBarCustomized();
+            this.progressBar1 = new ProgressBarCustomized();
             this.txtId = new System.Windows.Forms.TextBox();
             this.btnClear = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
@@ -54,12 +55,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.dgvUsers = new System.Windows.Forms.DataGridView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.button1 = new System.Windows.Forms.Button();
-            this.progressBar2 = new ProgressBarCustomized();
-            this.progressBar1 = new ProgressBarCustomized();
+            this.label8 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUsers)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -109,7 +108,6 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.btnCadClient);
-            this.groupBox1.Controls.Add(this.lblWarning);
             this.groupBox1.Controls.Add(this.progressBar2);
             this.groupBox1.Controls.Add(this.progressBar1);
             this.groupBox1.Controls.Add(this.txtId);
@@ -149,14 +147,24 @@
             this.btnCadClient.UseVisualStyleBackColor = true;
             this.btnCadClient.Click += new System.EventHandler(this.btnCadClient_Click);
             // 
-            // lblWarning
+            // progressBar2
             // 
-            this.lblWarning.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblWarning.Location = new System.Drawing.Point(6, 192);
-            this.lblWarning.Name = "lblWarning";
-            this.lblWarning.Size = new System.Drawing.Size(469, 40);
-            this.lblWarning.TabIndex = 17;
-            this.lblWarning.Text = "lblWarning";
+            this.progressBar2.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.progressBar2.Location = new System.Drawing.Point(324, 163);
+            this.progressBar2.Name = "progressBar2";
+            this.progressBar2.Size = new System.Drawing.Size(151, 10);
+            this.progressBar2.TabIndex = 16;
+            this.progressBar2.Click += new System.EventHandler(this.progressBar2_Click);
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.progressBar1.Location = new System.Drawing.Point(167, 163);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(151, 10);
+            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.progressBar1.TabIndex = 15;
+            this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
             // 
             // txtId
             // 
@@ -314,9 +322,9 @@
             // dgvUsers
             // 
             this.dgvUsers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvUsers.Location = new System.Drawing.Point(6, 55);
+            this.dgvUsers.Location = new System.Drawing.Point(6, 49);
             this.dgvUsers.Name = "dgvUsers";
-            this.dgvUsers.Size = new System.Drawing.Size(761, 226);
+            this.dgvUsers.Size = new System.Drawing.Size(761, 232);
             this.dgvUsers.TabIndex = 2;
             this.dgvUsers.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvUsers_CellContentClick);
             this.dgvUsers.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvUsers_CellContentDoubleClick);
@@ -324,7 +332,7 @@
             // groupBox2
             // 
             this.groupBox2.BackColor = System.Drawing.SystemColors.Control;
-            this.groupBox2.Controls.Add(this.comboBox1);
+            this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.txtSearch);
             this.groupBox2.Controls.Add(this.dgvUsers);
             this.groupBox2.Location = new System.Drawing.Point(11, 287);
@@ -334,17 +342,9 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Pesquisar:";
             // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(11, 24);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 25);
-            this.comboBox1.TabIndex = 1;
-            // 
             // txtSearch
             // 
-            this.txtSearch.Location = new System.Drawing.Point(138, 24);
+            this.txtSearch.Location = new System.Drawing.Point(54, 18);
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(185, 25);
             this.txtSearch.TabIndex = 0;
@@ -370,24 +370,14 @@
             this.button1.Text = "Login";
             this.button1.UseVisualStyleBackColor = true;
             // 
-            // progressBar2
+            // label8
             // 
-            this.progressBar2.BackColor = System.Drawing.SystemColors.ScrollBar;
-            this.progressBar2.Location = new System.Drawing.Point(324, 163);
-            this.progressBar2.Name = "progressBar2";
-            this.progressBar2.Size = new System.Drawing.Size(151, 10);
-            this.progressBar2.TabIndex = 16;
-            this.progressBar2.Click += new System.EventHandler(this.progressBar2_Click);
-            // 
-            // progressBar1
-            // 
-            this.progressBar1.BackColor = System.Drawing.SystemColors.ScrollBar;
-            this.progressBar1.Location = new System.Drawing.Point(167, 163);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(151, 10);
-            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.progressBar1.TabIndex = 15;
-            this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 21);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(42, 17);
+            this.label8.TabIndex = 3;
+            this.label8.Text = "CPF:";
             // 
             // user_regist
             // 
@@ -442,12 +432,11 @@
         private System.Windows.Forms.TextBox txtId;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txtSearch;
-        private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Label lblWarning;
         private System.Windows.Forms.Button btnCadClient;
         private System.Windows.Forms.Button button1;
         private ProgressBarCustomized progressBar2;
         private ProgressBarCustomized progressBar1;
+        private System.Windows.Forms.Label label8;
     }
 }
