@@ -355,26 +355,36 @@ namespace visit_tracker_form
                     string cleanCpf = new string(txtCpf.Text.Where(char.IsDigit).ToArray());
 
                     // Define as queries SQL para verificar o login,CPF e email individualmente
+                    string checkIdQuery = "SELECT COUNT(*) FROM users WHERE id = @Id";
                     string checkLoginQuery = "SELECT COUNT(*) FROM users WHERE username = @Username";
                     string checkCpfQuery = "SELECT COUNT(*) FROM users WHERE cpf = @CPF";
                     string checkEmailQuery = "SELECT COUNT(*) FROM users WHERE email = @Email";
 
                     // Cria comandos MySQL separados para cada query
+                    MySqlCommand checkIdCmd = new MySqlCommand(checkIdQuery, conn);
                     MySqlCommand checkLoginCmd = new MySqlCommand(checkLoginQuery, conn);
                     MySqlCommand checkCpfCmd = new MySqlCommand(checkCpfQuery, conn);
                     MySqlCommand checkEmailCmd = new MySqlCommand(checkEmailQuery, conn);
 
                     // Adiciona os valores dos parâmetros @Login, @CPF e @Email
+                    checkIdCmd.Parameters.Add("@Id", MySqlDbType.VarChar).Value = txtId.Text;
                     checkLoginCmd.Parameters.Add("@Username", MySqlDbType.VarChar).Value = txtUser.Text;
                     checkCpfCmd.Parameters.Add("@Cpf", MySqlDbType.VarChar).Value = cleanCpf;
                     checkEmailCmd.Parameters.Add("Email", MySqlDbType.VarChar).Value = txtEmail.Text;
 
                     // Executa as queries e converte o resultado para inteiros
+                    int idExists = Convert.ToInt32(checkIdCmd.ExecuteScalar());
                     int loginExists = Convert.ToInt32(checkLoginCmd.ExecuteScalar());
                     int cpfExists = Convert.ToInt32(checkCpfCmd.ExecuteScalar());
                     int emailExists = Convert.ToInt32(checkEmailCmd.ExecuteScalar());
 
-                    if (loginExists > 0)
+
+                    if (idExists > 0)
+                    {
+                        MessageBox.Show("Id já cadastrado!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                    else if (loginExists > 0)
                     {
                         MessageBox.Show("Usuário já cadastrado!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
@@ -613,8 +623,6 @@ namespace visit_tracker_form
 
         private void txtName_TextChanged(object sender, EventArgs e)
         {
-            //Text = txtName.Text;
-
             txtName.BackColor = ColorTranslator.FromHtml(default);
 
             // Converte o texto digitado para Title Case
@@ -684,6 +692,22 @@ namespace visit_tracker_form
         private void txtEmail_TextChanged(object sender, EventArgs e)
         {
             txtEmail.BackColor = ColorTranslator.FromHtml(default);
+
+            // Converte o texto digitado para minúsculas.
+            if (sender is WinFormsTextBox textBox)
+            {
+                // Guarda a posição atual do cursor dentro do TextBox
+                int selectionStart = textBox.SelectionStart;
+
+                // Guarda o tamanho do texto selecionado (se houver).
+                int selectionLength = textBox.SelectionLength;
+
+                // Converte o texto digitado para minúsculo
+                textBox.Text = textBox.Text.ToLower();
+
+                // Restaura a seleção original
+                textBox.Select(selectionStart, selectionLength);
+            }
         }
 
         private void txtUser_TextChanged(object sender, EventArgs e)
