@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Resources.ResXFileRef;
 using WinFormsTextBox = System.Windows.Forms.TextBox;
+using static visit_tracker.Properties.Resources;
 
 namespace visit_tracker_form
 {
@@ -33,8 +34,8 @@ namespace visit_tracker_form
             txtId.Enabled = false;
             txtId.TextAlign = HorizontalAlignment.Center;
             
-            btnShowPass.Image = Properties.Resources.olho2;
-            btnShowPass2.Image = Properties.Resources.olho2;
+            btnShowPass.Image = olho2;
+            btnShowPass2.Image = olho2;
 
             txtPass.UseSystemPasswordChar = true;
             txtConfPass.UseSystemPasswordChar = true;
@@ -830,13 +831,13 @@ namespace visit_tracker_form
             if (visiblePass)
             {
                 // Se a senha estiver visível, mostra a imagem de olho fechado
-                btnShowPass.Image = Properties.Resources.olho1;
+                btnShowPass.Image = olho1;
                 txtPass.UseSystemPasswordChar = false;
             }
             else
             {
                 // Se a senha estiver oculta, mostra a imagem de olho aberto
-                btnShowPass.Image = Properties.Resources.olho2;
+                btnShowPass.Image = olho2;
                 txtPass.UseSystemPasswordChar = true;
             }
         }
@@ -854,13 +855,13 @@ namespace visit_tracker_form
             if (visiblePass)
             {
                 // Se a senha estiver visível, mostra a imagem de olho fechado
-                btnShowPass2.Image = Properties.Resources.olho1;
+                btnShowPass2.Image = olho1;
                 txtConfPass.UseSystemPasswordChar = false;
             }
             else
             {
                 // Se a senha estiver oculta, mostra a imagem de olho aberto
-                btnShowPass2.Image = Properties.Resources.olho2;
+                btnShowPass2.Image = olho2;
                 txtConfPass.UseSystemPasswordChar = true;
             }
         }
@@ -966,6 +967,11 @@ namespace visit_tracker_form
         {
             new client_regist().Show();
             this.Hide();
+        }
+
+        private void groupBox2_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using visit_tracker;
 
 namespace visit_tracker_form
 {
@@ -18,7 +19,7 @@ namespace visit_tracker_form
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Login());
+            Application.Run(new frm_Visit());
         }
     }
 }

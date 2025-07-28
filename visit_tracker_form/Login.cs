@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using static visit_tracker.Properties.Resources;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
 
 namespace visit_tracker_form
 {
@@ -19,8 +21,8 @@ namespace visit_tracker_form
         {
             InitializeComponent();
 
-            btnShowPass.Image = Properties.Resources.olho2;
-            pictureBox1.Image = Properties.Resources.login_da_conta;
+            btnShowPass.Image = olho2;
+            pictureBox1.Image = login_da_conta;
         }
 
         private void Login_Load(object sender, EventArgs e)
@@ -99,8 +101,8 @@ namespace visit_tracker_form
 
                                         if (isAdmin)
                                         {
-                                            MessageBox.Show($"Login Bem-sucedido! \n Seja Bem Vindo {fullName}.", "Sucesso",
-                                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                            //MessageBox.Show($"Login Bem-sucedido! \n Seja Bem Vindo {fullName}.", "Sucesso",
+                                            //MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                                             // Exemplo: abrir tela principal
                                             new user_regist().Show();
@@ -193,13 +195,13 @@ namespace visit_tracker_form
             if (visiblePass)
             {
                 // Se a senha estiver visível, mostra a imagem de olho fechado
-                btnShowPass.Image = Properties.Resources.olho1;
+                btnShowPass.Image = olho1;
                 txtPass.UseSystemPasswordChar = false;
             }
             else
             {
                 // Se a senha estiver oculta, mostra a imagem de olho aberto
-                btnShowPass.Image = Properties.Resources.olho2;
+                btnShowPass.Image = olho2;
                 txtPass.UseSystemPasswordChar = true;
             }
         }
@@ -214,6 +216,26 @@ namespace visit_tracker_form
         private void txtLogin_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtPass_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
