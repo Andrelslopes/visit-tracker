@@ -7,6 +7,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -232,9 +233,15 @@ namespace visit_tracker_form
                         // Atualiza o endereço relacionado ao cliente
                         string queryAddresses = @"UPDATE addresses SET postal_code=@Postal_code, street=@Street, number=@Number, neighborhood=@Neighborhood, city=@City, state=@State, updated_by=@Updated_by WHERE fk_id_client=@Fk_id_client";
 
+                        // Obtém o texto do TextBox
+                        string cep = txtCEP.Text;
+
+                        // Filtra apenas os dígitos do texto, removendo qualquer caractere não numérico
+                        cep = new string(cep.Where(char.IsDigit).ToArray());
+
                         using (MySqlCommand cmd = new MySqlCommand(queryAddresses, conn, transaction))
                         {
-                            cmd.Parameters.AddWithValue("@Postal_code", txtCEP.Text);
+                            cmd.Parameters.AddWithValue("@Postal_code", cep);
                             cmd.Parameters.AddWithValue("@Street", txtStreet.Text);
                             cmd.Parameters.AddWithValue("@Number", txtNumber.Text);
                             cmd.Parameters.AddWithValue("@Neighborhood", txtNeighborhood.Text);
@@ -275,7 +282,14 @@ namespace visit_tracker_form
 
         private void btnClearClient_Click(object sender, EventArgs e)
         {
-
+            txtCod.Text = string.Empty;
+            txtName.Text = string.Empty;
+            txtCEP.Text = string.Empty;
+            txtStreet.Text = string.Empty;
+            txtNumber.Text = string.Empty;
+            txtNeighborhood.Text = string.Empty;
+            txtCity.Text = string.Empty;
+            txtState.Text = string.Empty;
         }
 
         private void txtCEP_TextChanged(object sender, EventArgs e)
@@ -380,7 +394,12 @@ namespace visit_tracker_form
             Application.Exit();
         }
 
-        private async void btnSearchCEP_Click(object sender, EventArgs e)
+        private void btnSearchCEP_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private async void btnSearchCEP_MouseClick(object sender, MouseEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtCEP.Text))
             {

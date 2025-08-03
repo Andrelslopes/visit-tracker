@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(client_regist));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnSearchCEP = new System.Windows.Forms.Button();
             this.txtNeighborhood = new System.Windows.Forms.TextBox();
             this.txtCity = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -55,11 +56,12 @@
             this.btnClearClient = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.btnSearchCEP = new System.Windows.Forms.Button();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvClient)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -82,13 +84,24 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(13, 37);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox1.Size = new System.Drawing.Size(646, 179);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Cliente:";
+            // 
+            // btnSearchCEP
+            // 
+            this.btnSearchCEP.Image = global::visit_tracker.Properties.Resources.lupa;
+            this.btnSearchCEP.Location = new System.Drawing.Point(135, 93);
+            this.btnSearchCEP.Name = "btnSearchCEP";
+            this.btnSearchCEP.Size = new System.Drawing.Size(24, 25);
+            this.btnSearchCEP.TabIndex = 19;
+            this.btnSearchCEP.UseVisualStyleBackColor = true;
+            this.btnSearchCEP.Click += new System.EventHandler(this.btnSearchCEP_Click);
+            this.btnSearchCEP.MouseClick += new System.Windows.Forms.MouseEventHandler(this.btnSearchCEP_MouseClick);
             // 
             // txtNeighborhood
             // 
@@ -137,7 +150,7 @@
             // txtState
             // 
             this.txtState.Location = new System.Drawing.Point(434, 142);
-            this.txtState.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtState.Margin = new System.Windows.Forms.Padding(4);
             this.txtState.Name = "txtState";
             this.txtState.Size = new System.Drawing.Size(204, 23);
             this.txtState.TabIndex = 10;
@@ -146,7 +159,7 @@
             // txtStreet
             // 
             this.txtStreet.Location = new System.Drawing.Point(166, 93);
-            this.txtStreet.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtStreet.Margin = new System.Windows.Forms.Padding(4);
             this.txtStreet.Name = "txtStreet";
             this.txtStreet.Size = new System.Drawing.Size(394, 23);
             this.txtStreet.TabIndex = 9;
@@ -155,7 +168,7 @@
             // txtNumber
             // 
             this.txtNumber.Location = new System.Drawing.Point(568, 93);
-            this.txtNumber.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtNumber.Margin = new System.Windows.Forms.Padding(4);
             this.txtNumber.Name = "txtNumber";
             this.txtNumber.Size = new System.Drawing.Size(70, 23);
             this.txtNumber.TabIndex = 8;
@@ -164,7 +177,7 @@
             // txtCEP
             // 
             this.txtCEP.Location = new System.Drawing.Point(8, 93);
-            this.txtCEP.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtCEP.Margin = new System.Windows.Forms.Padding(4);
             this.txtCEP.Name = "txtCEP";
             this.txtCEP.Size = new System.Drawing.Size(120, 23);
             this.txtCEP.TabIndex = 7;
@@ -173,7 +186,7 @@
             // txtName
             // 
             this.txtName.Location = new System.Drawing.Point(68, 43);
-            this.txtName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtName.Margin = new System.Windows.Forms.Padding(4);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(570, 23);
             this.txtName.TabIndex = 6;
@@ -182,7 +195,7 @@
             // txtCod
             // 
             this.txtCod.Location = new System.Drawing.Point(8, 43);
-            this.txtCod.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtCod.Margin = new System.Windows.Forms.Padding(4);
             this.txtCod.Name = "txtCod";
             this.txtCod.Size = new System.Drawing.Size(52, 23);
             this.txtCod.TabIndex = 5;
@@ -253,9 +266,9 @@
             // 
             this.groupBox2.Controls.Add(this.dgvClient);
             this.groupBox2.Location = new System.Drawing.Point(13, 257);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox2.Size = new System.Drawing.Size(850, 342);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
@@ -334,21 +347,20 @@
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
-            // btnSearchCEP
+            // pictureBox2
             // 
-            this.btnSearchCEP.Image = global::visit_tracker.Properties.Resources.lupa;
-            this.btnSearchCEP.Location = new System.Drawing.Point(135, 93);
-            this.btnSearchCEP.Name = "btnSearchCEP";
-            this.btnSearchCEP.Size = new System.Drawing.Size(24, 25);
-            this.btnSearchCEP.TabIndex = 19;
-            this.btnSearchCEP.UseVisualStyleBackColor = true;
-            this.btnSearchCEP.Click += new System.EventHandler(this.btnSearchCEP_Click);
+            this.pictureBox2.Location = new System.Drawing.Point(666, 37);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(198, 213);
+            this.pictureBox2.TabIndex = 19;
+            this.pictureBox2.TabStop = false;
             // 
             // client_regist
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(876, 641);
+            this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.label9);
@@ -360,7 +372,7 @@
             this.Controls.Add(this.groupBox1);
             this.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "client_regist";
             this.Text = "client_regist";
             this.Load += new System.EventHandler(this.client_regist_Load);
@@ -369,6 +381,7 @@
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvClient)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -402,5 +415,6 @@
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button btnSearchCEP;
+        private System.Windows.Forms.PictureBox pictureBox2;
     }
 }
