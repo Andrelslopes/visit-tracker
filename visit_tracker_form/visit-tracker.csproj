@@ -127,6 +127,9 @@
     <Compile Include="client_regist.Designer.cs">
       <DependentUpon>client_regist.cs</DependentUpon>
     </Compile>
+    <Compile Include="CustomProgressBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="frm_Visit.cs">
       <SubType>Form</SubType>
     </Compile>

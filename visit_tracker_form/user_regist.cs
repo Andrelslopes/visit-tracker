@@ -514,8 +514,6 @@ namespace visit_tracker_form
                     return;
                 }
 
-
-
                 try
                 {
                     MySqlCommand insertDB = new MySqlCommand("UPDATE users SET name=@Name, cpf=@Cpf, email=@Email, username=@Username, password=@Password, updated_by=@Updated_by WHERE id=@Id", conn);
@@ -553,7 +551,7 @@ namespace visit_tracker_form
         private void btnDelet_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show("Deseja realmente excluir este usuário?",
-    "Excluir Usuário.", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                "Excluir Usuário.", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
             if (result == DialogResult.No)
             {
@@ -752,23 +750,18 @@ namespace visit_tracker_form
             if (forca == 0)
             {
                 progressBar1.ForeColor = Color.Red;
-                //lblPass1.Text = "";
-                //lblWarning.Text = string.Empty;
             }
             else if (forca <= 40)
             {
                 progressBar1.ForeColor = Color.Red;
-                //lblPass1.Text = "Senha fraca";
             }
             else if (forca <= 80)
             {
                 progressBar1.ForeColor = Color.Orange;
-                //lblPass1.Text = "Senha média";
             }
             else
             {
                 progressBar1.ForeColor = Color.Green;
-                //lblPass1.Text = "Senha forte";
             }
         }
 
@@ -787,23 +780,18 @@ namespace visit_tracker_form
             if (forca == 0)
             {
                 progressBar2.ForeColor = Color.Red;
-                //lblPass1.Text = "";
-                //lblWarning.Text = string.Empty;
             }
             else if (forca <= 40)
             {
                 progressBar2.ForeColor = Color.Red;
-                //lblPass1.Text = "Senha fraca";
             }
             else if (forca <= 80)
             {
                 progressBar2.ForeColor = Color.Orange;
-                //lblPass1.Text = "Senha média";
             }
             else
             {
                 progressBar2.ForeColor = Color.Green;
-                //lblPass1.Text = "Senha forte";
             }
         }
 

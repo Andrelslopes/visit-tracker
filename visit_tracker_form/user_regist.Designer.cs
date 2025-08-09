@@ -34,8 +34,8 @@
             this.BtnExit = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnCadClient = new System.Windows.Forms.Button();
-            this.progressBar2 = new System.Windows.Forms.ProgressBar();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.progressBar2 = new ProgressBarCustomized();
+            this.progressBar1 = new ProgressBarCustomized();
             this.txtId = new System.Windows.Forms.TextBox();
             this.btnClear = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
@@ -435,11 +435,8 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button btnCadClient;
         private System.Windows.Forms.Button button1;
-
-        private System.Windows.Forms.ProgressBar progressBar2;
-        private System.Windows.Forms.ProgressBar progressBar1;
-        //private ProgressBarCustomized progressBar2;
-        //private ProgressBarCustomized progressBar1;
+        private ProgressBarCustomized progressBar2;
+        private ProgressBarCustomized progressBar1;
         private System.Windows.Forms.Label label8;
     }
 }
