@@ -426,6 +426,7 @@ namespace visit_tracker_form
                             "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         ClearTextbox(); // Apenas aqui
                         UpdateDgvUsers();
+                        ShowId();
                     }
                 }
                 catch (Exception ex)

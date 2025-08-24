@@ -194,6 +194,7 @@
             // 
             // txtCod
             // 
+            this.txtCod.Enabled = false;
             this.txtCod.Location = new System.Drawing.Point(8, 43);
             this.txtCod.Margin = new System.Windows.Forms.Padding(4);
             this.txtCod.Name = "txtCod";
