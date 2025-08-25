@@ -15,6 +15,7 @@ using System.Windows.Forms;
 using static System.Resources.ResXFileRef;
 using WinFormsTextBox = System.Windows.Forms.TextBox;
 using static visit_tracker.Properties.Resources;
+using visit_tracker;
 
 namespace visit_tracker_form
 {
@@ -253,7 +254,7 @@ namespace visit_tracker_form
                     object result = cmd.ExecuteScalar();
 
                     // Verifica se o resultado não é nulo
-                    if (result != null)
+                    if (result != DBNull.Value)
                     {
                         // Converte o resultado para string e define o texto no controle TxtIdUser
                         txtId.Text = result.ToString();
@@ -961,6 +962,12 @@ namespace visit_tracker_form
         private void groupBox2_Enter(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnVisit_Click(object sender, EventArgs e)
+        {
+            new frm_Visit().Show();
+            this.Hide();
         }
     }
 }

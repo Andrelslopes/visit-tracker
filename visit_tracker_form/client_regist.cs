@@ -12,6 +12,7 @@ using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using visit_tracker;
 
 namespace visit_tracker_form
 {
@@ -605,6 +606,12 @@ namespace visit_tracker_form
                     }
                 }
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            new frm_Visit().Show();
+            this.Hide();
         }
     }
 }

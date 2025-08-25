@@ -34,8 +34,6 @@
             this.BtnExit = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnCadClient = new System.Windows.Forms.Button();
-            this.progressBar2 = new ProgressBarCustomized();
-            this.progressBar1 = new ProgressBarCustomized();
             this.txtId = new System.Windows.Forms.TextBox();
             this.btnClear = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
@@ -59,6 +57,9 @@
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.progressBar2 = new ProgressBarCustomized();
+            this.progressBar1 = new ProgressBarCustomized();
+            this.btnVisit = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUsers)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -107,6 +108,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnVisit);
             this.groupBox1.Controls.Add(this.btnCadClient);
             this.groupBox1.Controls.Add(this.progressBar2);
             this.groupBox1.Controls.Add(this.progressBar1);
@@ -146,25 +148,6 @@
             this.btnCadClient.Text = "CadClient";
             this.btnCadClient.UseVisualStyleBackColor = true;
             this.btnCadClient.Click += new System.EventHandler(this.btnCadClient_Click);
-            // 
-            // progressBar2
-            // 
-            this.progressBar2.BackColor = System.Drawing.SystemColors.ScrollBar;
-            this.progressBar2.Location = new System.Drawing.Point(324, 163);
-            this.progressBar2.Name = "progressBar2";
-            this.progressBar2.Size = new System.Drawing.Size(151, 10);
-            this.progressBar2.TabIndex = 16;
-            this.progressBar2.Click += new System.EventHandler(this.progressBar2_Click);
-            // 
-            // progressBar1
-            // 
-            this.progressBar1.BackColor = System.Drawing.SystemColors.ScrollBar;
-            this.progressBar1.Location = new System.Drawing.Point(167, 163);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(151, 10);
-            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.progressBar1.TabIndex = 15;
-            this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
             // 
             // txtId
             // 
@@ -379,6 +362,35 @@
             this.pictureBox1.TabIndex = 8;
             this.pictureBox1.TabStop = false;
             // 
+            // progressBar2
+            // 
+            this.progressBar2.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.progressBar2.Location = new System.Drawing.Point(324, 163);
+            this.progressBar2.Name = "progressBar2";
+            this.progressBar2.Size = new System.Drawing.Size(151, 10);
+            this.progressBar2.TabIndex = 16;
+            this.progressBar2.Click += new System.EventHandler(this.progressBar2_Click);
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.progressBar1.Location = new System.Drawing.Point(167, 163);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(151, 10);
+            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.progressBar1.TabIndex = 15;
+            this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
+            // 
+            // btnVisit
+            // 
+            this.btnVisit.Location = new System.Drawing.Point(6, 201);
+            this.btnVisit.Name = "btnVisit";
+            this.btnVisit.Size = new System.Drawing.Size(90, 28);
+            this.btnVisit.TabIndex = 20;
+            this.btnVisit.Text = "Visitas";
+            this.btnVisit.UseVisualStyleBackColor = true;
+            this.btnVisit.Click += new System.EventHandler(this.btnVisit_Click);
+            // 
             // user_regist
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
@@ -438,5 +450,6 @@
         private ProgressBarCustomized progressBar2;
         private ProgressBarCustomized progressBar1;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button btnVisit;
     }
 }
