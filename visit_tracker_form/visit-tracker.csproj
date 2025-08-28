@@ -121,6 +121,7 @@
   <ItemGroup>
     <Compile Include="Address.cs" />
     <Compile Include="BCrypt\BCryptHelper.cs" />
+    <Compile Include="ClassVistis.cs" />
     <Compile Include="ClientSession.cs" />
     <Compile Include="client_regist.cs">
       <SubType>Form</SubType>

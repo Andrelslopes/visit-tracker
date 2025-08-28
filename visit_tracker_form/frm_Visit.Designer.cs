@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.btnAddVisit = new System.Windows.Forms.Button();
-            this.textBox8 = new System.Windows.Forms.TextBox();
+            this.txtDescription = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cbxIdClient = new System.Windows.Forms.ComboBox();
@@ -43,8 +43,14 @@
             this.txtId = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.dgvClient = new System.Windows.Forms.DataGridView();
+            this.listVisists = new System.Windows.Forms.ListBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.BtnExit = new System.Windows.Forms.Button();
+            this.txtTitle = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvClient)).BeginInit();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnAddVisit
@@ -57,18 +63,18 @@
             this.btnAddVisit.UseVisualStyleBackColor = true;
             this.btnAddVisit.Click += new System.EventHandler(this.btnAddVisit_Click);
             // 
-            // textBox8
+            // txtDescription
             // 
-            this.textBox8.Location = new System.Drawing.Point(6, 179);
-            this.textBox8.Multiline = true;
-            this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(600, 219);
-            this.textBox8.TabIndex = 10;
+            this.txtDescription.Location = new System.Drawing.Point(6, 225);
+            this.txtDescription.Multiline = true;
+            this.txtDescription.Name = "txtDescription";
+            this.txtDescription.Size = new System.Drawing.Size(364, 116);
+            this.txtDescription.TabIndex = 10;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(6, 159);
+            this.label10.Location = new System.Drawing.Point(6, 205);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(76, 17);
             this.label10.TabIndex = 9;
@@ -76,6 +82,9 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Controls.Add(this.txtTitle);
+            this.groupBox1.Controls.Add(this.listVisists);
             this.groupBox1.Controls.Add(this.cbxIdClient);
             this.groupBox1.Controls.Add(this.txtDateVisit);
             this.groupBox1.Controls.Add(this.label6);
@@ -86,15 +95,15 @@
             this.groupBox1.Controls.Add(this.btnAddVisit);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.txtId);
-            this.groupBox1.Controls.Add(this.textBox8);
+            this.groupBox1.Controls.Add(this.txtDescription);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(612, 404);
+            this.groupBox1.Size = new System.Drawing.Size(612, 347);
             this.groupBox1.TabIndex = 15;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "groupBox1";
+            this.groupBox1.Text = "Visitas:";
             // 
             // cbxIdClient
             // 
@@ -107,16 +116,16 @@
             // 
             // txtDateVisit
             // 
-            this.txtDateVisit.Location = new System.Drawing.Point(194, 133);
+            this.txtDateVisit.Location = new System.Drawing.Point(264, 133);
             this.txtDateVisit.Name = "txtDateVisit";
-            this.txtDateVisit.Size = new System.Drawing.Size(80, 23);
+            this.txtDateVisit.Size = new System.Drawing.Size(106, 23);
             this.txtDateVisit.TabIndex = 15;
             this.txtDateVisit.TextChanged += new System.EventHandler(this.txtDateVisit_TextChanged);
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(191, 113);
+            this.label6.Location = new System.Drawing.Point(261, 114);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(83, 17);
             this.label6.TabIndex = 14;
@@ -126,7 +135,7 @@
             // 
             this.txtResponsible.Location = new System.Drawing.Point(6, 133);
             this.txtResponsible.Name = "txtResponsible";
-            this.txtResponsible.Size = new System.Drawing.Size(182, 23);
+            this.txtResponsible.Size = new System.Drawing.Size(252, 23);
             this.txtResponsible.TabIndex = 13;
             // 
             // label5
@@ -182,32 +191,83 @@
             // dgvClient
             // 
             this.dgvClient.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvClient.Location = new System.Drawing.Point(18, 422);
+            this.dgvClient.Location = new System.Drawing.Point(6, 22);
             this.dgvClient.Name = "dgvClient";
-            this.dgvClient.Size = new System.Drawing.Size(600, 192);
+            this.dgvClient.Size = new System.Drawing.Size(600, 196);
             this.dgvClient.TabIndex = 16;
+            this.dgvClient.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvClient_CellContentClick);
+            this.dgvClient.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvClient_CellContentDoubleClick);
+            // 
+            // listVisists
+            // 
+            this.listVisists.FormattingEnabled = true;
+            this.listVisists.ItemHeight = 17;
+            this.listVisists.Location = new System.Drawing.Point(376, 133);
+            this.listVisists.Name = "listVisists";
+            this.listVisists.Size = new System.Drawing.Size(227, 208);
+            this.listVisists.TabIndex = 0;
+            this.listVisists.SelectedIndexChanged += new System.EventHandler(this.listVisists_SelectedIndexChanged);
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.dgvClient);
+            this.groupBox3.Location = new System.Drawing.Point(12, 365);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(612, 224);
+            this.groupBox3.TabIndex = 17;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Clientes:";
+            // 
+            // BtnExit
+            // 
+            this.BtnExit.Location = new System.Drawing.Point(549, 595);
+            this.BtnExit.Name = "BtnExit";
+            this.BtnExit.Size = new System.Drawing.Size(75, 23);
+            this.BtnExit.TabIndex = 18;
+            this.BtnExit.Text = "Sair";
+            this.BtnExit.UseVisualStyleBackColor = true;
+            this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
+            // 
+            // txtTitle
+            // 
+            this.txtTitle.Location = new System.Drawing.Point(6, 179);
+            this.txtTitle.Name = "txtTitle";
+            this.txtTitle.Size = new System.Drawing.Size(364, 23);
+            this.txtTitle.TabIndex = 17;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 159);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(45, 17);
+            this.label4.TabIndex = 18;
+            this.label4.Text = "Titulo:";
             // 
             // frm_Visit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(636, 626);
-            this.Controls.Add(this.dgvClient);
+            this.ClientSize = new System.Drawing.Size(636, 630);
+            this.Controls.Add(this.BtnExit);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frm_Visit";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "frm_Visit";
             this.Load += new System.EventHandler(this.frm_Visit_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvClient)).EndInit();
+            this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-        private System.Windows.Forms.TextBox textBox8;
+        private System.Windows.Forms.TextBox txtDescription;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Button btnAddVisit;
         private System.Windows.Forms.GroupBox groupBox1;
@@ -222,5 +282,10 @@
         private System.Windows.Forms.TextBox txtDateVisit;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.DataGridView dgvClient;
+        private System.Windows.Forms.ListBox listVisists;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Button BtnExit;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox txtTitle;
     }
 }

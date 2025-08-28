@@ -6,9 +6,12 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using visit_tracker_form;
 
 namespace visit_tracker
@@ -26,6 +29,7 @@ namespace visit_tracker
         private void frm_Visit_Load(object sender, EventArgs e)
         {
             txtResponsible.Text = UserSession.Name;
+            txtDateVisit.Text = DateTime.Now.ToString("dd/MM/yyyy");
         }
         
 
@@ -75,6 +79,8 @@ namespace visit_tracker
 
         private void Load_Clients()
         {
+            // Carrega os dados dentro do combobox Id Cliente.
+
             string query = "SELECT id, name FROM clients WHERE is_activated = 1";
 
             using (MySqlConnection conn = new MySqlConnection(Program.connect))
@@ -105,11 +111,16 @@ namespace visit_tracker
                 {
                     MessageBox.Show("Erro ao carregar informações em campo Cliente: " + ex.Message);
                 }
+                finally
+                {
+                    conn.Close();
+                }
             }
         }
 
         private void UpdateDgvClient()
         {
+            /* Carrega os dados dentro do DataGridView */
             using (MySqlConnection conn = new MySqlConnection(Program.connect))
             {
                 // Abre a conexão com o banco de dados MySQL
@@ -162,14 +173,143 @@ namespace visit_tracker
 
         private void btnAddVisit_Click(object sender, EventArgs e)
         {
+            string errorMessage = string.Empty;
 
+            if (string.IsNullOrWhiteSpace(txtId.Text))
+            {
+                errorMessage += "Id: \n";
+                txtId.BackColor = ColorTranslator.FromHtml("#FEC6C6");
+            }
+
+            if (string.IsNullOrWhiteSpace(cbxIdClient.Text))
+            {
+                errorMessage += "Id Cliente: \n";
+                cbxIdClient.BackColor = ColorTranslator.FromHtml("FEC6C6");
+            }
+
+            if (string.IsNullOrWhiteSpace(txtNameClient.Text))
+            {
+                errorMessage += "Nome Cliente: \n";
+                txtNameClient.BackColor = ColorTranslator.FromHtml("FEC6C6");
+            }
+            if (string.IsNullOrWhiteSpace(txtResponsible.Text))
+            {
+                errorMessage += "Responsavel: \n";
+                txtResponsible.BackColor = ColorTranslator.FromHtml("FEC6C6");
+            }
+            if (string.IsNullOrWhiteSpace(txtDateVisit.Text))
+            {
+                errorMessage += "Data Visita: \n";
+                txtDateVisit.BackColor = ColorTranslator.FromHtml("FEC6C6");
+            }
+            if (string.IsNullOrWhiteSpace(txtDescription.Text))
+            {
+                errorMessage += "Id Cliente: \n";
+                txtDescription.BackColor = ColorTranslator.FromHtml("FEC6C6");
+            }
+            if (!string.IsNullOrEmpty(errorMessage))
+            {
+                MessageBox.Show($"Os seguintes campos são obrigatórios:\n\n{errorMessage}",
+                    "Campos Obrigatórios", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            else
+            {
+                using (MySqlConnection conn = new MySqlConnection(Program.connect))
+                {
+                    if (conn.State != ConnectionState.Open)
+                    {
+                        conn.Open();
+                    }
+                    try
+                    {
+                        // Obtem o id do usuario logado e armazena na variavel UserId
+                        int UserId = UserSession.Id;
+
+                        // Inicia a inseção na tabela 'client'
+                        string queryVisit = "INSERT INTO visits(id_client, responsible, date_visit, description, created_by, updated_by ) VALUES (@id_Client, @Responsible, @Date_Visit,@Description, @Created_by, @Updated_by)";
+
+                        // Cria um novo comando MySqlCommand para inserir os dados na tabela 'clients'
+                        using (MySqlCommand cmd = new MySqlCommand(queryVisit, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@id_Client", cbxIdClient.Text);
+                            cmd.Parameters.AddWithValue("@Responsible", UserId); 
+                            cmd.Parameters.AddWithValue("@Date_Visit", DateTime.Parse(txtDateVisit.Text));
+                            cmd.Parameters.AddWithValue("@Description", txtDescription.Text);
+                            cmd.Parameters.AddWithValue("@Created_by", UserId);
+                            cmd.Parameters.AddWithValue("@Updated_by", UserId);
+
+                            // Executa o comando SQL para inserção na tabela 'users'
+                            cmd.ExecuteNonQuery();
+
+                            MessageBox.Show("Dados adicionados com Sucesso!","Sucesso",MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                    catch (Exception ex) 
+                    {
+                        MessageBox.Show("Erro ao inserir no banco:\n" + ex.Message, "Erro", 
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    finally
+                    {
+                        if(conn.State != ConnectionState.Closed)
+                        {
+                            conn.Close();
+                        }
+                    }
+                }
+            }
         }
 
         private void cbxIdClient_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbxIdClient.SelectedItem is KeyValuePair<int, string> cliente)
             {
-                txtNameClient.Text = cliente.Value; // Nome do cliente
+                // Preenche o nome do cliente
+                txtNameClient.Text = cliente.Value;
+
+                // Busca informações das visitas do cliente no banco
+                CarregarVisitas(cliente.Key);
+            }
+        }
+
+        private void CarregarVisitas(int clientId)
+        {
+            using (MySqlConnection conn = new MySqlConnection(Program.connect))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string query = "SELECT id, title, description, responsible, date_visit FROM visits WHERE id_client = @id_client";
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@id_client", clientId);
+
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            listVisists.Items.Clear(); // limpa antes de carregar
+
+                            while (reader.Read())
+                            {
+                                Visits v = new Visits
+                                {
+                                    Id = Convert.ToInt32(reader["id"]),
+                                    Titulo = reader["title"].ToString(),
+                                    Descricao = reader["description"].ToString(),
+                                    Responsavel = reader["responsible"].ToString(),
+                                    DataVisita = Convert.ToDateTime(reader["date_visit"])
+                                };
+
+                                listVisists.Items.Add(v);
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erro ao carregar visitas: " + ex.Message);
+                }
             }
         }
 
@@ -206,6 +346,39 @@ namespace visit_tracker
 
             // Ajusta a posição do cursor para o final do texto
             txtDateVisit.SelectionStart = formattedBirth.Length;
+        }
+
+        private void BtnExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void dgvClient_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dgvClient_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {/*
+            txtName.Text = dgvClient.Rows[e.RowIndex].Cells[0].Value.ToString();
+            txtCEP.Text = dgvClient.Rows[e.RowIndex].Cells[2].Value.ToString();
+            txtStreet.Text = dgvClient.Rows[e.RowIndex].Cells[3].Value.ToString();
+            txtNumber.Text = dgvClient.Rows[e.RowIndex].Cells[4].Value.ToString();
+            txtNeighborhood.Text = dgvClient.Rows[e.RowIndex].Cells[5].Value.ToString();
+            txtCity.Text = dgvClient.Rows[e.RowIndex].Cells[6].Value.ToString();
+            txtState.Text = dgvClient.Rows[e.RowIndex].Cells[7].Value.ToString();
+            */
+        }
+
+        private void listVisists_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listVisists.SelectedItem is Visits visita)
+            {
+                txtResponsible.Text = visita.Responsavel;
+                txtDateVisit.Text = visita.DataVisita.ToString("dd/MM/yyyy");
+                txtTitle.Text = visita.Titulo;
+                txtDescription.Text = visita.Descricao;
+            }
         }
     }
 }
