@@ -28,8 +28,8 @@ namespace visit_tracker
 
         private void frm_Visit_Load(object sender, EventArgs e)
         {
-            txtResponsible.Text = UserSession.Name;
-            txtDateVisit.Text = DateTime.Now.ToString("dd/MM/yyyy");
+            txtResponsible.Text = UserSession.Name; // Resgata o nome do usuário que foi logado no sistema
+            txtDateVisit.Text = DateTime.Now.ToString("dd/MM/yyyy"); // 
         }
         
 
@@ -134,6 +134,7 @@ namespace visit_tracker
                     // Define a consulta SQL para selecionar os dados desejados da tabela 'usuario'
                     string query = "SELECT id, name FROM clients WHERE is_activated = 1;";
 
+
                     // Cria um MySqlCommand para executar a consulta 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
@@ -184,28 +185,28 @@ namespace visit_tracker
             if (string.IsNullOrWhiteSpace(cbxIdClient.Text))
             {
                 errorMessage += "Id Cliente: \n";
-                cbxIdClient.BackColor = ColorTranslator.FromHtml("FEC6C6");
+                cbxIdClient.BackColor = ColorTranslator.FromHtml("#FEC6C6");
             }
 
             if (string.IsNullOrWhiteSpace(txtNameClient.Text))
             {
                 errorMessage += "Nome Cliente: \n";
-                txtNameClient.BackColor = ColorTranslator.FromHtml("FEC6C6");
+                txtNameClient.BackColor = ColorTranslator.FromHtml("#FEC6C6");
             }
             if (string.IsNullOrWhiteSpace(txtResponsible.Text))
             {
                 errorMessage += "Responsavel: \n";
-                txtResponsible.BackColor = ColorTranslator.FromHtml("FEC6C6");
+                txtResponsible.BackColor = ColorTranslator.FromHtml("#FEC6C6");
             }
             if (string.IsNullOrWhiteSpace(txtDateVisit.Text))
             {
                 errorMessage += "Data Visita: \n";
-                txtDateVisit.BackColor = ColorTranslator.FromHtml("FEC6C6");
+                txtDateVisit.BackColor = ColorTranslator.FromHtml("#FEC6C6");
             }
             if (string.IsNullOrWhiteSpace(txtDescription.Text))
             {
                 errorMessage += "Id Cliente: \n";
-                txtDescription.BackColor = ColorTranslator.FromHtml("FEC6C6");
+                txtDescription.BackColor = ColorTranslator.FromHtml("#FEC6C6");
             }
             if (!string.IsNullOrEmpty(errorMessage))
             {
@@ -227,7 +228,7 @@ namespace visit_tracker
                         int UserId = UserSession.Id;
 
                         // Inicia a inseção na tabela 'client'
-                        string queryVisit = "INSERT INTO visits(id_client, responsible, date_visit, description, created_by, updated_by ) VALUES (@id_Client, @Responsible, @Date_Visit,@Description, @Created_by, @Updated_by)";
+                        string queryVisit = "INSERT INTO visits(id_client, responsible, date_visit, title, description, created_by, updated_by ) VALUES (@id_Client, @Responsible, @Date_Visit, @Title, @Description, @Created_by, @Updated_by)";
 
                         // Cria um novo comando MySqlCommand para inserir os dados na tabela 'clients'
                         using (MySqlCommand cmd = new MySqlCommand(queryVisit, conn))
@@ -235,6 +236,7 @@ namespace visit_tracker
                             cmd.Parameters.AddWithValue("@id_Client", cbxIdClient.Text);
                             cmd.Parameters.AddWithValue("@Responsible", UserId); 
                             cmd.Parameters.AddWithValue("@Date_Visit", DateTime.Parse(txtDateVisit.Text));
+                            cmd.Parameters.AddWithValue("@Title", txtTitle.Text);
                             cmd.Parameters.AddWithValue("@Description", txtDescription.Text);
                             cmd.Parameters.AddWithValue("@Created_by", UserId);
                             cmd.Parameters.AddWithValue("@Updated_by", UserId);
@@ -243,6 +245,12 @@ namespace visit_tracker
                             cmd.ExecuteNonQuery();
 
                             MessageBox.Show("Dados adicionados com Sucesso!","Sucesso",MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            
+                            // Atualiza automaticamente a lista chamando o método
+                            if (cbxIdClient.SelectedItem is KeyValuePair<int, string> cliente)
+                            {
+                                CarregarVisitas(cliente.Key);
+                            }
                         }
                     }
                     catch (Exception ex) 
@@ -281,27 +289,41 @@ namespace visit_tracker
                 {
                     conn.Open();
 
-                    string query = "SELECT id, title, description, responsible, date_visit FROM visits WHERE id_client = @id_client";
+                    string query = @"SELECT 
+                        v.id, 
+                        v.title, 
+                        v.description, 
+                        u.id AS responsible_id,
+                        u.name AS responsible, 
+                        v.date_visit
+                    FROM visits v
+                    INNER JOIN users u ON v.responsible = u.id
+                    WHERE v.id_client = @id_client";
+
+
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@id_client", clientId);
 
                         using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
-                            listVisists.Items.Clear(); // limpa antes de carregar
+                            listVisists.Items.Clear();
 
                             while (reader.Read())
                             {
-                                Visits v = new Visits
+                                // Cria um objeto anônimo para guardar os dados
+                                var visita = new Visits
                                 {
                                     Id = Convert.ToInt32(reader["id"]),
                                     Titulo = reader["title"].ToString(),
                                     Descricao = reader["description"].ToString(),
-                                    Responsavel = reader["responsible"].ToString(),
+                                    Responsavel = reader["responsible"].ToString(),   // nome
+                                    IdResponsavel = Convert.ToInt32(reader["responsible_id"]), // id
                                     DataVisita = Convert.ToDateTime(reader["date_visit"])
                                 };
 
-                                listVisists.Items.Add(v);
+                                // Adiciona o objeto, não a string!
+                                listVisists.Items.Add(visita);
                             }
                         }
                     }
@@ -359,25 +381,72 @@ namespace visit_tracker
         }
 
         private void dgvClient_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {/*
-            txtName.Text = dgvClient.Rows[e.RowIndex].Cells[0].Value.ToString();
-            txtCEP.Text = dgvClient.Rows[e.RowIndex].Cells[2].Value.ToString();
-            txtStreet.Text = dgvClient.Rows[e.RowIndex].Cells[3].Value.ToString();
-            txtNumber.Text = dgvClient.Rows[e.RowIndex].Cells[4].Value.ToString();
-            txtNeighborhood.Text = dgvClient.Rows[e.RowIndex].Cells[5].Value.ToString();
-            txtCity.Text = dgvClient.Rows[e.RowIndex].Cells[6].Value.ToString();
-            txtState.Text = dgvClient.Rows[e.RowIndex].Cells[7].Value.ToString();
-            */
+        {
+
         }
 
         private void listVisists_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listVisists.SelectedItem is Visits visita)
             {
-                txtResponsible.Text = visita.Responsavel;
+                txtId.Text = visita.Id.ToString();
+                txtResponsible.Text = visita.Responsavel;           // mostra o nome
                 txtDateVisit.Text = visita.DataVisita.ToString("dd/MM/yyyy");
                 txtTitle.Text = visita.Titulo;
                 txtDescription.Text = visita.Descricao;
+
+                // Se quiser manter o ID do responsável "escondido", pode usar Tag:
+                txtResponsible.Tag = visita.IdResponsavel;
+            }
+        }
+
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtId.Text))
+            {
+                MessageBox.Show("Selecione uma visita para atualizar.");
+                return;
+            }
+
+            using (MySqlConnection conn = new MySqlConnection(Program.connect))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string query = @"UPDATE visits 
+                             SET title = @title,
+                                 description = @description,
+                                 responsible = @responsible,
+                                 date_visit = @date_visit
+                             WHERE id = @id";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@id", Convert.ToInt32(txtId.Text));
+                        cmd.Parameters.AddWithValue("@title", txtTitle.Text);
+                        cmd.Parameters.AddWithValue("@description", txtDescription.Text);
+                        cmd.Parameters.AddWithValue("@responsible", (int)txtResponsible.Tag); // ID do responsável
+                        cmd.Parameters.AddWithValue("@date_visit", DateTime.Parse(txtDateVisit.Text));
+
+                        int linhasAfetadas = cmd.ExecuteNonQuery();
+
+                        if (linhasAfetadas > 0)
+                            MessageBox.Show("Visita atualizada com sucesso!");
+                        else
+                            MessageBox.Show("Não foi possível atualizar a visita.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erro ao atualizar visita: " + ex.Message);
+                }
+            }
+
+            // Recarrega a lista para atualizar o ListBox
+            if (cbxIdClient.SelectedItem is KeyValuePair<int, string> cliente)
+            {
+                CarregarVisitas(cliente.Key);
             }
         }
     }

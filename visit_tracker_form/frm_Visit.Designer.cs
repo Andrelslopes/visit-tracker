@@ -32,6 +32,11 @@
             this.txtDescription = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.btnEdit = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtTitle = new System.Windows.Forms.TextBox();
+            this.listVisists = new System.Windows.Forms.ListBox();
             this.cbxIdClient = new System.Windows.Forms.ComboBox();
             this.txtDateVisit = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -43,11 +48,8 @@
             this.txtId = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.dgvClient = new System.Windows.Forms.DataGridView();
-            this.listVisists = new System.Windows.Forms.ListBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.BtnExit = new System.Windows.Forms.Button();
-            this.txtTitle = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvClient)).BeginInit();
             this.groupBox3.SuspendLayout();
@@ -55,11 +57,11 @@
             // 
             // btnAddVisit
             // 
-            this.btnAddVisit.Location = new System.Drawing.Point(518, 13);
+            this.btnAddVisit.Location = new System.Drawing.Point(369, 22);
             this.btnAddVisit.Name = "btnAddVisit";
-            this.btnAddVisit.Size = new System.Drawing.Size(85, 23);
+            this.btnAddVisit.Size = new System.Drawing.Size(75, 23);
             this.btnAddVisit.TabIndex = 11;
-            this.btnAddVisit.Text = "Adicionar";
+            this.btnAddVisit.Text = "Novo";
             this.btnAddVisit.UseVisualStyleBackColor = true;
             this.btnAddVisit.Click += new System.EventHandler(this.btnAddVisit_Click);
             // 
@@ -82,6 +84,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.button2);
+            this.groupBox1.Controls.Add(this.btnEdit);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.txtTitle);
             this.groupBox1.Controls.Add(this.listVisists);
@@ -104,6 +108,51 @@
             this.groupBox1.TabIndex = 15;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Visitas:";
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(531, 22);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 20;
+            this.button2.Text = "Excluir";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // btnEdit
+            // 
+            this.btnEdit.Location = new System.Drawing.Point(450, 22);
+            this.btnEdit.Name = "btnEdit";
+            this.btnEdit.Size = new System.Drawing.Size(75, 23);
+            this.btnEdit.TabIndex = 19;
+            this.btnEdit.Text = "Editar";
+            this.btnEdit.UseVisualStyleBackColor = true;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 159);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(45, 17);
+            this.label4.TabIndex = 18;
+            this.label4.Text = "Titulo:";
+            // 
+            // txtTitle
+            // 
+            this.txtTitle.Location = new System.Drawing.Point(6, 179);
+            this.txtTitle.Name = "txtTitle";
+            this.txtTitle.Size = new System.Drawing.Size(364, 23);
+            this.txtTitle.TabIndex = 17;
+            // 
+            // listVisists
+            // 
+            this.listVisists.FormattingEnabled = true;
+            this.listVisists.ItemHeight = 17;
+            this.listVisists.Location = new System.Drawing.Point(376, 133);
+            this.listVisists.Name = "listVisists";
+            this.listVisists.Size = new System.Drawing.Size(230, 208);
+            this.listVisists.TabIndex = 0;
+            this.listVisists.SelectedIndexChanged += new System.EventHandler(this.listVisists_SelectedIndexChanged);
             // 
             // cbxIdClient
             // 
@@ -198,16 +247,6 @@
             this.dgvClient.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvClient_CellContentClick);
             this.dgvClient.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvClient_CellContentDoubleClick);
             // 
-            // listVisists
-            // 
-            this.listVisists.FormattingEnabled = true;
-            this.listVisists.ItemHeight = 17;
-            this.listVisists.Location = new System.Drawing.Point(376, 133);
-            this.listVisists.Name = "listVisists";
-            this.listVisists.Size = new System.Drawing.Size(227, 208);
-            this.listVisists.TabIndex = 0;
-            this.listVisists.SelectedIndexChanged += new System.EventHandler(this.listVisists_SelectedIndexChanged);
-            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.dgvClient);
@@ -227,22 +266,6 @@
             this.BtnExit.Text = "Sair";
             this.BtnExit.UseVisualStyleBackColor = true;
             this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
-            // 
-            // txtTitle
-            // 
-            this.txtTitle.Location = new System.Drawing.Point(6, 179);
-            this.txtTitle.Name = "txtTitle";
-            this.txtTitle.Size = new System.Drawing.Size(364, 23);
-            this.txtTitle.TabIndex = 17;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 159);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(45, 17);
-            this.label4.TabIndex = 18;
-            this.label4.Text = "Titulo:";
             // 
             // frm_Visit
             // 
@@ -287,5 +310,7 @@
         private System.Windows.Forms.Button BtnExit;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtTitle;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnEdit;
     }
 }
