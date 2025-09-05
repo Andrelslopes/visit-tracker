@@ -7,6 +7,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
@@ -131,7 +132,7 @@ namespace visit_tracker
 
                 try
                 {
-                    // Define a consulta SQL para selecionar os dados desejados da tabela 'usuario'
+                    // Define a consulta SQL para selecionar os dados desejados da tabela 'clients'
                     string query = "SELECT id, name FROM clients WHERE is_activated = 1;";
 
 
@@ -172,6 +173,30 @@ namespace visit_tracker
             }
         }
 
+        private void VerificarData()
+        {
+            DateTime dataDigitada;
+
+            // Tenta converter o texto para uma data válida
+            if (DateTime.TryParse(txtDateVisit.Text, out dataDigitada))
+            {
+                // Compara apenas a parte da data (sem hora)
+                if (dataDigitada.Date == DateTime.Today)
+                {
+                    MessageBox.Show("A data digitada é a data de hoje ✅");
+                }
+                else
+                {
+                    MessageBox.Show("A data digitada NÃO é a data de hoje ❌");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Data inválida! Digite no formato correto (ex: 04/09/2025)");
+            }
+        }
+
+
         private void btnAddVisit_Click(object sender, EventArgs e)
         {
             string errorMessage = string.Empty;
@@ -203,6 +228,18 @@ namespace visit_tracker
                 errorMessage += "Data Visita: \n";
                 txtDateVisit.BackColor = ColorTranslator.FromHtml("#FEC6C6");
             }
+
+            else if (!DateTime.TryParse(txtDateVisit.Text, out DateTime dataDigitada))
+            {
+                errorMessage += "Data Visita (inválida): \n";
+                txtDateVisit.BackColor = ColorTranslator.FromHtml("#FEC6C6");
+            }
+            else if (dataDigitada.Date != DateTime.Today)
+            {
+                errorMessage += "Data Visita (deve ser a data de hoje): \n";
+                txtDateVisit.BackColor = ColorTranslator.FromHtml("#FEC6C6");
+            }
+
             if (string.IsNullOrWhiteSpace(txtDescription.Text))
             {
                 errorMessage += "Id Cliente: \n";
@@ -210,8 +247,8 @@ namespace visit_tracker
             }
             if (!string.IsNullOrEmpty(errorMessage))
             {
-                MessageBox.Show($"Os seguintes campos são obrigatórios:\n\n{errorMessage}",
-                    "Campos Obrigatórios", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show($"Os seguintes campos são obrigatórios ou inválidos:\n\n{errorMessage}",
+                    "Validação", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             else
@@ -227,7 +264,7 @@ namespace visit_tracker
                         // Obtem o id do usuario logado e armazena na variavel UserId
                         int UserId = UserSession.Id;
 
-                        // Inicia a inseção na tabela 'client'
+                        // Inicia a inseção na tabela 'visit'
                         string queryVisit = "INSERT INTO visits(id_client, responsible, date_visit, title, description, created_by, updated_by ) VALUES (@id_Client, @Responsible, @Date_Visit, @Title, @Description, @Created_by, @Updated_by)";
 
                         // Cria um novo comando MySqlCommand para inserir os dados na tabela 'clients'
