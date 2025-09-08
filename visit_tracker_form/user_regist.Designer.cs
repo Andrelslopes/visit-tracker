@@ -33,7 +33,10 @@
             this.btnDelet = new System.Windows.Forms.Button();
             this.BtnExit = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnVisit = new System.Windows.Forms.Button();
             this.btnCadClient = new System.Windows.Forms.Button();
+            this.progressBar2 = new ProgressBarCustomized();
+            this.progressBar1 = new ProgressBarCustomized();
             this.txtId = new System.Windows.Forms.TextBox();
             this.btnClear = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
@@ -57,9 +60,8 @@
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.progressBar2 = new ProgressBarCustomized();
-            this.progressBar1 = new ProgressBarCustomized();
-            this.btnVisit = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUsers)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -68,7 +70,7 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(102, 235);
+            this.btnSave.Location = new System.Drawing.Point(102, 248);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(89, 28);
             this.btnSave.TabIndex = 7;
@@ -78,7 +80,7 @@
             // 
             // btnEdit
             // 
-            this.btnEdit.Location = new System.Drawing.Point(197, 235);
+            this.btnEdit.Location = new System.Drawing.Point(197, 248);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(89, 28);
             this.btnEdit.TabIndex = 8;
@@ -88,7 +90,7 @@
             // 
             // btnDelet
             // 
-            this.btnDelet.Location = new System.Drawing.Point(291, 235);
+            this.btnDelet.Location = new System.Drawing.Point(291, 248);
             this.btnDelet.Name = "btnDelet";
             this.btnDelet.Size = new System.Drawing.Size(89, 28);
             this.btnDelet.TabIndex = 9;
@@ -98,7 +100,7 @@
             // 
             // BtnExit
             // 
-            this.BtnExit.Location = new System.Drawing.Point(690, 580);
+            this.BtnExit.Location = new System.Drawing.Point(690, 593);
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(95, 27);
             this.BtnExit.TabIndex = 0;
@@ -108,6 +110,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.comboBox1);
+            this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.btnVisit);
             this.groupBox1.Controls.Add(this.btnCadClient);
             this.groupBox1.Controls.Add(this.progressBar2);
@@ -134,20 +138,49 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(11, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(481, 269);
+            this.groupBox1.Size = new System.Drawing.Size(481, 282);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Novo Usuário:";
             // 
+            // btnVisit
+            // 
+            this.btnVisit.Location = new System.Drawing.Point(6, 214);
+            this.btnVisit.Name = "btnVisit";
+            this.btnVisit.Size = new System.Drawing.Size(90, 28);
+            this.btnVisit.TabIndex = 20;
+            this.btnVisit.Text = "Visitas";
+            this.btnVisit.UseVisualStyleBackColor = true;
+            this.btnVisit.Click += new System.EventHandler(this.btnVisit_Click);
+            // 
             // btnCadClient
             // 
-            this.btnCadClient.Location = new System.Drawing.Point(6, 235);
+            this.btnCadClient.Location = new System.Drawing.Point(6, 248);
             this.btnCadClient.Name = "btnCadClient";
             this.btnCadClient.Size = new System.Drawing.Size(90, 28);
             this.btnCadClient.TabIndex = 19;
             this.btnCadClient.Text = "CadClient";
             this.btnCadClient.UseVisualStyleBackColor = true;
             this.btnCadClient.Click += new System.EventHandler(this.btnCadClient_Click);
+            // 
+            // progressBar2
+            // 
+            this.progressBar2.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.progressBar2.Location = new System.Drawing.Point(324, 163);
+            this.progressBar2.Name = "progressBar2";
+            this.progressBar2.Size = new System.Drawing.Size(151, 10);
+            this.progressBar2.TabIndex = 16;
+            this.progressBar2.Click += new System.EventHandler(this.progressBar2_Click);
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.progressBar1.Location = new System.Drawing.Point(167, 163);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(151, 10);
+            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.progressBar1.TabIndex = 15;
+            this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
             // 
             // txtId
             // 
@@ -159,7 +192,7 @@
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(386, 235);
+            this.btnClear.Location = new System.Drawing.Point(386, 248);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(89, 28);
             this.btnClear.TabIndex = 10;
@@ -318,7 +351,7 @@
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.txtSearch);
             this.groupBox2.Controls.Add(this.dgvUsers);
-            this.groupBox2.Location = new System.Drawing.Point(11, 287);
+            this.groupBox2.Location = new System.Drawing.Point(11, 300);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(773, 287);
             this.groupBox2.TabIndex = 7;
@@ -345,7 +378,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 580);
+            this.button1.Location = new System.Drawing.Point(12, 593);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(95, 27);
             this.button1.TabIndex = 9;
@@ -357,45 +390,33 @@
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox1.Location = new System.Drawing.Point(498, 12);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(287, 269);
+            this.pictureBox1.Size = new System.Drawing.Size(287, 282);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 8;
             this.pictureBox1.TabStop = false;
             // 
-            // progressBar2
+            // label9
             // 
-            this.progressBar2.BackColor = System.Drawing.SystemColors.ScrollBar;
-            this.progressBar2.Location = new System.Drawing.Point(324, 163);
-            this.progressBar2.Name = "progressBar2";
-            this.progressBar2.Size = new System.Drawing.Size(151, 10);
-            this.progressBar2.TabIndex = 16;
-            this.progressBar2.Click += new System.EventHandler(this.progressBar2_Click);
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 163);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(38, 17);
+            this.label9.TabIndex = 21;
+            this.label9.Text = "Tipo:";
             // 
-            // progressBar1
+            // comboBox1
             // 
-            this.progressBar1.BackColor = System.Drawing.SystemColors.ScrollBar;
-            this.progressBar1.Location = new System.Drawing.Point(167, 163);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(151, 10);
-            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.progressBar1.TabIndex = 15;
-            this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
-            // 
-            // btnVisit
-            // 
-            this.btnVisit.Location = new System.Drawing.Point(6, 201);
-            this.btnVisit.Name = "btnVisit";
-            this.btnVisit.Size = new System.Drawing.Size(90, 28);
-            this.btnVisit.TabIndex = 20;
-            this.btnVisit.Text = "Visitas";
-            this.btnVisit.UseVisualStyleBackColor = true;
-            this.btnVisit.Click += new System.EventHandler(this.btnVisit_Click);
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(6, 183);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 25);
+            this.comboBox1.TabIndex = 22;
             // 
             // user_regist
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(797, 619);
+            this.ClientSize = new System.Drawing.Size(797, 632);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.groupBox2);
@@ -451,5 +472,7 @@
         private ProgressBarCustomized progressBar1;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button btnVisit;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label label9;
     }
 }

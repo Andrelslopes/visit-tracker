@@ -385,7 +385,7 @@ namespace visit_tracker
             if (dateBirth.Length > 8)
                 dateBirth = dateBirth.Substring(0, 8);
 
-            // Variável para armazenar o CPF formatado
+            // Variável para armazenar a data formatada
             string formattedBirth = string.Empty; // 00/00/0000
 
             // Adiciona os primeiros 2 dígitos
@@ -427,13 +427,11 @@ namespace visit_tracker
             if (listVisists.SelectedItem is Visits visita)
             {
                 txtId.Text = visita.Id.ToString();
-                txtResponsible.Text = visita.Responsavel;           // mostra o nome
+                txtResponsible.Tag = visita.IdResponsavel;
+                txtResponsible.Text = visita.Responsavel;// mostra o nome
                 txtDateVisit.Text = visita.DataVisita.ToString("dd/MM/yyyy");
                 txtTitle.Text = visita.Titulo;
                 txtDescription.Text = visita.Descricao;
-
-                // Se quiser manter o ID do responsável "escondido", pode usar Tag:
-                txtResponsible.Tag = visita.IdResponsavel;
             }
         }
 

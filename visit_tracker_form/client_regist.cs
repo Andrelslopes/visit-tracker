@@ -90,6 +90,7 @@ namespace visit_tracker_form
             txtNeighborhood.Text = string.Empty;
             txtCity.Text = string.Empty;
             txtState.Text = string.Empty;
+            btnSaveClient.Enabled = true;
             ShowId();
         }
         

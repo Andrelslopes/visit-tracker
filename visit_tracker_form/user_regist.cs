@@ -527,6 +527,7 @@ namespace visit_tracker_form
                     insertDB.Parameters.Add("@Password", MySqlDbType.VarChar).Value = BCrypt.Net.BCrypt.HashPassword(txtPass.Text);
                     insertDB.Parameters.Add("@Updated_by", MySqlDbType.Int32).Value = UserId;
                     insertDB.Parameters.Add("@Id", MySqlDbType.Int32).Value = Convert.ToInt32(txtId.Text);
+                    
                     insertDB.ExecuteNonQuery();
 
                     MessageBox.Show("Dados Alterados com Sucesso.",
