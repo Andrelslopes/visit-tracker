@@ -13,11 +13,11 @@ using System.Windows.Forms;
 
 namespace visit_tracker_form
 {
-    public partial class Login : Form
+    public partial class frm_Login : Form
     {
         private bool visiblePass = false;
 
-        public Login()
+        public frm_Login()
         {
             InitializeComponent();
 
@@ -105,7 +105,7 @@ namespace visit_tracker_form
                                             //MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                                             // Exemplo: abrir tela principal
-                                            new user_regist().Show();
+                                            new frm_User_Regist().Show();
                                             this.Hide();
                                         }
                                         else
@@ -113,7 +113,7 @@ namespace visit_tracker_form
                                             MessageBox.Show($"Login Bem-sucedido! \n Seja Bem Vindo {fullName}.", "Sucesso",
                                             MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                                            new client_regist().Show();
+                                            new frm_Client_Regist().Show();
                                             this.Hide();
                                         }
                                     }

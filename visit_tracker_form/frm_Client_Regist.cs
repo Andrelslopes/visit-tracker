@@ -16,13 +16,14 @@ using visit_tracker;
 
 namespace visit_tracker_form
 {
-    public partial class client_regist : Form
+    public partial class frm_Client_Regist : Form
     {
-        public client_regist()
+        public frm_Client_Regist()
         {
             InitializeComponent();
             UpdateDgvClient();
             ShowId();
+            enumContactType();
         }
 
         private void client_regist_Load(object sender, EventArgs e)
@@ -157,7 +158,34 @@ namespace visit_tracker_form
                 }
             }
         }
-        
+
+        private void enumContactType()
+        {
+            // Obtém todos os valores do enum Gender e os converte para uma coleção do tipo Gender
+            var values = Enum.GetValues(typeof(AppEnums.ContactType)).Cast<AppEnums.ContactType>();
+
+            // Para cada valor do enum (ex: Masculino, Feminino, Outros)
+            foreach (var value in values)
+            {
+                // Usa o helper para pegar a descrição (ex: "Feminino" ao invés de "Feminino", se estiver com [Description])
+                string description = EnumHelper.GetDescription(value);
+
+                // Adiciona um objeto anônimo ao ComboBox com:
+                // Text -> o que aparece para o usuário
+                // Value -> o valor real do enum
+                cbxTypeContact.Items.Add(new { Text = description, Value = value });
+            }
+
+            // Define que o ComboBox deve mostrar o campo "Text" dos itens
+            cbxTypeContact.DisplayMember = "Text";
+
+            // Define que o ComboBox deve considerar o campo "Value" como valor selecionado
+            cbxTypeContact.ValueMember = "Value";
+
+            // Nenhum item será selecionado inicialmente
+            cbxTypeContact.SelectedIndex = -1;
+        }
+
         private void btnSaveClient_Click(object sender, EventArgs e)
         {
             string errorMessage = "";
@@ -246,6 +274,7 @@ namespace visit_tracker_form
                             // Filtra apenas os dígitos do texto, removendo qualquer caractere não numérico
                             cep = new string(cep.Where(char.IsDigit).ToArray());
 
+                            // Obter o valor da chave primária da tabela 'Clients'
                             int fkClietId;
 
                             string lastId = "SELECT LAST_INSERT_ID()";
@@ -255,7 +284,20 @@ namespace visit_tracker_form
                                 fkClietId = Convert.ToInt32(cmd.ExecuteScalar());
                             }
 
-                            // Obter o valor da chave primária da tabela 'Clients'
+                            string queryContacts = "INSERT INTO client_contacts (fk_client_id, type, value_type, created_by, updated_by ) VALUES (@fk_client_id, @type, @value_type, @created_by, @updated_by)";
+
+                            // Cria um novo comando MySqlCommanda para inserir os dados na tabela "client_contacts"
+                            using (MySqlCommand cmd = new MySqlCommand(queryContacts, conn, transation))
+                            {
+                                cmd.Parameters.AddWithValue("@fk_client_id",fkClietId);
+                                cmd.Parameters.AddWithValue("@type", cbxTypeContact.Text); // Criar uma classe para enum.
+                                cmd.Parameters.AddWithValue("@value_type", txtValueContact.Text);
+                                cmd.Parameters.AddWithValue("@Created_by", UserId);
+                                cmd.Parameters.AddWithValue("@Updated_by", UserId);
+
+                                // Executa o comando SQL para inserção na tabela 'users'.
+                                cmd.ExecuteNonQuery();
+                            }
 
                             string queryAddresses = "INSERT INTO addresses (postal_code, street, number, neighborhood, city, state, fk_id_client, created_by, updated_by)" +
                                 " VALUES (@Postal_code, @Street, @Number, @Neighborhood, @City, @State, @Fk_id_client, @Created_by, @Updated_by)";
@@ -542,7 +584,7 @@ namespace visit_tracker_form
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            new Login().Show();
+            new frm_Login().Show();
             this.Hide();
         }
 

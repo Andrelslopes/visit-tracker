@@ -1,6 +1,6 @@
 ﻿namespace visit_tracker_form
 {
-    partial class user_regist
+    partial class frm_User_Regist
     {
         /// <summary>
         /// Required designer variable.
@@ -33,6 +33,8 @@
             this.btnDelet = new System.Windows.Forms.Button();
             this.BtnExit = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbxUserType = new System.Windows.Forms.ComboBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.btnVisit = new System.Windows.Forms.Button();
             this.btnCadClient = new System.Windows.Forms.Button();
             this.progressBar2 = new ProgressBarCustomized();
@@ -60,8 +62,6 @@
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUsers)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -110,7 +110,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.comboBox1);
+            this.groupBox1.Controls.Add(this.cbxUserType);
             this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.btnVisit);
             this.groupBox1.Controls.Add(this.btnCadClient);
@@ -142,6 +142,23 @@
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Novo Usuário:";
+            // 
+            // cbxUserType
+            // 
+            this.cbxUserType.FormattingEnabled = true;
+            this.cbxUserType.Location = new System.Drawing.Point(6, 183);
+            this.cbxUserType.Name = "cbxUserType";
+            this.cbxUserType.Size = new System.Drawing.Size(121, 25);
+            this.cbxUserType.TabIndex = 22;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 163);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(38, 17);
+            this.label9.TabIndex = 21;
+            this.label9.Text = "Tipo:";
             // 
             // btnVisit
             // 
@@ -395,23 +412,6 @@
             this.pictureBox1.TabIndex = 8;
             this.pictureBox1.TabStop = false;
             // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 163);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(38, 17);
-            this.label9.TabIndex = 21;
-            this.label9.Text = "Tipo:";
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(6, 183);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 25);
-            this.comboBox1.TabIndex = 22;
-            // 
             // user_regist
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
@@ -472,7 +472,7 @@
         private ProgressBarCustomized progressBar1;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button btnVisit;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox cbxUserType;
         private System.Windows.Forms.Label label9;
     }
 }

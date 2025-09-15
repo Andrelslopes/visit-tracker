@@ -19,18 +19,19 @@ using visit_tracker;
 
 namespace visit_tracker_form
 {
-    public partial class user_regist : Form
+    public partial class frm_User_Regist : Form
     {
         private int idUser;
         private bool visiblePass = false;
 
-        public user_regist()
+        public frm_User_Regist()
         {
             InitializeComponent();
             ResetColor();
             UpdateDgvUsers();
             ClearTextbox();
             ShowId();
+            EnumUserType();
 
             txtId.Enabled = false;
             txtId.TextAlign = HorizontalAlignment.Center;
@@ -276,6 +277,33 @@ namespace visit_tracker_form
                 // Fecha a conexão
                 conn.Close();
             }
+        }
+
+        private void EnumUserType()
+        {
+            // Obtém todos os valores do enum Gender e os converte para uma coleção do tipo Gender
+            var values = Enum.GetValues(typeof(AppEnums.UserType)).Cast<AppEnums.UserType>();
+
+            // Para cada valor do enum (ex: Masculino, Feminino, Outros)
+            foreach (var value in values)
+            {
+                // Usa o helper para pegar a descrição (ex: "Feminino" ao invés de "Feminino", se estiver com [Description])
+                string description = EnumHelper.GetDescription(value);
+
+                // Adiciona um objeto anônimo ao ComboBox com:
+                // Text -> o que aparece para o usuário
+                // Value -> o valor real do enum
+                cbxUserType.Items.Add(new { Text = description, Value = value });
+            }
+
+            // Define que o ComboBox deve mostrar o campo "Text" dos itens
+            cbxUserType.DisplayMember = "Text";
+
+            // Define que o ComboBox deve considerar o campo "Value" como valor selecionado
+            cbxUserType.ValueMember = "Value";
+
+            // Nenhum item será selecionado inicialmente
+            cbxUserType.SelectedIndex = -1;
         }
 
         private void user_regist_Load(object sender, EventArgs e)
@@ -956,7 +984,7 @@ namespace visit_tracker_form
 
         private void btnCadClient_Click(object sender, EventArgs e)
         {
-            new client_regist().Show();
+            new frm_Client_Regist().Show();
             this.Hide();
         }
 

@@ -1,6 +1,6 @@
 ﻿namespace visit_tracker_form
 {
-    partial class Login
+    partial class frm_Login
     {
         /// <summary>
         /// Required designer variable.

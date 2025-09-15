@@ -120,17 +120,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Address.cs" />
+    <Compile Include="AppEnums.cs" />
     <Compile Include="BCrypt\BCryptHelper.cs" />
     <Compile Include="ClassVistis.cs" />
     <Compile Include="ClientSession.cs" />
-    <Compile Include="client_regist.cs">
+    <Compile Include="frm_Client_Regist.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="client_regist.Designer.cs">
-      <DependentUpon>client_regist.cs</DependentUpon>
+    <Compile Include="frm_Client_Regist.Designer.cs">
+      <DependentUpon>frm_Client_Regist.cs</DependentUpon>
     </Compile>
     <Compile Include="CustomProgressBar.cs">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EnumHelper.cs" />
+    <Compile Include="frm_Add_Contacts.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm_Add_Contacts.Designer.cs">
+      <DependentUpon>frm_Add_Contacts.cs</DependentUpon>
     </Compile>
     <Compile Include="frm_Visit.cs">
       <SubType>Form</SubType>
@@ -138,32 +146,35 @@
     <Compile Include="frm_Visit.Designer.cs">
       <DependentUpon>frm_Visit.cs</DependentUpon>
     </Compile>
-    <Compile Include="Login.cs">
+    <Compile Include="frm_Login.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Login.Designer.cs">
-      <DependentUpon>Login.cs</DependentUpon>
+    <Compile Include="frm_Login.Designer.cs">
+      <DependentUpon>frm_Login.cs</DependentUpon>
     </Compile>
     <Compile Include="ProgressBarCustomized.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UserSession.cs" />
-    <Compile Include="user_regist.cs">
+    <Compile Include="frm_User_Regist.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="user_regist.Designer.cs">
-      <DependentUpon>user_regist.cs</DependentUpon>
+    <Compile Include="frm_User_Regist.Designer.cs">
+      <DependentUpon>frm_User_Regist.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="client_regist.resx">
-      <DependentUpon>client_regist.cs</DependentUpon>
+    <EmbeddedResource Include="frm_Add_Contacts.resx">
+      <DependentUpon>frm_Add_Contacts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm_Client_Regist.resx">
+      <DependentUpon>frm_Client_Regist.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frm_Visit.resx">
       <DependentUpon>frm_Visit.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Login.resx">
-      <DependentUpon>Login.cs</DependentUpon>
+    <EmbeddedResource Include="frm_Login.resx">
+      <DependentUpon>frm_Login.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -175,8 +186,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="user_regist.resx">
-      <DependentUpon>user_regist.cs</DependentUpon>
+    <EmbeddedResource Include="frm_User_Regist.resx">
+      <DependentUpon>frm_User_Regist.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
