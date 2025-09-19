@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using visit_tracker;
+using WinFormsTextBox = System.Windows.Forms.TextBox;
 
 namespace visit_tracker_form
 {
@@ -284,7 +285,7 @@ namespace visit_tracker_form
                                 fkClietId = Convert.ToInt32(cmd.ExecuteScalar());
                             }
 
-                            string queryContacts = "INSERT INTO client_contacts (fk_client_id, type, value_type, created_by, updated_by ) VALUES (@fk_client_id, @type, @value_type, @created_by, @updated_by)";
+                            string queryContacts = "INSERT INTO client_contacts (fk_client_id, type, value_type,responsible, created_by, updated_by ) VALUES (@fk_client_id, @type, @value_type, @responsible, @created_by, @updated_by)";
 
                             // Cria um novo comando MySqlCommanda para inserir os dados na tabela "client_contacts"
                             using (MySqlCommand cmd = new MySqlCommand(queryContacts, conn, transation))
@@ -292,10 +293,11 @@ namespace visit_tracker_form
                                 cmd.Parameters.AddWithValue("@fk_client_id",fkClietId);
                                 cmd.Parameters.AddWithValue("@type", cbxTypeContact.Text); // Criar uma classe para enum.
                                 cmd.Parameters.AddWithValue("@value_type", txtValueContact.Text);
+                                cmd.Parameters.AddWithValue("@responsible",txtResponsible.Text);
                                 cmd.Parameters.AddWithValue("@Created_by", UserId);
                                 cmd.Parameters.AddWithValue("@Updated_by", UserId);
 
-                                // Executa o comando SQL para inserção na tabela 'users'.
+                                // Executa o comando SQL para inserção na tabela 'users'
                                 cmd.ExecuteNonQuery();
                             }
 
@@ -381,6 +383,23 @@ namespace visit_tracker_form
                             cmd.ExecuteNonQuery();
                         }
 
+                        string queryContacts = "UPDATE client_contacts SET fk_client_id=@Fk_client_id, type=@Type, value_type=@Value_type, created_by=@Created_by, updated_by=@Updated_by WHERE id=@Id";
+
+                        using (MySqlCommand cmd = new MySqlCommand(queryContacts, conn, transaction))
+                        {
+                            cmd.Parameters.AddWithValue("@Fk_client_id", clientId);
+                            cmd.Parameters.AddWithValue("@Type", cbxTypeContact.Text);
+                            cmd.Parameters.AddWithValue("@Value_type", txtValueContact.Text); // <-- CORRIGIDO
+                            cmd.Parameters.AddWithValue("@Created_by", userId);
+                            cmd.Parameters.AddWithValue("@Updated_by", userId);
+
+                            // Aqui você precisa passar o ID do contato que está sendo atualizado
+                            int contactId = Convert.ToInt32(idClient); // ou de onde você pega esse ID
+                            cmd.Parameters.AddWithValue("@Id", contactId); // <-- ADICIONADO
+
+                            cmd.ExecuteNonQuery();
+                        }
+
                         // Atualiza o endereço relacionado ao cliente
                         string queryAddresses = @"UPDATE addresses SET postal_code=@Postal_code, street=@Street, number=@Number, neighborhood=@Neighborhood, city=@City, state=@State, updated_by=@Updated_by WHERE fk_id_client=@Fk_id_client";
 
@@ -425,7 +444,6 @@ namespace visit_tracker_form
                 }
             }
         }
-
 
         private int idClient;
 
@@ -496,6 +514,40 @@ namespace visit_tracker_form
         private void txtName_TextChanged(object sender, EventArgs e)
         {
             txtName.BackColor = ColorTranslator.FromHtml(default);
+
+            // Converte o texto digitado para Title Case
+            // (onde a primeira letra de cada palavra fica maiúscula).
+            if (sender is WinFormsTextBox textBox)
+            {
+                // Guarda a posição atual do cursor dentro do TextBox
+                int selectionStart = textBox.SelectionStart;
+
+                // Guarda o tamanho do texto selecionado (se houver).
+                int selectionLength = textBox.SelectionLength;
+
+                // Use a versão específica do "ToTitleCase" para respeitar a cultura atual
+                textBox.Text = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(textBox.Text.ToLower());
+
+                // Restaurar a seleção original
+                textBox.Select(selectionStart, selectionLength);
+            }
+
+        }
+
+        private void txtResponsible_TextChanged(object sender, EventArgs e)
+        {
+            txtResponsible.BackColor = ColorTranslator.FromHtml(default);
+
+            if (sender is WinFormsTextBox textBox)
+            {
+                int selectionStart = textBox.SelectionStart;
+
+                int selectionLength = textBox.SelectionLength;
+
+                textBox.Text = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(textBox.Text.ToLower());
+
+                textBox.Select(selectionStart, selectionLength);
+            }
         }
 
         private void txtCEP_TextChanged_1(object sender, EventArgs e)
@@ -564,10 +616,10 @@ namespace visit_tracker_form
 
         private void dgvClient_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            // Obtendo o ID da linha quando clicado duas vezes dentro do dgvUser.
+            // Obtendo o ID da linha quando clicado duas vezes dentro do dgvClient.
             int Selected_Id = Convert.ToInt32(dgvClient.Rows[e.RowIndex].Cells[0].Value);
 
-            // Atribui o valor de 'Selected_Id' a variavel global 'idUser'
+            // Atribui o valor de 'Selected_Id' a variavel global 'idClient'
             idClient = Selected_Id;
 
             // Ao clicar duas vezes na info da lista irá subir as informações  para as textBox.
@@ -655,6 +707,11 @@ namespace visit_tracker_form
         {
             new frm_Visit().Show();
             this.Hide();
+        }
+
+        private void btnMoreContacts_Click(object sender, EventArgs e)
+        {
+            new frm_Add_Contacts().Show();
         }
     }
 }

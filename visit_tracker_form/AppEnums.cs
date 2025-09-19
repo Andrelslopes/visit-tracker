@@ -11,11 +11,11 @@ namespace visit_tracker
     {
         public enum UserType
         {
-            [Description("Administrador")]
-            Administrador,
-
             [Description("Operador")]
-            Operador
+            Operador,
+
+            [Description("Administrador")]
+            Administrador
         }
 
         public enum ContactType

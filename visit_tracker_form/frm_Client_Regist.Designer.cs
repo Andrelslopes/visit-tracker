@@ -30,12 +30,12 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_Client_Regist));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnMoreContacts = new System.Windows.Forms.Button();
             this.cbxTypeContact = new System.Windows.Forms.ComboBox();
             this.label12 = new System.Windows.Forms.Label();
             this.txtValueContact = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtResponsible = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.btnSearchCEP = new System.Windows.Forms.Button();
             this.txtNeighborhood = new System.Windows.Forms.TextBox();
@@ -72,12 +72,12 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.button2);
+            this.groupBox1.Controls.Add(this.btnMoreContacts);
             this.groupBox1.Controls.Add(this.cbxTypeContact);
             this.groupBox1.Controls.Add(this.label12);
             this.groupBox1.Controls.Add(this.txtValueContact);
             this.groupBox1.Controls.Add(this.label11);
-            this.groupBox1.Controls.Add(this.textBox1);
+            this.groupBox1.Controls.Add(this.txtResponsible);
             this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Controls.Add(this.btnSearchCEP);
             this.groupBox1.Controls.Add(this.txtNeighborhood);
@@ -105,14 +105,15 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Cliente:";
             // 
-            // button2
+            // btnMoreContacts
             // 
-            this.button2.Location = new System.Drawing.Point(433, 85);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(109, 27);
-            this.button2.TabIndex = 26;
-            this.button2.Text = "Mais Contatos";
-            this.button2.UseVisualStyleBackColor = true;
+            this.btnMoreContacts.Location = new System.Drawing.Point(433, 85);
+            this.btnMoreContacts.Name = "btnMoreContacts";
+            this.btnMoreContacts.Size = new System.Drawing.Size(109, 27);
+            this.btnMoreContacts.TabIndex = 26;
+            this.btnMoreContacts.Text = "Mais Contatos";
+            this.btnMoreContacts.UseVisualStyleBackColor = true;
+            this.btnMoreContacts.Click += new System.EventHandler(this.btnMoreContacts_Click);
             // 
             // cbxTypeContact
             // 
@@ -149,12 +150,13 @@
             this.label11.TabIndex = 22;
             this.label11.Text = "Contato:";
             // 
-            // textBox1
+            // txtResponsible
             // 
-            this.textBox1.Location = new System.Drawing.Point(434, 43);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(204, 23);
-            this.textBox1.TabIndex = 21;
+            this.txtResponsible.Location = new System.Drawing.Point(434, 43);
+            this.txtResponsible.Name = "txtResponsible";
+            this.txtResponsible.Size = new System.Drawing.Size(204, 23);
+            this.txtResponsible.TabIndex = 21;
+            this.txtResponsible.TextChanged += new System.EventHandler(this.txtResponsible_TextChanged);
             // 
             // label10
             // 
@@ -501,11 +503,11 @@
         private System.Windows.Forms.Button btnSearchCEP;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtResponsible;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox txtValueContact;
         private System.Windows.Forms.ComboBox cbxTypeContact;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnMoreContacts;
     }
 }

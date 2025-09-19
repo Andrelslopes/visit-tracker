@@ -60,6 +60,7 @@ namespace visit_tracker_form
             txtUser.Text = "";
             txtPass.Text = "";
             txtConfPass.Text = "";
+            cbxUserType.SelectedIndex = -1;
         }
 
         public static class CpfValidator
@@ -121,7 +122,7 @@ namespace visit_tracker_form
                 try
                 {
                     // Define a consulta SQL para selecionar os dados desejados da tabela 'usuario'
-                    string query = "SELECT id, name, cpf, email, username FROM users WHERE is_activated = 1";
+                    string query = "SELECT id, name, cpf, email, username, is_admin FROM users WHERE is_activated = 1";
 
                     // Cria um MySqlCommand para executar a consulta
                     using (MySqlCommand command = new MySqlCommand(query, conn))
@@ -143,6 +144,8 @@ namespace visit_tracker_form
                                 dt.Columns["email"].ColumnName = "EMAIL";
                             if (dt.Columns.Contains("username"))
                                 dt.Columns["username"].ColumnName = "USUÁRIO";
+                            if (dt.Columns.Contains("is_admin"))
+                                dt.Columns["is_admin"].ColumnName = "TIPO";
 
                             // Define o DataTable como a fonte de dados do DataGridView chamado 'dgvUsers'
                             dgvUsers.DataSource = dt;
@@ -281,34 +284,21 @@ namespace visit_tracker_form
 
         private void EnumUserType()
         {
-            // Obtém todos os valores do enum Gender e os converte para uma coleção do tipo Gender
-            var values = Enum.GetValues(typeof(AppEnums.UserType)).Cast<AppEnums.UserType>();
+            var list = Enum.GetValues(typeof(AppEnums.UserType))
+                           .Cast<AppEnums.UserType>()
+                           .Select(v => new { Value = v, Text = EnumHelper.GetDescription(v) })
+                           .ToList();
 
-            // Para cada valor do enum (ex: Masculino, Feminino, Outros)
-            foreach (var value in values)
-            {
-                // Usa o helper para pegar a descrição (ex: "Feminino" ao invés de "Feminino", se estiver com [Description])
-                string description = EnumHelper.GetDescription(value);
-
-                // Adiciona um objeto anônimo ao ComboBox com:
-                // Text -> o que aparece para o usuário
-                // Value -> o valor real do enum
-                cbxUserType.Items.Add(new { Text = description, Value = value });
-            }
-
-            // Define que o ComboBox deve mostrar o campo "Text" dos itens
+            cbxUserType.DataSource = list;
             cbxUserType.DisplayMember = "Text";
-
-            // Define que o ComboBox deve considerar o campo "Value" como valor selecionado
             cbxUserType.ValueMember = "Value";
-
-            // Nenhum item será selecionado inicialmente
             cbxUserType.SelectedIndex = -1;
         }
 
         private void user_regist_Load(object sender, EventArgs e)
         {
-
+            // garante que o evento será chamado sempre que precisar formatar a célula
+            dgvUsers.CellFormatting += dgvUsers_CellFormatting;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -438,14 +428,15 @@ namespace visit_tracker_form
                     else
                     {
                         MySqlCommand insertDB = new MySqlCommand(
-                            "INSERT INTO users (name, cpf, email, username, password, created_by, updated_by) " +
-                            "VALUES (@Name, @Cpf, @Email, @Username, @Password, @Created_by, @Updated_by);", conn);
+                            "INSERT INTO users (name, cpf, email, username, password, is_admin, created_by, updated_by) " +
+                            "VALUES (@Name, @Cpf, @Email, @Username, @Password, @Is_Admin, @Created_by, @Updated_by);", conn);
 
                         insertDB.Parameters.Add("@Name", MySqlDbType.VarChar).Value = txtName.Text;
                         insertDB.Parameters.Add("@Cpf", MySqlDbType.VarChar).Value = cleanCpf;
                         insertDB.Parameters.Add("@Email", MySqlDbType.VarChar).Value = txtEmail.Text;
                         insertDB.Parameters.Add("@Username", MySqlDbType.VarChar).Value = txtUser.Text;
                         insertDB.Parameters.Add("@Password", MySqlDbType.VarChar).Value = BCrypt.Net.BCrypt.HashPassword(txtPass.Text);
+                        insertDB.Parameters.Add("@Is_Admin", MySqlDbType.VarChar).Value = cbxUserType.SelectedIndex;
                         insertDB.Parameters.Add("@Created_by", MySqlDbType.Int32).Value = UserId;
                         insertDB.Parameters.Add("@Updated_by", MySqlDbType.Int32).Value = UserId;
 
@@ -546,13 +537,14 @@ namespace visit_tracker_form
 
                 try
                 {
-                    MySqlCommand insertDB = new MySqlCommand("UPDATE users SET name=@Name, cpf=@Cpf, email=@Email, username=@Username, password=@Password, updated_by=@Updated_by WHERE id=@Id", conn);
+                    MySqlCommand insertDB = new MySqlCommand("UPDATE users SET name=@Name, cpf=@Cpf, email=@Email, username=@Username, password=@Password, is_admin=@Is_Admin, updated_by=@Updated_by WHERE id=@Id", conn);
 
                     insertDB.Parameters.Add("@Name", MySqlDbType.VarChar).Value = txtName.Text;
                     insertDB.Parameters.Add("@Cpf", MySqlDbType.VarChar).Value = cleanCpf;
                     insertDB.Parameters.Add("@Email", MySqlDbType.VarChar).Value = txtEmail.Text;
                     insertDB.Parameters.Add("@Username", MySqlDbType.VarChar).Value = txtUser.Text;
                     insertDB.Parameters.Add("@Password", MySqlDbType.VarChar).Value = BCrypt.Net.BCrypt.HashPassword(txtPass.Text);
+                    insertDB.Parameters.Add("@Is_Admin", MySqlDbType.VarChar).Value = cbxUserType.SelectedIndex;
                     insertDB.Parameters.Add("@Updated_by", MySqlDbType.Int32).Value = UserId;
                     insertDB.Parameters.Add("@Id", MySqlDbType.Int32).Value = Convert.ToInt32(txtId.Text);
                     
@@ -905,6 +897,26 @@ namespace visit_tracker_form
             txtCpf.Text = dgvUsers.Rows[e.RowIndex].Cells[2].Value.ToString();
             txtEmail.Text = dgvUsers.Rows[e.RowIndex].Cells[3].Value.ToString();
             txtUser.Text = dgvUsers.Rows[e.RowIndex].Cells[4].Value.ToString();
+            
+            if (e.RowIndex < 0) return;
+
+            var cellVal = dgvUsers.Rows[e.RowIndex].Cells[5].Value;
+            if (cellVal == null || cellVal == DBNull.Value)
+            {
+                cbxUserType.SelectedIndex = -1;
+                return;
+            }
+
+            // tenta converter para int
+            if (int.TryParse(cellVal.ToString(), out int valor) && Enum.IsDefined(typeof(AppEnums.UserType), valor))
+            {
+                AppEnums.UserType tipo = (AppEnums.UserType)valor;
+                cbxUserType.SelectedValue = tipo; // COMO o ValueMember é do tipo enum, passamos o enum
+            }
+            else
+            {
+                cbxUserType.SelectedIndex = -1;
+            }
         }
 
         private void dgvUsers_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -997,6 +1009,25 @@ namespace visit_tracker_form
         {
             new frm_Visit().Show();
             this.Hide();
+        }
+
+        private void dgvUsers_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            // Verifica se a coluna que está sendo formatada é a "is_admin"
+            if (dgvUsers.Columns[e.ColumnIndex].Name == "TIPO" && e.Value != null)
+            {
+                try
+                {
+                    int valor = Convert.ToInt32(e.Value);
+                    e.Value = (valor == 1) ? "Administrador" : "Operador";
+                    e.FormattingApplied = true;
+                }
+                catch
+                {
+                    // Caso venha algo inesperado, não formata
+                    e.FormattingApplied = false;
+                }
+            }
         }
     }
 }
