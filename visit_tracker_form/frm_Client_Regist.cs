@@ -13,6 +13,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using visit_tracker;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using TextBox = System.Windows.Forms.TextBox;
 using WinFormsTextBox = System.Windows.Forms.TextBox;
 
 namespace visit_tracker_form
@@ -109,7 +111,24 @@ namespace visit_tracker_form
                 try
                 {
                     // Define a consulta SQL para selecionar os dados desejados da tabela 'usuario'
-                    string query = "SELECT c. id, c.name , a.postal_code, a.street, a.number, a.neighborhood, a.city, a.state FROM addresses a LEFT JOIN clients c ON a.fk_id_client = c.id WHERE is_activated = 1;";
+                    string query = @"
+                        SELECT 
+                            c.id, 
+                            c.name, 
+                            p.responsible, 
+                            p.type, 
+                            p.value_type, 
+                            a.postal_code, 
+                            a.street, 
+                            a.number, 
+                            a.neighborhood, 
+                            a.city, 
+                            a.state 
+                        FROM clients c
+                        JOIN addresses a ON a.fk_id_client = c.id
+                        JOIN client_contacts p ON p.fk_client_id = c.id
+                        WHERE c.is_activated = 1;";
+
 
                     // Cria um MySqlCommand para executar a consulta 
                     using (MySqlCommand cmd = new MySqlCommand (query, conn))
@@ -123,18 +142,34 @@ namespace visit_tracker_form
                             // Renomeia as colunas conforme necessário, verificando se cada coluna exite antes de renomar
                             if (dt.Columns.Contains("id"))
                                 dt.Columns["id"].ColumnName = "Id";
+
                             if (dt.Columns.Contains ("name"))
                                 dt.Columns["name"].ColumnName = "Nome";
+
+                            if (dt.Columns.Contains("responsible"))
+                                dt.Columns["responsible"].ColumnName = "Responsável";
+
+                            if (dt.Columns.Contains("type"))
+                                dt.Columns["type"].ColumnName = "Tipo";
+
+                            if (dt.Columns.Contains("value_type"))
+                                dt.Columns["value_type"].ColumnName = "Contato";
+
                             if (dt.Columns.Contains("postal_code"))
                                 dt.Columns["postal_code"].ColumnName = "Cep";
+
                             if (dt.Columns.Contains("street"))
                                 dt.Columns["street"].ColumnName = "Rua";
+
                             if (dt.Columns.Contains("number"))
                                 dt.Columns["number"].ColumnName = "Nº";
+
                             if (dt.Columns.Contains("neighborhood"))
                                 dt.Columns["neighborhood"].ColumnName = "Bairro";
+
                             if (dt.Columns.Contains("city"))
                                 dt.Columns["city"].ColumnName = "Cidade";
+
                             if (dt.Columns.Contains("state"))
                                 dt.Columns["state"].ColumnName = "Estado";
 
@@ -511,42 +546,40 @@ namespace visit_tracker_form
             txtCod.BackColor = ColorTranslator.FromHtml(default);
         }
 
+        private void FormatToTitleCase(TextBox textBox)
+        {
+            if (textBox == null) return;
+
+            // Reseta a cor de fundo para o padrão
+            textBox.BackColor = ColorTranslator.FromHtml(default);
+
+            // Guarda a posição atual do cursor
+            int selectionStart = textBox.SelectionStart;
+            int selectionLength = textBox.SelectionLength;
+
+            // Converte para Title Case respeitando a cultura atual
+            textBox.Text = System.Globalization.CultureInfo.CurrentCulture.TextInfo
+                           .ToTitleCase(textBox.Text.ToLower());
+
+            // Restaura a seleção original
+            textBox.Select(selectionStart, selectionLength);
+        }
+
         private void txtName_TextChanged(object sender, EventArgs e)
         {
             txtName.BackColor = ColorTranslator.FromHtml(default);
 
-            // Converte o texto digitado para Title Case
-            // (onde a primeira letra de cada palavra fica maiúscula).
-            if (sender is WinFormsTextBox textBox)
+            if (sender is TextBox textBox)
             {
-                // Guarda a posição atual do cursor dentro do TextBox
-                int selectionStart = textBox.SelectionStart;
-
-                // Guarda o tamanho do texto selecionado (se houver).
-                int selectionLength = textBox.SelectionLength;
-
-                // Use a versão específica do "ToTitleCase" para respeitar a cultura atual
-                textBox.Text = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(textBox.Text.ToLower());
-
-                // Restaurar a seleção original
-                textBox.Select(selectionStart, selectionLength);
+                FormatToTitleCase(textBox);
             }
-
         }
 
         private void txtResponsible_TextChanged(object sender, EventArgs e)
         {
-            txtResponsible.BackColor = ColorTranslator.FromHtml(default);
-
-            if (sender is WinFormsTextBox textBox)
+            if (sender is TextBox textBox)
             {
-                int selectionStart = textBox.SelectionStart;
-
-                int selectionLength = textBox.SelectionLength;
-
-                textBox.Text = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(textBox.Text.ToLower());
-
-                textBox.Select(selectionStart, selectionLength);
+                FormatToTitleCase(textBox);
             }
         }
 
@@ -712,6 +745,85 @@ namespace visit_tracker_form
         private void btnMoreContacts_Click(object sender, EventArgs e)
         {
             new frm_Add_Contacts().Show();
+        }
+
+        private void cbxTypeContact_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Limpa o texto sempre que mudar o tipo
+            txtValueContact.Clear();
+
+            // Opcional: você pode mudar o MaxLength conforme o tipo
+            switch (cbxTypeContact.SelectedIndex)
+            {
+                case 0:
+                    txtValueContact.MaxLength = 14; // (99) 9999-9999
+                    break;
+                case 1:
+                    txtValueContact.MaxLength = 15; // (99) 99999-9999
+                    break;
+                case 2:
+                    txtValueContact.MaxLength = 100;
+                    break;
+            }
+        }
+
+        private void txtValueContact_TextChanged(object sender, EventArgs e)
+        {
+            int selectedValue = cbxTypeContact.SelectedIndex;
+
+            if (selectedValue == 0 || selectedValue == 1)
+            {
+                string apenasNumeros = new string(txtValueContact.Text.Where(char.IsDigit).ToArray());
+
+                if (selectedValue == 0)
+                {
+                    // Formata como (99) 9999-9999
+                    if (apenasNumeros.Length <= 10)
+                    {
+                        txtValueContact.Text = FormatPhone(apenasNumeros);
+                    }
+                }
+                else if (selectedValue == 1)
+                {
+                    // Formata como (99) 99999-9999
+                    if (apenasNumeros.Length <= 11)
+                    {
+                        txtValueContact.Text = FormatCell(apenasNumeros);
+                    }
+                }
+
+                // Mantém o cursor no final
+                txtValueContact.SelectionStart = txtValueContact.Text.Length;
+            }
+            else if (selectedValue == 2)
+            {
+                // Não formata, apenas deixa livre
+            }
+        }
+        
+        // Funções auxiliares
+        private string FormatPhone(string numbers)
+        {
+            if (numbers.Length < 3)
+                return numbers;
+            if (numbers.Length <= 6)
+                return $"({numbers.Substring(0, 2)}) {numbers.Substring(2)}";
+            if (numbers.Length <= 10)
+                return $"({numbers.Substring(0, 2)}) {numbers.Substring(2, 4)}-{numbers.Substring(6)}";
+
+            return numbers;
+        }
+
+        private string FormatCell(string numbers)
+        {
+            if (numbers.Length < 3)
+                return numbers;
+            if (numbers.Length <= 7)
+                return $"({numbers.Substring(0, 2)}) {numbers.Substring(2)}";
+            if (numbers.Length <= 11)
+                return $"({numbers.Substring(0, 2)}) {numbers.Substring(2, 5)}-{numbers.Substring(7)}";
+
+            return numbers;
         }
     }
 }

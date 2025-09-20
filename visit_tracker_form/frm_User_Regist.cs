@@ -1013,7 +1013,7 @@ namespace visit_tracker_form
 
         private void dgvUsers_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            // Verifica se a coluna que está sendo formatada é a "is_admin"
+            // Verifica se a coluna que está sendo formatada é a "TIPO"
             if (dgvUsers.Columns[e.ColumnIndex].Name == "TIPO" && e.Value != null)
             {
                 try

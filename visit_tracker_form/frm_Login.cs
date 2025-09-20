@@ -22,7 +22,6 @@ namespace visit_tracker_form
             InitializeComponent();
 
             btnShowPass.Image = olho2;
-            pictureBox1.Image = login_da_conta;
         }
 
         private void Login_Load(object sender, EventArgs e)
