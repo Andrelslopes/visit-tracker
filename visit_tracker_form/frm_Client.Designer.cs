@@ -1,6 +1,6 @@
 ﻿namespace visit_tracker_form
 {
-    partial class frm_Client_Regist
+    partial class frm_Client
     {
         /// <summary>
         /// Required designer variable.
@@ -28,9 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_Client_Regist));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_Client));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btnMoreContacts = new System.Windows.Forms.Button();
             this.cbxTypeContact = new System.Windows.Forms.ComboBox();
             this.label12 = new System.Windows.Forms.Label();
             this.txtValueContact = new System.Windows.Forms.TextBox();
@@ -56,6 +55,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
             this.dgvClient = new System.Windows.Forms.DataGridView();
             this.btnSaveClient = new System.Windows.Forms.Button();
             this.btnEditClient = new System.Windows.Forms.Button();
@@ -64,6 +65,8 @@
             this.btnExit = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvClient)).BeginInit();
@@ -72,7 +75,6 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.btnMoreContacts);
             this.groupBox1.Controls.Add(this.cbxTypeContact);
             this.groupBox1.Controls.Add(this.label12);
             this.groupBox1.Controls.Add(this.txtValueContact);
@@ -105,17 +107,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Cliente:";
             // 
-            // btnMoreContacts
-            // 
-            this.btnMoreContacts.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnMoreContacts.Location = new System.Drawing.Point(568, 70);
-            this.btnMoreContacts.Name = "btnMoreContacts";
-            this.btnMoreContacts.Size = new System.Drawing.Size(70, 42);
-            this.btnMoreContacts.TabIndex = 26;
-            this.btnMoreContacts.Text = "Mais Contatos";
-            this.btnMoreContacts.UseVisualStyleBackColor = true;
-            this.btnMoreContacts.Click += new System.EventHandler(this.btnMoreContacts_Click);
-            // 
             // cbxTypeContact
             // 
             this.cbxTypeContact.FormattingEnabled = true;
@@ -137,16 +128,16 @@
             // 
             // txtValueContact
             // 
-            this.txtValueContact.Location = new System.Drawing.Point(345, 89);
+            this.txtValueContact.Location = new System.Drawing.Point(346, 90);
             this.txtValueContact.Name = "txtValueContact";
-            this.txtValueContact.Size = new System.Drawing.Size(215, 23);
+            this.txtValueContact.Size = new System.Drawing.Size(294, 23);
             this.txtValueContact.TabIndex = 23;
             this.txtValueContact.TextChanged += new System.EventHandler(this.txtValueContact_TextChanged);
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(342, 69);
+            this.label11.Location = new System.Drawing.Point(343, 70);
             this.label11.Name = "label11";
             this.label11.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
             this.label11.Size = new System.Drawing.Size(72, 17);
@@ -155,7 +146,7 @@
             // 
             // txtResponsible
             // 
-            this.txtResponsible.Location = new System.Drawing.Point(8, 90);
+            this.txtResponsible.Location = new System.Drawing.Point(5, 90);
             this.txtResponsible.Name = "txtResponsible";
             this.txtResponsible.Size = new System.Drawing.Size(204, 23);
             this.txtResponsible.TabIndex = 21;
@@ -234,7 +225,7 @@
             this.txtState.Location = new System.Drawing.Point(432, 184);
             this.txtState.Margin = new System.Windows.Forms.Padding(4);
             this.txtState.Name = "txtState";
-            this.txtState.Size = new System.Drawing.Size(206, 23);
+            this.txtState.Size = new System.Drawing.Size(207, 23);
             this.txtState.TabIndex = 10;
             this.txtState.TextChanged += new System.EventHandler(this.txtState_TextChanged);
             // 
@@ -252,7 +243,7 @@
             this.txtNumber.Location = new System.Drawing.Point(568, 137);
             this.txtNumber.Margin = new System.Windows.Forms.Padding(4);
             this.txtNumber.Name = "txtNumber";
-            this.txtNumber.Size = new System.Drawing.Size(70, 23);
+            this.txtNumber.Size = new System.Drawing.Size(71, 23);
             this.txtNumber.TabIndex = 8;
             this.txtNumber.TextChanged += new System.EventHandler(this.txtNumber_TextChanged);
             // 
@@ -270,7 +261,7 @@
             this.txtName.Location = new System.Drawing.Point(68, 43);
             this.txtName.Margin = new System.Windows.Forms.Padding(4);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(492, 23);
+            this.txtName.Size = new System.Drawing.Size(571, 23);
             this.txtName.TabIndex = 6;
             this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
             // 
@@ -352,31 +343,49 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.textBox1);
+            this.groupBox2.Controls.Add(this.label13);
             this.groupBox2.Controls.Add(this.dgvClient);
-            this.groupBox2.Location = new System.Drawing.Point(13, 299);
+            this.groupBox2.Location = new System.Drawing.Point(13, 300);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox2.Size = new System.Drawing.Size(933, 334);
+            this.groupBox2.Size = new System.Drawing.Size(933, 328);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Lista de Clientes:";
             // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(7, 40);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(197, 23);
+            this.textBox1.TabIndex = 2;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(6, 20);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(95, 17);
+            this.label13.TabIndex = 1;
+            this.label13.Text = "Cod. Cliente:";
+            // 
             // dgvClient
             // 
             this.dgvClient.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvClient.Location = new System.Drawing.Point(7, 23);
+            this.dgvClient.Location = new System.Drawing.Point(7, 69);
             this.dgvClient.Name = "dgvClient";
-            this.dgvClient.Size = new System.Drawing.Size(919, 304);
+            this.dgvClient.Size = new System.Drawing.Size(919, 252);
             this.dgvClient.TabIndex = 0;
             this.dgvClient.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvClient_CellContentClick);
             this.dgvClient.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvClient_CellContentDoubleClick);
             // 
             // btnSaveClient
             // 
-            this.btnSaveClient.Location = new System.Drawing.Point(333, 265);
+            this.btnSaveClient.Location = new System.Drawing.Point(278, 265);
             this.btnSaveClient.Name = "btnSaveClient";
-            this.btnSaveClient.Size = new System.Drawing.Size(75, 27);
+            this.btnSaveClient.Size = new System.Drawing.Size(89, 28);
             this.btnSaveClient.TabIndex = 3;
             this.btnSaveClient.Text = "Salvar";
             this.btnSaveClient.UseVisualStyleBackColor = true;
@@ -384,9 +393,9 @@
             // 
             // btnEditClient
             // 
-            this.btnEditClient.Location = new System.Drawing.Point(414, 265);
+            this.btnEditClient.Location = new System.Drawing.Point(373, 265);
             this.btnEditClient.Name = "btnEditClient";
-            this.btnEditClient.Size = new System.Drawing.Size(75, 27);
+            this.btnEditClient.Size = new System.Drawing.Size(89, 28);
             this.btnEditClient.TabIndex = 4;
             this.btnEditClient.Text = "Editar";
             this.btnEditClient.UseVisualStyleBackColor = true;
@@ -394,9 +403,9 @@
             // 
             // btnDeleteClient
             // 
-            this.btnDeleteClient.Location = new System.Drawing.Point(495, 265);
+            this.btnDeleteClient.Location = new System.Drawing.Point(468, 265);
             this.btnDeleteClient.Name = "btnDeleteClient";
-            this.btnDeleteClient.Size = new System.Drawing.Size(75, 27);
+            this.btnDeleteClient.Size = new System.Drawing.Size(89, 28);
             this.btnDeleteClient.TabIndex = 5;
             this.btnDeleteClient.Text = "Apagar";
             this.btnDeleteClient.UseVisualStyleBackColor = true;
@@ -404,9 +413,9 @@
             // 
             // btnClearClient
             // 
-            this.btnClearClient.Location = new System.Drawing.Point(576, 265);
+            this.btnClearClient.Location = new System.Drawing.Point(563, 265);
             this.btnClearClient.Name = "btnClearClient";
-            this.btnClearClient.Size = new System.Drawing.Size(75, 27);
+            this.btnClearClient.Size = new System.Drawing.Size(89, 28);
             this.btnClearClient.TabIndex = 6;
             this.btnClearClient.Text = "Limpar";
             this.btnClearClient.UseVisualStyleBackColor = true;
@@ -414,9 +423,9 @@
             // 
             // btnExit
             // 
-            this.btnExit.Location = new System.Drawing.Point(872, 640);
+            this.btnExit.Location = new System.Drawing.Point(858, 635);
             this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(75, 23);
+            this.btnExit.Size = new System.Drawing.Size(89, 28);
             this.btnExit.TabIndex = 17;
             this.btnExit.Text = "Sair";
             this.btnExit.UseVisualStyleBackColor = true;
@@ -437,19 +446,39 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(252, 265);
+            this.button1.Location = new System.Drawing.Point(857, 137);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 27);
+            this.button1.Size = new System.Drawing.Size(90, 43);
             this.button1.TabIndex = 20;
             this.button1.Text = "Visitas";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(857, 39);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(90, 43);
+            this.button2.TabIndex = 21;
+            this.button2.Text = "Login";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(857, 88);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(90, 43);
+            this.button3.TabIndex = 22;
+            this.button3.Text = "Usuários";
+            this.button3.UseVisualStyleBackColor = true;
             // 
             // frm_Client_Regist
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(959, 675);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btnExit);
@@ -464,11 +493,13 @@
             this.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frm_Client_Regist";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "client_regist";
             this.Load += new System.EventHandler(this.client_regist_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvClient)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
@@ -511,6 +542,9 @@
         private System.Windows.Forms.TextBox txtValueContact;
         private System.Windows.Forms.ComboBox cbxTypeContact;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Button btnMoreContacts;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label13;
     }
 }

@@ -124,11 +124,11 @@
     <Compile Include="BCrypt\BCryptHelper.cs" />
     <Compile Include="ClassVistis.cs" />
     <Compile Include="ClientSession.cs" />
-    <Compile Include="frm_Client_Regist.cs">
+    <Compile Include="frm_Client.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frm_Client_Regist.Designer.cs">
-      <DependentUpon>frm_Client_Regist.cs</DependentUpon>
+    <Compile Include="frm_Client.Designer.cs">
+      <DependentUpon>frm_Client.cs</DependentUpon>
     </Compile>
     <Compile Include="CustomProgressBar.cs">
       <SubType>UserControl</SubType>
@@ -156,19 +156,19 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UserSession.cs" />
-    <Compile Include="frm_User_Regist.cs">
+    <Compile Include="frm_User.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frm_User_Regist.Designer.cs">
-      <DependentUpon>frm_User_Regist.cs</DependentUpon>
+    <Compile Include="frm_User.Designer.cs">
+      <DependentUpon>frm_User.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frm_Add_Contacts.resx">
       <DependentUpon>frm_Add_Contacts.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frm_Client_Regist.resx">
-      <DependentUpon>frm_Client_Regist.cs</DependentUpon>
+    <EmbeddedResource Include="frm_Client.resx">
+      <DependentUpon>frm_Client.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frm_Visit.resx">
       <DependentUpon>frm_Visit.cs</DependentUpon>
@@ -186,8 +186,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="frm_User_Regist.resx">
-      <DependentUpon>frm_User_Regist.cs</DependentUpon>
+    <EmbeddedResource Include="frm_User.resx">
+      <DependentUpon>frm_User.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

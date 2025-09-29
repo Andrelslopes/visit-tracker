@@ -19,9 +19,9 @@ using WinFormsTextBox = System.Windows.Forms.TextBox;
 
 namespace visit_tracker_form
 {
-    public partial class frm_Client_Regist : Form
+    public partial class frm_Client : Form
     {
-        public frm_Client_Regist()
+        public frm_Client()
         {
             InitializeComponent();
             UpdateDgvClient();
@@ -88,6 +88,9 @@ namespace visit_tracker_form
         {
             txtCod.Text = string.Empty;
             txtName.Text = string.Empty;
+            txtResponsible.Text = string.Empty;
+            cbxTypeContact.SelectedIndex = -1;
+            txtValueContact.Enabled = false;
             txtCEP.Text = string.Empty;
             txtStreet.Text = string.Empty;
             txtNumber.Text = string.Empty;
@@ -195,30 +198,34 @@ namespace visit_tracker_form
             }
         }
 
+        /// <summary>
+        /// Popula o ComboBox 'cbxTypeContact' com os valores do enum 'AppEnums.ContactType',
+        /// exibindo a descrição para o usuário e mantendo o valor real do enum internamente.
+        /// </summary>
         private void enumContactType()
         {
-            // Obtém todos os valores do enum Gender e os converte para uma coleção do tipo Gender
+            // Obtém todos os valores do enum 'AppEnums.ContactType' e faz cast para o tipo correto.
             var values = Enum.GetValues(typeof(AppEnums.ContactType)).Cast<AppEnums.ContactType>();
 
-            // Para cada valor do enum (ex: Masculino, Feminino, Outros)
+            // Percorre cada valor do enum
             foreach (var value in values)
             {
-                // Usa o helper para pegar a descrição (ex: "Feminino" ao invés de "Feminino", se estiver com [Description])
+                // Obtém a descrição do valor (provavelmente definida com [Description("Texto")])
                 string description = EnumHelper.GetDescription(value);
 
-                // Adiciona um objeto anônimo ao ComboBox com:
-                // Text -> o que aparece para o usuário
-                // Value -> o valor real do enum
+                // Adiciona um item ao ComboBox como objeto anônimo
+                //     Text  = descrição amigável (o que o usuário vê na tela)
+                //     Value = valor do enum (o que você usará no código)
                 cbxTypeContact.Items.Add(new { Text = description, Value = value });
             }
 
-            // Define que o ComboBox deve mostrar o campo "Text" dos itens
+            // Define que o texto visível no ComboBox será a propriedade "Text"
             cbxTypeContact.DisplayMember = "Text";
 
-            // Define que o ComboBox deve considerar o campo "Value" como valor selecionado
+            // Define que o valor associado ao item será a propriedade "Value"
             cbxTypeContact.ValueMember = "Value";
 
-            // Nenhum item será selecionado inicialmente
+            // Garante que nenhum item esteja selecionado inicialmente
             cbxTypeContact.SelectedIndex = -1;
         }
 
@@ -418,11 +425,12 @@ namespace visit_tracker_form
                             cmd.ExecuteNonQuery();
                         }
 
-                        string queryContacts = "UPDATE client_contacts SET fk_client_id=@Fk_client_id, type=@Type, value_type=@Value_type, created_by=@Created_by, updated_by=@Updated_by WHERE id=@Id";
+                        string queryContacts = "UPDATE client_contacts SET fk_client_id=@Fk_client_id, responsible=@Responsible, type=@Type, value_type=@Value_type, created_by=@Created_by, updated_by=@Updated_by WHERE id=@Id";
 
                         using (MySqlCommand cmd = new MySqlCommand(queryContacts, conn, transaction))
                         {
                             cmd.Parameters.AddWithValue("@Fk_client_id", clientId);
+                            cmd.Parameters.AddWithValue("@Responsible",txtResponsible.Text);
                             cmd.Parameters.AddWithValue("@Type", cbxTypeContact.Text);
                             cmd.Parameters.AddWithValue("@Value_type", txtValueContact.Text); // <-- CORRIGIDO
                             cmd.Parameters.AddWithValue("@Created_by", userId);
@@ -658,12 +666,15 @@ namespace visit_tracker_form
             // Ao clicar duas vezes na info da lista irá subir as informações  para as textBox.
             txtCod.Text = Selected_Id.ToString();
             txtName.Text = dgvClient.Rows[e.RowIndex].Cells[1].Value.ToString();
-            txtCEP.Text = dgvClient.Rows[e.RowIndex].Cells[2].Value.ToString();
-            txtStreet.Text = dgvClient.Rows[e.RowIndex].Cells[3].Value.ToString();
-            txtNumber.Text = dgvClient.Rows[e.RowIndex].Cells[4].Value.ToString();
-            txtNeighborhood.Text = dgvClient.Rows[e.RowIndex].Cells[5].Value.ToString();
-            txtCity.Text = dgvClient.Rows[e.RowIndex].Cells[6].Value.ToString();
-            txtState.Text = dgvClient.Rows[e.RowIndex].Cells[7].Value.ToString();
+            txtResponsible.Text = dgvClient.Rows[e.RowIndex].Cells[2].Value.ToString();
+            cbxTypeContact.Text = dgvClient.Rows[e.RowIndex].Cells[3].Value.ToString();
+            txtValueContact.Text = dgvClient.Rows[e.RowIndex].Cells[4].Value.ToString();
+            txtCEP.Text = dgvClient.Rows[e.RowIndex].Cells[5].Value.ToString();
+            txtStreet.Text = dgvClient.Rows[e.RowIndex].Cells[6].Value.ToString();
+            txtNumber.Text = dgvClient.Rows[e.RowIndex].Cells[7].Value.ToString();
+            txtNeighborhood.Text = dgvClient.Rows[e.RowIndex].Cells[8].Value.ToString();
+            txtCity.Text = dgvClient.Rows[e.RowIndex].Cells[9].Value.ToString();
+            txtState.Text = dgvClient.Rows[e.RowIndex].Cells[10].Value.ToString();
             btnSaveClient.Enabled = false;
         }
 
@@ -742,9 +753,11 @@ namespace visit_tracker_form
             this.Hide();
         }
 
+        public string clientId;
+
         private void btnMoreContacts_Click(object sender, EventArgs e)
         {
-            new frm_Add_Contacts().Show();
+
         }
 
         private void cbxTypeContact_SelectedIndexChanged(object sender, EventArgs e)

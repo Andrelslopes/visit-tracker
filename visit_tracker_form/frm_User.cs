@@ -19,12 +19,12 @@ using visit_tracker;
 
 namespace visit_tracker_form
 {
-    public partial class frm_User_Regist : Form
+    public partial class frm_User : Form
     {
         private int idUser;
         private bool visiblePass = false;
 
-        public frm_User_Regist()
+        public frm_User()
         {
             InitializeComponent();
             ResetColor();
@@ -895,6 +895,7 @@ namespace visit_tracker_form
             txtId.Text = Selected_Id.ToString();
             txtName.Text = dgvUsers.Rows[e.RowIndex].Cells[1].Value.ToString();
             txtCpf.Text = dgvUsers.Rows[e.RowIndex].Cells[2].Value.ToString();
+
             txtEmail.Text = dgvUsers.Rows[e.RowIndex].Cells[3].Value.ToString();
             txtUser.Text = dgvUsers.Rows[e.RowIndex].Cells[4].Value.ToString();
             
@@ -996,7 +997,7 @@ namespace visit_tracker_form
 
         private void btnCadClient_Click(object sender, EventArgs e)
         {
-            new frm_Client_Regist().Show();
+            new frm_Client().Show();
             this.Hide();
         }
 

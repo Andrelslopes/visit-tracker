@@ -32,8 +32,9 @@
             this.txtDescription = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnDate = new System.Windows.Forms.Button();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnClear = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.btnEdit = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
@@ -104,8 +105,9 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnDate);
             this.groupBox1.Controls.Add(this.checkBox1);
-            this.groupBox1.Controls.Add(this.button1);
+            this.groupBox1.Controls.Add(this.btnClear);
             this.groupBox1.Controls.Add(this.button2);
             this.groupBox1.Controls.Add(this.btnEdit);
             this.groupBox1.Controls.Add(this.label4);
@@ -131,6 +133,15 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Visitas:";
             // 
+            // btnDate
+            // 
+            this.btnDate.Location = new System.Drawing.Point(347, 133);
+            this.btnDate.Name = "btnDate";
+            this.btnDate.Size = new System.Drawing.Size(23, 23);
+            this.btnDate.TabIndex = 23;
+            this.btnDate.UseVisualStyleBackColor = true;
+            this.btnDate.Click += new System.EventHandler(this.btnDate_Click);
+            // 
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
@@ -141,14 +152,15 @@
             this.checkBox1.Text = "Proposta";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // btnClear
             // 
-            this.button1.Location = new System.Drawing.Point(531, 22);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 21;
-            this.button1.Text = "Limpar";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnClear.Location = new System.Drawing.Point(531, 22);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(75, 23);
+            this.btnClear.TabIndex = 21;
+            this.btnClear.Text = "Limpar";
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // button2
             // 
@@ -206,16 +218,16 @@
             // 
             // txtDateVisit
             // 
-            this.txtDateVisit.Location = new System.Drawing.Point(264, 133);
+            this.txtDateVisit.Location = new System.Drawing.Point(253, 133);
             this.txtDateVisit.Name = "txtDateVisit";
-            this.txtDateVisit.Size = new System.Drawing.Size(106, 23);
+            this.txtDateVisit.Size = new System.Drawing.Size(88, 23);
             this.txtDateVisit.TabIndex = 15;
             this.txtDateVisit.TextChanged += new System.EventHandler(this.txtDateVisit_TextChanged);
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(261, 114);
+            this.label6.Location = new System.Drawing.Point(250, 113);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(83, 17);
             this.label6.TabIndex = 14;
@@ -225,7 +237,7 @@
             // 
             this.txtResponsible.Location = new System.Drawing.Point(6, 133);
             this.txtResponsible.Name = "txtResponsible";
-            this.txtResponsible.Size = new System.Drawing.Size(252, 23);
+            this.txtResponsible.Size = new System.Drawing.Size(241, 23);
             this.txtResponsible.TabIndex = 13;
             // 
             // label5
@@ -252,6 +264,7 @@
             this.txtNameClient.Name = "txtNameClient";
             this.txtNameClient.Size = new System.Drawing.Size(521, 23);
             this.txtNameClient.TabIndex = 4;
+            this.txtNameClient.TextChanged += new System.EventHandler(this.txtNameClient_TextChanged);
             // 
             // label2
             // 
@@ -268,6 +281,7 @@
             this.txtId.Name = "txtId";
             this.txtId.Size = new System.Drawing.Size(73, 23);
             this.txtId.TabIndex = 1;
+            this.txtId.TextChanged += new System.EventHandler(this.txtId_TextChanged);
             // 
             // label1
             // 
@@ -285,6 +299,7 @@
             this.dgvClient.Name = "dgvClient";
             this.dgvClient.Size = new System.Drawing.Size(600, 196);
             this.dgvClient.TabIndex = 16;
+            this.dgvClient.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvClient_CellClick);
             this.dgvClient.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvClient_CellContentClick);
             this.dgvClient.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvClient_CellContentDoubleClick);
             // 
@@ -508,7 +523,7 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button btnEdit;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.RadioButton radioButton1;
@@ -524,5 +539,6 @@
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Button btnDate;
     }
 }

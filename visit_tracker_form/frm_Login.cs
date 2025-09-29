@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using visit_tracker;
 
 
 namespace visit_tracker_form
@@ -103,23 +104,24 @@ namespace visit_tracker_form
                                             //MessageBox.Show($"Login Bem-sucedido! \n Seja Bem Vindo {fullName}.", "Sucesso",
                                             //MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                                            // Exemplo: abrir tela principal
-                                            new frm_User_Regist().Show();
+                                            // Abrir tela principal
+                                            new frm_User().Show();
                                             this.Hide();
                                         }
                                         else
                                         {
-                                            MessageBox.Show($"Login Bem-sucedido! \n Seja Bem Vindo {fullName}.", "Sucesso",
-                                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                            //MessageBox.Show($"Login Bem-sucedido! \n Seja Bem Vindo {fullName}.", "Sucesso",
+                                            //MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                                            new frm_Client_Regist().Show();
+                                            //Abrir tela Visitas
+                                            new frm_Visit().Show();
                                             this.Hide();
                                         }
                                     }
                                     else
                                     {
                                         // Se o usuário digitar a senha errada
-                                        MessageBox.Show($"Senha inválidos.\n Restam {5 - attempts} tentativas", "Erro",
+                                        MessageBox.Show($"Senha inválida.\n Restam {5 - attempts} tentativas", "Erro",
                                             MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                                         attempts++;

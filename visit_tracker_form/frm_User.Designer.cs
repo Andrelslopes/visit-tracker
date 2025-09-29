@@ -1,6 +1,6 @@
 ﻿namespace visit_tracker_form
 {
-    partial class frm_User_Regist
+    partial class frm_User
     {
         /// <summary>
         /// Required designer variable.
@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_User));
             this.btnSave = new System.Windows.Forms.Button();
             this.btnEdit = new System.Windows.Forms.Button();
             this.btnDelet = new System.Windows.Forms.Button();
@@ -37,8 +38,6 @@
             this.label9 = new System.Windows.Forms.Label();
             this.btnVisit = new System.Windows.Forms.Button();
             this.btnCadClient = new System.Windows.Forms.Button();
-            this.progressBar2 = new ProgressBarCustomized();
-            this.progressBar1 = new ProgressBarCustomized();
             this.txtId = new System.Windows.Forms.TextBox();
             this.btnClear = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
@@ -62,6 +61,9 @@
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.progressBar2 = new ProgressBarCustomized();
+            this.progressBar1 = new ProgressBarCustomized();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUsers)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -70,7 +72,7 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(102, 248);
+            this.btnSave.Location = new System.Drawing.Point(280, 263);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(89, 28);
             this.btnSave.TabIndex = 7;
@@ -80,7 +82,7 @@
             // 
             // btnEdit
             // 
-            this.btnEdit.Location = new System.Drawing.Point(197, 248);
+            this.btnEdit.Location = new System.Drawing.Point(375, 263);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(89, 28);
             this.btnEdit.TabIndex = 8;
@@ -90,7 +92,7 @@
             // 
             // btnDelet
             // 
-            this.btnDelet.Location = new System.Drawing.Point(291, 248);
+            this.btnDelet.Location = new System.Drawing.Point(469, 263);
             this.btnDelet.Name = "btnDelet";
             this.btnDelet.Size = new System.Drawing.Size(89, 28);
             this.btnDelet.TabIndex = 9;
@@ -100,9 +102,9 @@
             // 
             // BtnExit
             // 
-            this.BtnExit.Location = new System.Drawing.Point(690, 593);
+            this.BtnExit.Location = new System.Drawing.Point(858, 635);
             this.BtnExit.Name = "BtnExit";
-            this.BtnExit.Size = new System.Drawing.Size(95, 27);
+            this.BtnExit.Size = new System.Drawing.Size(89, 28);
             this.BtnExit.TabIndex = 0;
             this.BtnExit.Text = "Sair";
             this.BtnExit.UseVisualStyleBackColor = true;
@@ -110,35 +112,29 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.progressBar2);
             this.groupBox1.Controls.Add(this.cbxUserType);
             this.groupBox1.Controls.Add(this.label9);
-            this.groupBox1.Controls.Add(this.btnVisit);
-            this.groupBox1.Controls.Add(this.btnCadClient);
-            this.groupBox1.Controls.Add(this.progressBar2);
             this.groupBox1.Controls.Add(this.progressBar1);
             this.groupBox1.Controls.Add(this.txtId);
-            this.groupBox1.Controls.Add(this.btnClear);
             this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Controls.Add(this.btnShowPass2);
-            this.groupBox1.Controls.Add(this.txtConfPass);
-            this.groupBox1.Controls.Add(this.btnDelet);
-            this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.btnEdit);
-            this.groupBox1.Controls.Add(this.btnShowPass);
-            this.groupBox1.Controls.Add(this.btnSave);
-            this.groupBox1.Controls.Add(this.txtPass);
             this.groupBox1.Controls.Add(this.txtUser);
+            this.groupBox1.Controls.Add(this.txtPass);
+            this.groupBox1.Controls.Add(this.btnShowPass2);
             this.groupBox1.Controls.Add(this.txtEmail);
-            this.groupBox1.Controls.Add(this.txtCpf);
-            this.groupBox1.Controls.Add(this.txtName);
             this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.txtCpf);
+            this.groupBox1.Controls.Add(this.txtConfPass);
+            this.groupBox1.Controls.Add(this.txtName);
+            this.groupBox1.Controls.Add(this.btnShowPass);
             this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(11, 12);
+            this.groupBox1.Location = new System.Drawing.Point(12, 36);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(481, 282);
+            this.groupBox1.Size = new System.Drawing.Size(647, 221);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Novo Usuário:";
@@ -146,25 +142,25 @@
             // cbxUserType
             // 
             this.cbxUserType.FormattingEnabled = true;
-            this.cbxUserType.Location = new System.Drawing.Point(6, 183);
+            this.cbxUserType.Location = new System.Drawing.Point(167, 135);
             this.cbxUserType.Name = "cbxUserType";
-            this.cbxUserType.Size = new System.Drawing.Size(121, 25);
+            this.cbxUserType.Size = new System.Drawing.Size(160, 25);
             this.cbxUserType.TabIndex = 22;
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 163);
+            this.label9.Location = new System.Drawing.Point(164, 115);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(38, 17);
+            this.label9.Size = new System.Drawing.Size(109, 17);
             this.label9.TabIndex = 21;
-            this.label9.Text = "Tipo:";
+            this.label9.Text = "Tipo de Usuário:";
             // 
             // btnVisit
             // 
-            this.btnVisit.Location = new System.Drawing.Point(6, 214);
+            this.btnVisit.Location = new System.Drawing.Point(857, 137);
             this.btnVisit.Name = "btnVisit";
-            this.btnVisit.Size = new System.Drawing.Size(90, 28);
+            this.btnVisit.Size = new System.Drawing.Size(90, 43);
             this.btnVisit.TabIndex = 20;
             this.btnVisit.Text = "Visitas";
             this.btnVisit.UseVisualStyleBackColor = true;
@@ -172,32 +168,13 @@
             // 
             // btnCadClient
             // 
-            this.btnCadClient.Location = new System.Drawing.Point(6, 248);
+            this.btnCadClient.Location = new System.Drawing.Point(857, 88);
             this.btnCadClient.Name = "btnCadClient";
-            this.btnCadClient.Size = new System.Drawing.Size(90, 28);
+            this.btnCadClient.Size = new System.Drawing.Size(90, 43);
             this.btnCadClient.TabIndex = 19;
             this.btnCadClient.Text = "CadClient";
             this.btnCadClient.UseVisualStyleBackColor = true;
             this.btnCadClient.Click += new System.EventHandler(this.btnCadClient_Click);
-            // 
-            // progressBar2
-            // 
-            this.progressBar2.BackColor = System.Drawing.SystemColors.ScrollBar;
-            this.progressBar2.Location = new System.Drawing.Point(324, 163);
-            this.progressBar2.Name = "progressBar2";
-            this.progressBar2.Size = new System.Drawing.Size(151, 10);
-            this.progressBar2.TabIndex = 16;
-            this.progressBar2.Click += new System.EventHandler(this.progressBar2_Click);
-            // 
-            // progressBar1
-            // 
-            this.progressBar1.BackColor = System.Drawing.SystemColors.ScrollBar;
-            this.progressBar1.Location = new System.Drawing.Point(167, 163);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(151, 10);
-            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.progressBar1.TabIndex = 15;
-            this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
             // 
             // txtId
             // 
@@ -209,7 +186,7 @@
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(386, 248);
+            this.btnClear.Location = new System.Drawing.Point(564, 263);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(89, 28);
             this.btnClear.TabIndex = 10;
@@ -230,7 +207,7 @@
             // 
             this.btnShowPass2.BackColor = System.Drawing.SystemColors.Window;
             this.btnShowPass2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnShowPass2.Location = new System.Drawing.Point(452, 137);
+            this.btnShowPass2.Location = new System.Drawing.Point(618, 135);
             this.btnShowPass2.Name = "btnShowPass2";
             this.btnShowPass2.Size = new System.Drawing.Size(23, 23);
             this.btnShowPass2.TabIndex = 13;
@@ -239,7 +216,7 @@
             // 
             // txtConfPass
             // 
-            this.txtConfPass.Location = new System.Drawing.Point(324, 137);
+            this.txtConfPass.Location = new System.Drawing.Point(490, 135);
             this.txtConfPass.Name = "txtConfPass";
             this.txtConfPass.Size = new System.Drawing.Size(151, 23);
             this.txtConfPass.TabIndex = 6;
@@ -249,7 +226,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(324, 117);
+            this.label6.Location = new System.Drawing.Point(490, 115);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(77, 17);
             this.label6.TabIndex = 11;
@@ -259,7 +236,7 @@
             // 
             this.btnShowPass.BackColor = System.Drawing.SystemColors.Window;
             this.btnShowPass.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnShowPass.Location = new System.Drawing.Point(295, 137);
+            this.btnShowPass.Location = new System.Drawing.Point(461, 135);
             this.btnShowPass.Name = "btnShowPass";
             this.btnShowPass.Size = new System.Drawing.Size(23, 23);
             this.btnShowPass.TabIndex = 10;
@@ -268,7 +245,7 @@
             // 
             // txtPass
             // 
-            this.txtPass.Location = new System.Drawing.Point(167, 137);
+            this.txtPass.Location = new System.Drawing.Point(333, 135);
             this.txtPass.Name = "txtPass";
             this.txtPass.Size = new System.Drawing.Size(151, 23);
             this.txtPass.TabIndex = 5;
@@ -286,7 +263,7 @@
             // 
             this.txtEmail.Location = new System.Drawing.Point(150, 89);
             this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(325, 23);
+            this.txtEmail.Size = new System.Drawing.Size(491, 23);
             this.txtEmail.TabIndex = 3;
             this.txtEmail.TextChanged += new System.EventHandler(this.txtEmail_TextChanged);
             // 
@@ -302,7 +279,7 @@
             // 
             this.txtName.Location = new System.Drawing.Point(63, 42);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(412, 23);
+            this.txtName.Size = new System.Drawing.Size(578, 23);
             this.txtName.TabIndex = 1;
             this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
             this.txtName.Leave += new System.EventHandler(this.txtName_Leave);
@@ -310,7 +287,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(167, 117);
+            this.label5.Location = new System.Drawing.Point(333, 115);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(51, 17);
             this.label5.TabIndex = 4;
@@ -355,9 +332,9 @@
             // dgvUsers
             // 
             this.dgvUsers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvUsers.Location = new System.Drawing.Point(6, 49);
+            this.dgvUsers.Location = new System.Drawing.Point(6, 70);
             this.dgvUsers.Name = "dgvUsers";
-            this.dgvUsers.Size = new System.Drawing.Size(761, 232);
+            this.dgvUsers.Size = new System.Drawing.Size(923, 256);
             this.dgvUsers.TabIndex = 2;
             this.dgvUsers.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvUsers_CellContentClick);
             this.dgvUsers.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvUsers_CellContentDoubleClick);
@@ -369,9 +346,9 @@
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.txtSearch);
             this.groupBox2.Controls.Add(this.dgvUsers);
-            this.groupBox2.Location = new System.Drawing.Point(11, 300);
+            this.groupBox2.Location = new System.Drawing.Point(12, 297);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(773, 287);
+            this.groupBox2.Size = new System.Drawing.Size(935, 332);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Pesquisar:";
@@ -388,7 +365,7 @@
             // 
             // txtSearch
             // 
-            this.txtSearch.Location = new System.Drawing.Point(54, 18);
+            this.txtSearch.Location = new System.Drawing.Point(6, 41);
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(185, 23);
             this.txtSearch.TabIndex = 0;
@@ -396,33 +373,72 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 593);
+            this.button1.Location = new System.Drawing.Point(857, 39);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(95, 27);
+            this.button1.Size = new System.Drawing.Size(90, 43);
             this.button1.TabIndex = 9;
             this.button1.Text = "Login";
             this.button1.UseVisualStyleBackColor = true;
             // 
             // pictureBox1
             // 
-            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox1.Location = new System.Drawing.Point(498, 12);
+            this.pictureBox1.BackColor = System.Drawing.SystemColors.Control;
+            this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(923, 9);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(287, 282);
+            this.pictureBox1.Size = new System.Drawing.Size(24, 24);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 8;
+            this.pictureBox1.TabIndex = 22;
             this.pictureBox1.TabStop = false;
+            // 
+            // label10
+            // 
+            this.label10.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.label10.Location = new System.Drawing.Point(12, 9);
+            this.label10.Margin = new System.Windows.Forms.Padding(3, 0, 9, 0);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(899, 24);
+            this.label10.TabIndex = 21;
+            this.label10.Text = "label10";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // progressBar2
+            // 
+            this.progressBar2.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.progressBar2.Location = new System.Drawing.Point(490, 161);
+            this.progressBar2.Name = "progressBar2";
+            this.progressBar2.Size = new System.Drawing.Size(151, 10);
+            this.progressBar2.TabIndex = 16;
+            this.progressBar2.Click += new System.EventHandler(this.progressBar2_Click);
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.progressBar1.Location = new System.Drawing.Point(333, 161);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(151, 10);
+            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.progressBar1.TabIndex = 15;
+            this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
             // 
             // frm_User_Regist
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(797, 632);
-            this.Controls.Add(this.button1);
+            this.ClientSize = new System.Drawing.Size(959, 675);
             this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.btnCadClient);
+            this.Controls.Add(this.btnClear);
+            this.Controls.Add(this.btnVisit);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.BtnExit);
+            this.Controls.Add(this.btnDelet);
+            this.Controls.Add(this.btnSave);
+            this.Controls.Add(this.btnEdit);
             this.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.Name = "frm_User_Regist";
@@ -466,7 +482,6 @@
         private System.Windows.Forms.TextBox txtId;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txtSearch;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button btnCadClient;
         private System.Windows.Forms.Button button1;
         private ProgressBarCustomized progressBar2;
@@ -475,5 +490,7 @@
         private System.Windows.Forms.Button btnVisit;
         private System.Windows.Forms.ComboBox cbxUserType;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label label10;
     }
 }
