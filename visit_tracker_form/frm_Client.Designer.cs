@@ -425,7 +425,7 @@
             // 
             this.btnExit.Location = new System.Drawing.Point(858, 635);
             this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(89, 28);
+            this.btnExit.Size = new System.Drawing.Size(90, 30);
             this.btnExit.TabIndex = 17;
             this.btnExit.Text = "Sair";
             this.btnExit.UseVisualStyleBackColor = true;
@@ -472,7 +472,7 @@
             this.button3.Text = "Usuários";
             this.button3.UseVisualStyleBackColor = true;
             // 
-            // frm_Client_Regist
+            // frm_Client
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -492,7 +492,7 @@
             this.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.Name = "frm_Client_Regist";
+            this.Name = "frm_Client";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "client_regist";
             this.Load += new System.EventHandler(this.client_regist_Load);

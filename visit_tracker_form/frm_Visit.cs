@@ -44,6 +44,11 @@ namespace visit_tracker
         {
             txtResponsible.Text = UserSession.Name; // Resgata o nome do usuário que foi logado no sistema
             loadDate(); // Carrega a data atual dentro do textbox 'txtDateVisit'
+
+            //evita que o evento SelectedIndexChanged dispare
+            //logo no carregamento e tente buscar visitas sem cliente.
+            cbxIdClient.SelectedIndex = -1; // nada selecionado inicialmente
+            listVisists.Items.Clear();
         }
         private void loadDate()
         {
@@ -112,13 +117,14 @@ namespace visit_tracker
 
             cbxIdClient.DataSource = dt;
             cbxIdClient.DisplayMember = "id"; // texto visível
-            cbxIdClient.ValueMember = "id";     // valor real (ID)
-            cbxIdClient.SelectedIndex = -1;     // nada selecionado inicialmente
+            cbxIdClient.ValueMember = "id";   // valor real (ID)
+            cbxIdClient.SelectedIndex = -1;   // nada selecionado inicialmente
         }
 
         // -----------------------------
         // Carrega o DataGridView de clientes
         // -----------------------------
+        
         private void UpdateDgvClient()
         {
             string query = "SELECT id, name FROM clients WHERE is_activated = 1";
@@ -131,7 +137,6 @@ namespace visit_tracker
             {
                 adapter.Fill(dt);
             }
-
             // Ajuste nomes das colunas se quiser
             if (dt.Columns.Contains("id"))
                 dt.Columns["id"].ColumnName = "Id";
@@ -141,23 +146,39 @@ namespace visit_tracker
             dgvClient.DataSource = dt;
             dgvClient.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
-
+        
         private void cbxIdClient_SelectedIndexChanged(object sender, EventArgs e)
         {
-            cbxIdClient.BackColor = ColorTranslator.FromHtml(default);
-            ShowId();
-            txtTitle.Text = string.Empty;
-            txtDescription.Text = string.Empty;
-
-            if (cbxIdClient.SelectedItem != null)
-            {
-                DataRowView drv = (DataRowView)cbxIdClient.SelectedItem;
-                txtNameClient.Text = drv["name"].ToString();
-            }
-            else
+            // Se ainda está carregando ou não há item selecionado, sai
+            if (cbxIdClient.SelectedIndex < 0 || cbxIdClient.SelectedItem == null)
             {
                 txtNameClient.Text = string.Empty;
+                listVisists.Items.Clear();
+                return;
             }
+
+            // cor padrão de volta
+            cbxIdClient.BackColor = ColorTranslator.FromHtml(default);
+
+            // limpa campos
+            txtTitle.Clear();
+            txtDescription.Clear();
+
+            // pega o DataRowView atual
+            var drv = (DataRowView)cbxIdClient.SelectedItem;
+
+            // nome do cliente
+            txtNameClient.Text = drv["name"].ToString();
+
+            // id do cliente
+            int clientId = Convert.ToInt32(drv["id"]);
+
+            // agora carrega as visitas desse cliente
+            CarregarVisitas(clientId);
+
+            loadDate();
+            ShowId();
+            txtResponsible.Text = UserSession.Name;
         }
 
         private void CarregarVisitas(int clientId)
@@ -178,7 +199,6 @@ namespace visit_tracker
                     FROM visits v
                     INNER JOIN users u ON v.responsible = u.id
                     WHERE v.id_client = @id_client";
-
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
@@ -254,6 +274,9 @@ namespace visit_tracker
             Application.Exit();
         }
 
+        // -----------------------------
+        // Evento ao clicar em uma linha do DataGridView
+        // -----------------------------
         private void dgvClient_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
@@ -266,11 +289,11 @@ namespace visit_tracker
                 // Preenche o TextBox com o nome do cliente
                 txtNameClient.Text = row.Cells["Nome"].Value?.ToString();
             }
+            loadDate();
+            ShowId();
+            txtResponsible.Text = UserSession.Name;
         }
 
-        // -----------------------------
-        // Evento ao clicar em uma linha do DataGridView
-        // -----------------------------
         private void dgvClient_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
@@ -557,6 +580,11 @@ namespace visit_tracker
         private void txtNameClient_TextChanged(object sender, EventArgs e)
         {
             txtNameClient.BackColor = ColorTranslator.FromHtml(default);
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

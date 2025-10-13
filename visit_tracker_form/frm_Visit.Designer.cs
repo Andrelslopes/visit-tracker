@@ -34,9 +34,6 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnDate = new System.Windows.Forms.Button();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.btnClear = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.btnEdit = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.txtTitle = new System.Windows.Forms.TextBox();
             this.listVisists = new System.Windows.Forms.ListBox();
@@ -50,6 +47,9 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtId = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.btnClear = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.btnEdit = new System.Windows.Forms.Button();
             this.dgvClient = new System.Windows.Forms.DataGridView();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.BtnExit = new System.Windows.Forms.Button();
@@ -68,6 +68,9 @@
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvClient)).BeginInit();
             this.groupBox3.SuspendLayout();
@@ -78,9 +81,9 @@
             // 
             // btnAddVisit
             // 
-            this.btnAddVisit.Location = new System.Drawing.Point(288, 22);
+            this.btnAddVisit.Location = new System.Drawing.Point(240, 365);
             this.btnAddVisit.Name = "btnAddVisit";
-            this.btnAddVisit.Size = new System.Drawing.Size(75, 23);
+            this.btnAddVisit.Size = new System.Drawing.Size(90, 30);
             this.btnAddVisit.TabIndex = 11;
             this.btnAddVisit.Text = "Novo";
             this.btnAddVisit.UseVisualStyleBackColor = true;
@@ -107,9 +110,6 @@
             // 
             this.groupBox1.Controls.Add(this.btnDate);
             this.groupBox1.Controls.Add(this.checkBox1);
-            this.groupBox1.Controls.Add(this.btnClear);
-            this.groupBox1.Controls.Add(this.button2);
-            this.groupBox1.Controls.Add(this.btnEdit);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.txtTitle);
             this.groupBox1.Controls.Add(this.listVisists);
@@ -120,7 +120,6 @@
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.txtNameClient);
-            this.groupBox1.Controls.Add(this.btnAddVisit);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.txtId);
             this.groupBox1.Controls.Add(this.txtDescription);
@@ -145,41 +144,12 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(511, 58);
+            this.checkBox1.Location = new System.Drawing.Point(527, 85);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(85, 21);
             this.checkBox1.TabIndex = 22;
             this.checkBox1.Text = "Proposta";
             this.checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // btnClear
-            // 
-            this.btnClear.Location = new System.Drawing.Point(531, 22);
-            this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(75, 23);
-            this.btnClear.TabIndex = 21;
-            this.btnClear.Text = "Limpar";
-            this.btnClear.UseVisualStyleBackColor = true;
-            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(450, 22);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 20;
-            this.button2.Text = "Excluir";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // btnEdit
-            // 
-            this.btnEdit.Location = new System.Drawing.Point(369, 22);
-            this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(75, 23);
-            this.btnEdit.TabIndex = 19;
-            this.btnEdit.Text = "Editar";
-            this.btnEdit.UseVisualStyleBackColor = true;
-            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
             // label4
             // 
@@ -262,7 +232,7 @@
             // 
             this.txtNameClient.Location = new System.Drawing.Point(85, 85);
             this.txtNameClient.Name = "txtNameClient";
-            this.txtNameClient.Size = new System.Drawing.Size(521, 23);
+            this.txtNameClient.Size = new System.Drawing.Size(436, 23);
             this.txtNameClient.TabIndex = 4;
             this.txtNameClient.TextChanged += new System.EventHandler(this.txtNameClient_TextChanged);
             // 
@@ -292,12 +262,42 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Id Visita:";
             // 
+            // btnClear
+            // 
+            this.btnClear.Location = new System.Drawing.Point(528, 365);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(90, 30);
+            this.btnClear.TabIndex = 21;
+            this.btnClear.Text = "Limpar";
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.Location = new System.Drawing.Point(432, 365);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(90, 30);
+            this.btnDelete.TabIndex = 20;
+            this.btnDelete.Text = "Excluir";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
+            // btnEdit
+            // 
+            this.btnEdit.Location = new System.Drawing.Point(336, 365);
+            this.btnEdit.Name = "btnEdit";
+            this.btnEdit.Size = new System.Drawing.Size(90, 30);
+            this.btnEdit.TabIndex = 19;
+            this.btnEdit.Text = "Editar";
+            this.btnEdit.UseVisualStyleBackColor = true;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
+            // 
             // dgvClient
             // 
             this.dgvClient.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvClient.Location = new System.Drawing.Point(6, 22);
             this.dgvClient.Name = "dgvClient";
-            this.dgvClient.Size = new System.Drawing.Size(600, 196);
+            this.dgvClient.Size = new System.Drawing.Size(606, 226);
             this.dgvClient.TabIndex = 16;
             this.dgvClient.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvClient_CellClick);
             this.dgvClient.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvClient_CellContentClick);
@@ -306,18 +306,18 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.dgvClient);
-            this.groupBox3.Location = new System.Drawing.Point(12, 365);
+            this.groupBox3.Location = new System.Drawing.Point(6, 401);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(612, 224);
+            this.groupBox3.Size = new System.Drawing.Size(618, 254);
             this.groupBox3.TabIndex = 17;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Clientes:";
             // 
             // BtnExit
             // 
-            this.BtnExit.Location = new System.Drawing.Point(982, 595);
+            this.BtnExit.Location = new System.Drawing.Point(1063, 625);
             this.BtnExit.Name = "BtnExit";
-            this.BtnExit.Size = new System.Drawing.Size(75, 23);
+            this.BtnExit.Size = new System.Drawing.Size(90, 30);
             this.BtnExit.TabIndex = 18;
             this.BtnExit.Text = "Sair";
             this.BtnExit.UseVisualStyleBackColor = true;
@@ -333,7 +333,7 @@
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Location = new System.Drawing.Point(630, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(427, 577);
+            this.groupBox2.Size = new System.Drawing.Size(427, 643);
             this.groupBox2.TabIndex = 19;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Proposta:";
@@ -415,7 +415,7 @@
             this.groupBox4.Controls.Add(this.radioButton2);
             this.groupBox4.Location = new System.Drawing.Point(6, 73);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(108, 125);
+            this.groupBox4.Size = new System.Drawing.Size(129, 125);
             this.groupBox4.TabIndex = 23;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Status:";
@@ -436,10 +436,10 @@
             this.radioButton3.AutoSize = true;
             this.radioButton3.Location = new System.Drawing.Point(12, 80);
             this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(88, 21);
+            this.radioButton3.Size = new System.Drawing.Size(99, 21);
             this.radioButton3.TabIndex = 22;
             this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "Rejeitado";
+            this.radioButton3.Text = "Reprovado";
             this.radioButton3.UseVisualStyleBackColor = true;
             // 
             // radioButton2
@@ -458,7 +458,7 @@
             this.textBox1.Location = new System.Drawing.Point(6, 221);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(415, 350);
+            this.textBox1.Size = new System.Drawing.Size(415, 416);
             this.textBox1.TabIndex = 0;
             // 
             // label7
@@ -470,15 +470,49 @@
             this.label7.TabIndex = 9;
             this.label7.Text = "Descrição:";
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(1063, 67);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(90, 43);
+            this.button3.TabIndex = 25;
+            this.button3.Text = "Usuários";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(1063, 18);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(90, 43);
+            this.button1.TabIndex = 24;
+            this.button1.Text = "Login";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(1063, 116);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(90, 43);
+            this.button4.TabIndex = 23;
+            this.button4.Text = "Visitas";
+            this.button4.UseVisualStyleBackColor = true;
+            // 
             // frm_Visit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1069, 630);
+            this.ClientSize = new System.Drawing.Size(1165, 667);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.button4);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.BtnExit);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnClear);
             this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.btnEdit);
+            this.Controls.Add(this.btnAddVisit);
             this.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frm_Visit";
@@ -520,7 +554,7 @@
         private System.Windows.Forms.Button BtnExit;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtTitle;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnEdit;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btnClear;
@@ -540,5 +574,8 @@
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Button btnDate;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button4;
     }
 }
