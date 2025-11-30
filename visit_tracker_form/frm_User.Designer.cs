@@ -36,30 +36,30 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cbxUserType = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.btnVisit = new System.Windows.Forms.Button();
-            this.btnCadClient = new System.Windows.Forms.Button();
             this.txtId = new System.Windows.Forms.TextBox();
-            this.btnClear = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
-            this.btnShowPass2 = new System.Windows.Forms.Button();
-            this.txtConfPass = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.btnShowPass = new System.Windows.Forms.Button();
-            this.txtPass = new System.Windows.Forms.TextBox();
             this.txtUser = new System.Windows.Forms.TextBox();
+            this.txtPass = new System.Windows.Forms.TextBox();
+            this.btnShowPass2 = new System.Windows.Forms.Button();
             this.txtEmail = new System.Windows.Forms.TextBox();
-            this.txtCpf = new System.Windows.Forms.TextBox();
-            this.txtName = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.txtCpf = new System.Windows.Forms.TextBox();
+            this.txtConfPass = new System.Windows.Forms.TextBox();
+            this.txtName = new System.Windows.Forms.TextBox();
+            this.btnShowPass = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.btnVisit = new System.Windows.Forms.Button();
+            this.btnCadClient = new System.Windows.Forms.Button();
+            this.btnClear = new System.Windows.Forms.Button();
             this.dgvUsers = new System.Windows.Forms.DataGridView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label8 = new System.Windows.Forms.Label();
             this.txtSearch = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnLogin = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label10 = new System.Windows.Forms.Label();
             this.progressBar2 = new ProgressBarCustomized();
@@ -156,26 +156,6 @@
             this.label9.TabIndex = 21;
             this.label9.Text = "Tipo de Usuário:";
             // 
-            // btnVisit
-            // 
-            this.btnVisit.Location = new System.Drawing.Point(857, 137);
-            this.btnVisit.Name = "btnVisit";
-            this.btnVisit.Size = new System.Drawing.Size(90, 43);
-            this.btnVisit.TabIndex = 20;
-            this.btnVisit.Text = "Visitas";
-            this.btnVisit.UseVisualStyleBackColor = true;
-            this.btnVisit.Click += new System.EventHandler(this.btnVisit_Click);
-            // 
-            // btnCadClient
-            // 
-            this.btnCadClient.Location = new System.Drawing.Point(857, 88);
-            this.btnCadClient.Name = "btnCadClient";
-            this.btnCadClient.Size = new System.Drawing.Size(90, 43);
-            this.btnCadClient.TabIndex = 19;
-            this.btnCadClient.Text = "CadClient";
-            this.btnCadClient.UseVisualStyleBackColor = true;
-            this.btnCadClient.Click += new System.EventHandler(this.btnCadClient_Click);
-            // 
             // txtId
             // 
             this.txtId.Location = new System.Drawing.Point(6, 41);
@@ -183,16 +163,6 @@
             this.txtId.Size = new System.Drawing.Size(51, 23);
             this.txtId.TabIndex = 0;
             this.txtId.TextChanged += new System.EventHandler(this.txtId_TextChanged);
-            // 
-            // btnClear
-            // 
-            this.btnClear.Location = new System.Drawing.Point(564, 263);
-            this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(89, 28);
-            this.btnClear.TabIndex = 10;
-            this.btnClear.Text = "Limpar";
-            this.btnClear.UseVisualStyleBackColor = true;
-            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // label7
             // 
@@ -202,6 +172,22 @@
             this.label7.Size = new System.Drawing.Size(24, 17);
             this.label7.TabIndex = 14;
             this.label7.Text = "Id:";
+            // 
+            // txtUser
+            // 
+            this.txtUser.Location = new System.Drawing.Point(6, 137);
+            this.txtUser.Name = "txtUser";
+            this.txtUser.Size = new System.Drawing.Size(155, 23);
+            this.txtUser.TabIndex = 4;
+            this.txtUser.TextChanged += new System.EventHandler(this.txtUser_TextChanged);
+            // 
+            // txtPass
+            // 
+            this.txtPass.Location = new System.Drawing.Point(333, 135);
+            this.txtPass.Name = "txtPass";
+            this.txtPass.Size = new System.Drawing.Size(151, 23);
+            this.txtPass.TabIndex = 5;
+            this.txtPass.TextChanged += new System.EventHandler(this.txtPass_TextChanged);
             // 
             // btnShowPass2
             // 
@@ -214,6 +200,31 @@
             this.btnShowPass2.UseVisualStyleBackColor = false;
             this.btnShowPass2.Click += new System.EventHandler(this.btnShowPass2_Click);
             // 
+            // txtEmail
+            // 
+            this.txtEmail.Location = new System.Drawing.Point(150, 89);
+            this.txtEmail.Name = "txtEmail";
+            this.txtEmail.Size = new System.Drawing.Size(491, 23);
+            this.txtEmail.TabIndex = 3;
+            this.txtEmail.TextChanged += new System.EventHandler(this.txtEmail_TextChanged);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(333, 115);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(51, 17);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "Senha:";
+            // 
+            // txtCpf
+            // 
+            this.txtCpf.Location = new System.Drawing.Point(6, 89);
+            this.txtCpf.Name = "txtCpf";
+            this.txtCpf.Size = new System.Drawing.Size(138, 23);
+            this.txtCpf.TabIndex = 2;
+            this.txtCpf.TextChanged += new System.EventHandler(this.txtCpf_TextChanged);
+            // 
             // txtConfPass
             // 
             this.txtConfPass.Location = new System.Drawing.Point(490, 135);
@@ -223,14 +234,14 @@
             this.txtConfPass.TextChanged += new System.EventHandler(this.txtConfPass_TextChanged);
             this.txtConfPass.Leave += new System.EventHandler(this.txtConfPass_Leave);
             // 
-            // label6
+            // txtName
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(490, 115);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(77, 17);
-            this.label6.TabIndex = 11;
-            this.label6.Text = "Confirmar:";
+            this.txtName.Location = new System.Drawing.Point(63, 42);
+            this.txtName.Name = "txtName";
+            this.txtName.Size = new System.Drawing.Size(578, 23);
+            this.txtName.TabIndex = 1;
+            this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
+            this.txtName.Leave += new System.EventHandler(this.txtName_Leave);
             // 
             // btnShowPass
             // 
@@ -243,56 +254,6 @@
             this.btnShowPass.UseVisualStyleBackColor = false;
             this.btnShowPass.Click += new System.EventHandler(this.btnShowPass_Click);
             // 
-            // txtPass
-            // 
-            this.txtPass.Location = new System.Drawing.Point(333, 135);
-            this.txtPass.Name = "txtPass";
-            this.txtPass.Size = new System.Drawing.Size(151, 23);
-            this.txtPass.TabIndex = 5;
-            this.txtPass.TextChanged += new System.EventHandler(this.txtPass_TextChanged);
-            // 
-            // txtUser
-            // 
-            this.txtUser.Location = new System.Drawing.Point(6, 137);
-            this.txtUser.Name = "txtUser";
-            this.txtUser.Size = new System.Drawing.Size(155, 23);
-            this.txtUser.TabIndex = 4;
-            this.txtUser.TextChanged += new System.EventHandler(this.txtUser_TextChanged);
-            // 
-            // txtEmail
-            // 
-            this.txtEmail.Location = new System.Drawing.Point(150, 89);
-            this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(491, 23);
-            this.txtEmail.TabIndex = 3;
-            this.txtEmail.TextChanged += new System.EventHandler(this.txtEmail_TextChanged);
-            // 
-            // txtCpf
-            // 
-            this.txtCpf.Location = new System.Drawing.Point(6, 89);
-            this.txtCpf.Name = "txtCpf";
-            this.txtCpf.Size = new System.Drawing.Size(138, 23);
-            this.txtCpf.TabIndex = 2;
-            this.txtCpf.TextChanged += new System.EventHandler(this.txtCpf_TextChanged);
-            // 
-            // txtName
-            // 
-            this.txtName.Location = new System.Drawing.Point(63, 42);
-            this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(578, 23);
-            this.txtName.TabIndex = 1;
-            this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
-            this.txtName.Leave += new System.EventHandler(this.txtName_Leave);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(333, 115);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(51, 17);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "Senha:";
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -301,6 +262,15 @@
             this.label4.Size = new System.Drawing.Size(58, 17);
             this.label4.TabIndex = 3;
             this.label4.Text = "Usuário:";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(490, 115);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(77, 17);
+            this.label6.TabIndex = 11;
+            this.label6.Text = "Confirmar:";
             // 
             // label3
             // 
@@ -328,6 +298,36 @@
             this.label1.Size = new System.Drawing.Size(52, 17);
             this.label1.TabIndex = 0;
             this.label1.Text = "Nome:";
+            // 
+            // btnVisit
+            // 
+            this.btnVisit.Location = new System.Drawing.Point(857, 137);
+            this.btnVisit.Name = "btnVisit";
+            this.btnVisit.Size = new System.Drawing.Size(90, 43);
+            this.btnVisit.TabIndex = 20;
+            this.btnVisit.Text = "Visitas";
+            this.btnVisit.UseVisualStyleBackColor = true;
+            this.btnVisit.Click += new System.EventHandler(this.btnVisit_Click);
+            // 
+            // btnCadClient
+            // 
+            this.btnCadClient.Location = new System.Drawing.Point(857, 88);
+            this.btnCadClient.Name = "btnCadClient";
+            this.btnCadClient.Size = new System.Drawing.Size(90, 43);
+            this.btnCadClient.TabIndex = 19;
+            this.btnCadClient.Text = "Clientes";
+            this.btnCadClient.UseVisualStyleBackColor = true;
+            this.btnCadClient.Click += new System.EventHandler(this.btnCadClient_Click);
+            // 
+            // btnClear
+            // 
+            this.btnClear.Location = new System.Drawing.Point(564, 263);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(89, 28);
+            this.btnClear.TabIndex = 10;
+            this.btnClear.Text = "Limpar";
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // dgvUsers
             // 
@@ -371,14 +371,15 @@
             this.txtSearch.TabIndex = 0;
             this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             // 
-            // button1
+            // btnLogin
             // 
-            this.button1.Location = new System.Drawing.Point(857, 39);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(90, 43);
-            this.button1.TabIndex = 9;
-            this.button1.Text = "Login";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnLogin.Location = new System.Drawing.Point(857, 39);
+            this.btnLogin.Name = "btnLogin";
+            this.btnLogin.Size = new System.Drawing.Size(90, 43);
+            this.btnLogin.TabIndex = 9;
+            this.btnLogin.Text = "Login";
+            this.btnLogin.UseVisualStyleBackColor = true;
+            this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
             // 
             // pictureBox1
             // 
@@ -400,8 +401,7 @@
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(899, 24);
             this.label10.TabIndex = 21;
-            this.label10.Text = "label10";
-            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // progressBar2
             // 
@@ -422,14 +422,14 @@
             this.progressBar1.TabIndex = 15;
             this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
             // 
-            // frm_User_Regist
+            // frm_User
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(959, 675);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label10);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btnCadClient);
             this.Controls.Add(this.btnClear);
@@ -441,7 +441,7 @@
             this.Controls.Add(this.btnEdit);
             this.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.Name = "frm_User_Regist";
+            this.Name = "frm_User";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cadastro Usuário";
             this.Load += new System.EventHandler(this.user_regist_Load);
@@ -483,7 +483,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.Button btnCadClient;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnLogin;
         private ProgressBarCustomized progressBar2;
         private ProgressBarCustomized progressBar1;
         private System.Windows.Forms.Label label8;

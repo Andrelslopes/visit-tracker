@@ -140,6 +140,18 @@
     <Compile Include="frm_Add_Contacts.Designer.cs">
       <DependentUpon>frm_Add_Contacts.cs</DependentUpon>
     </Compile>
+    <Compile Include="frm_Prod.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm_Prod.Designer.cs">
+      <DependentUpon>frm_Prod.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frm_Prop.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm_Prop.Designer.cs">
+      <DependentUpon>frm_Prop.cs</DependentUpon>
+    </Compile>
     <Compile Include="frm_Visit.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -169,6 +181,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frm_Client.resx">
       <DependentUpon>frm_Client.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm_Prod.resx">
+      <DependentUpon>frm_Prod.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm_Prop.resx">
+      <DependentUpon>frm_Prop.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frm_Visit.resx">
       <DependentUpon>frm_Visit.cs</DependentUpon>

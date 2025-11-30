@@ -32,7 +32,7 @@ namespace visit_tracker_form
         private void client_regist_Load(object sender, EventArgs e)
         {
             label9.Text = string.Empty;
-            label9.Text = $"Olá Seja Bem Vindo {UserSession.Name}.";
+            label9.Text = $"Olá, Seja Bem Vindo {UserSession.Name}.";
         }
 
         private void ShowId()

@@ -41,6 +41,9 @@ namespace visit_tracker_form
 
             txtPass.UseSystemPasswordChar = true;
             txtConfPass.UseSystemPasswordChar = true;
+
+            label10.Text = string.Empty;
+            label10.Text = $"Olá, Seja Bem Vindo {UserSession.Name}.";
         }
 
         private void ResetColor()
@@ -895,7 +898,6 @@ namespace visit_tracker_form
             txtId.Text = Selected_Id.ToString();
             txtName.Text = dgvUsers.Rows[e.RowIndex].Cells[1].Value.ToString();
             txtCpf.Text = dgvUsers.Rows[e.RowIndex].Cells[2].Value.ToString();
-
             txtEmail.Text = dgvUsers.Rows[e.RowIndex].Cells[3].Value.ToString();
             txtUser.Text = dgvUsers.Rows[e.RowIndex].Cells[4].Value.ToString();
             
@@ -995,21 +997,27 @@ namespace visit_tracker_form
 
         }
 
+        private void btnLogin_Click(object sender, EventArgs e)
+        {
+            new frm_Login().Show();
+            this.Hide();
+        }
+
         private void btnCadClient_Click(object sender, EventArgs e)
         {
             new frm_Client().Show();
             this.Hide();
         }
 
-        private void groupBox2_Enter(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnVisit_Click(object sender, EventArgs e)
         {
             new frm_Visit().Show();
             this.Hide();
+        }
+
+        private void groupBox2_Enter(object sender, EventArgs e)
+        {
+
         }
 
         private void dgvUsers_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
