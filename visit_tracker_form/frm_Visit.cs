@@ -586,5 +586,23 @@ namespace visit_tracker
         {
 
         }
+
+        private void btnCadLogin_Click(object sender, EventArgs e)
+        {
+            new frm_Login().Show();
+            this.Hide();
+        }
+
+        private void btnCadUser_Click(object sender, EventArgs e)
+        {
+            new frm_User().Show();
+            this.Hide();
+        }
+
+        private void btnCadClient_Click(object sender, EventArgs e)
+        {
+            new frm_Client().Show();
+            this.Hide();
+        }
     }
 }

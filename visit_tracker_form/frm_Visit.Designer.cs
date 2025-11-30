@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_Visit));
             this.btnAddVisit = new System.Windows.Forms.Button();
             this.txtDescription = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
@@ -53,15 +52,13 @@
             this.dgvClient = new System.Windows.Forms.DataGridView();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.BtnExit = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btnCadUser = new System.Windows.Forms.Button();
+            this.btnCadLogin = new System.Windows.Forms.Button();
+            this.btnCadClient = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvClient)).BeginInit();
             this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // btnAddVisit
@@ -297,44 +294,35 @@
             this.BtnExit.UseVisualStyleBackColor = true;
             this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
             // 
-            // button3
+            // btnCadUser
             // 
-            this.button3.Location = new System.Drawing.Point(1063, 67);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(90, 43);
-            this.button3.TabIndex = 25;
-            this.button3.Text = "Usuários";
-            this.button3.UseVisualStyleBackColor = true;
+            this.btnCadUser.Location = new System.Drawing.Point(1063, 67);
+            this.btnCadUser.Name = "btnCadUser";
+            this.btnCadUser.Size = new System.Drawing.Size(90, 43);
+            this.btnCadUser.TabIndex = 25;
+            this.btnCadUser.Text = "Usuários";
+            this.btnCadUser.UseVisualStyleBackColor = true;
+            this.btnCadUser.Click += new System.EventHandler(this.btnCadUser_Click);
             // 
-            // button1
+            // btnCadLogin
             // 
-            this.button1.Location = new System.Drawing.Point(1063, 18);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(90, 43);
-            this.button1.TabIndex = 24;
-            this.button1.Text = "Login";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnCadLogin.Location = new System.Drawing.Point(1063, 18);
+            this.btnCadLogin.Name = "btnCadLogin";
+            this.btnCadLogin.Size = new System.Drawing.Size(90, 43);
+            this.btnCadLogin.TabIndex = 24;
+            this.btnCadLogin.Text = "Login";
+            this.btnCadLogin.UseVisualStyleBackColor = true;
+            this.btnCadLogin.Click += new System.EventHandler(this.btnCadLogin_Click);
             // 
-            // button4
+            // btnCadClient
             // 
-            this.button4.Location = new System.Drawing.Point(1063, 116);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(90, 43);
-            this.button4.TabIndex = 23;
-            this.button4.Text = "Visitas";
-            this.button4.UseVisualStyleBackColor = true;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackColor = System.Drawing.SystemColors.Control;
-            this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(923, 9);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(24, 24);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 27;
-            this.pictureBox1.TabStop = false;
+            this.btnCadClient.Location = new System.Drawing.Point(1063, 116);
+            this.btnCadClient.Name = "btnCadClient";
+            this.btnCadClient.Size = new System.Drawing.Size(90, 43);
+            this.btnCadClient.TabIndex = 23;
+            this.btnCadClient.Text = "Clientes";
+            this.btnCadClient.UseVisualStyleBackColor = true;
+            this.btnCadClient.Click += new System.EventHandler(this.btnCadClient_Click);
             // 
             // label9
             // 
@@ -351,13 +339,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(959, 675);
-            this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button4);
+            this.ClientSize = new System.Drawing.Size(1163, 675);
+            this.Controls.Add(this.btnCadUser);
+            this.Controls.Add(this.btnCadClient);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.BtnExit);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnCadLogin);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.btnDelete);
@@ -374,7 +361,6 @@
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvClient)).EndInit();
             this.groupBox3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -404,10 +390,9 @@
         private System.Windows.Forms.Button btnEdit;
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Button btnDate;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button btnCadUser;
+        private System.Windows.Forms.Button btnCadLogin;
+        private System.Windows.Forms.Button btnCadClient;
         private System.Windows.Forms.Label label9;
     }
 }

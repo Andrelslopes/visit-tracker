@@ -64,9 +64,9 @@
             this.btnClearClient = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.btnCadVisit = new System.Windows.Forms.Button();
+            this.btnLogin = new System.Windows.Forms.Button();
+            this.btnCadUser = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvClient)).BeginInit();
@@ -444,42 +444,44 @@
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
-            // button1
+            // btnCadVisit
             // 
-            this.button1.Location = new System.Drawing.Point(857, 137);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(90, 43);
-            this.button1.TabIndex = 20;
-            this.button1.Text = "Visitas";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnCadVisit.Location = new System.Drawing.Point(857, 137);
+            this.btnCadVisit.Name = "btnCadVisit";
+            this.btnCadVisit.Size = new System.Drawing.Size(90, 43);
+            this.btnCadVisit.TabIndex = 20;
+            this.btnCadVisit.Text = "Visitas";
+            this.btnCadVisit.UseVisualStyleBackColor = true;
+            this.btnCadVisit.Click += new System.EventHandler(this.btnCadVisit_Click);
             // 
-            // button2
+            // btnLogin
             // 
-            this.button2.Location = new System.Drawing.Point(857, 39);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(90, 43);
-            this.button2.TabIndex = 21;
-            this.button2.Text = "Login";
-            this.button2.UseVisualStyleBackColor = true;
+            this.btnLogin.Location = new System.Drawing.Point(857, 39);
+            this.btnLogin.Name = "btnLogin";
+            this.btnLogin.Size = new System.Drawing.Size(90, 43);
+            this.btnLogin.TabIndex = 21;
+            this.btnLogin.Text = "Login";
+            this.btnLogin.UseVisualStyleBackColor = true;
+            this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
             // 
-            // button3
+            // btnCadUser
             // 
-            this.button3.Location = new System.Drawing.Point(857, 88);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(90, 43);
-            this.button3.TabIndex = 22;
-            this.button3.Text = "Usuários";
-            this.button3.UseVisualStyleBackColor = true;
+            this.btnCadUser.Location = new System.Drawing.Point(857, 88);
+            this.btnCadUser.Name = "btnCadUser";
+            this.btnCadUser.Size = new System.Drawing.Size(90, 43);
+            this.btnCadUser.TabIndex = 22;
+            this.btnCadUser.Text = "Usuários";
+            this.btnCadUser.UseVisualStyleBackColor = true;
+            this.btnCadUser.Click += new System.EventHandler(this.btnCadUser_Click);
             // 
             // frm_Client
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(959, 675);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnCadUser);
+            this.Controls.Add(this.btnLogin);
+            this.Controls.Add(this.btnCadVisit);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.label9);
@@ -535,15 +537,15 @@
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button btnSearchCEP;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnCadVisit;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox txtResponsible;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox txtValueContact;
         private System.Windows.Forms.ComboBox cbxTypeContact;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button btnLogin;
+        private System.Windows.Forms.Button btnCadUser;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label13;
     }

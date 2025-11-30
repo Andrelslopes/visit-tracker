@@ -747,7 +747,7 @@ namespace visit_tracker_form
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnCadVisit_Click(object sender, EventArgs e)
         {
             new frm_Visit().Show();
             this.Hide();
@@ -837,6 +837,18 @@ namespace visit_tracker_form
                 return $"({numbers.Substring(0, 2)}) {numbers.Substring(2, 5)}-{numbers.Substring(7)}";
 
             return numbers;
+        }
+
+        private void btnLogin_Click(object sender, EventArgs e)
+        {
+            new frm_Login().Show();
+            this.Hide();
+        }
+
+        private void btnCadUser_Click(object sender, EventArgs e)
+        {
+            new frm_User().Show();
+            this.Hide();
         }
     }
 }

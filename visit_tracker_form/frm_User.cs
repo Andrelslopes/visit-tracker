@@ -1038,5 +1038,10 @@ namespace visit_tracker_form
                 }
             }
         }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
