@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices.ComTypes;
@@ -22,7 +23,7 @@ namespace visit_tracker
         public frm_Visit()
         {
             InitializeComponent();
-            UpdateDgvClient();
+            //UpdateDgvClient(); dgvClient foi retirado do formulário por enquanto.
             LoadClients();
             ShowId();
         }
@@ -42,12 +43,16 @@ namespace visit_tracker
 
         private void frm_Visit_Load(object sender, EventArgs e)
         {
-            txtResponsible.Text = UserSession.Name; // Resgata o nome do usuário que foi logado no sistema
-            loadDate(); // Carrega a data atual dentro do textbox 'txtDateVisit'
+            // Resgata o nome do usuário que foi logado no sistema
+            txtResponsible.Text = UserSession.Name;
+            // Carrega a data atual dentro do textbox 'txtDateVisit'
+            loadDate();
 
             //evita que o evento SelectedIndexChanged dispare
             //logo no carregamento e tente buscar visitas sem cliente.
             cbxIdClient.SelectedIndex = -1; // nada selecionado inicialmente
+            cbxIdClient.DropDownStyle = ComboBoxStyle.DropDown; // permite digitar para buscar
+
             listVisists.Items.Clear();
         }
         private void loadDate()
@@ -124,7 +129,7 @@ namespace visit_tracker
         // -----------------------------
         // Carrega o DataGridView de clientes
         // -----------------------------
-        
+        /*
         private void UpdateDgvClient()
         {
             string query = "SELECT id, name FROM clients WHERE is_activated = 1";
@@ -146,7 +151,8 @@ namespace visit_tracker
             dgvClient.DataSource = dt;
             dgvClient.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
-        
+        */
+
         private void cbxIdClient_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Se ainda está carregando ou não há item selecionado, sai
@@ -179,6 +185,62 @@ namespace visit_tracker
             loadDate();
             ShowId();
             txtResponsible.Text = UserSession.Name;
+        }
+
+        private void queryBudget(int visitId, ListBox listProp)
+        {
+            using (MySqlConnection conn = new MySqlConnection(Program.connect))
+            {
+                try
+                {
+                    conn.Open();
+                    
+                    string query = @"SELECT 
+                        b.id, 
+                        b.visit_id, 
+                        b.user_id,
+                        b.total_value,
+                        b.description,
+                        b.status
+                        v.date_visit
+                    FROM budgets b
+                    INNER JOIN visits v sssON b.visit_id = v.id
+                    WHERE v.id = @id_visit"; ;
+                    
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@id_visit", visitId);
+
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            listProp.Items.Clear();
+
+                            while (reader.Read())
+                            {
+                                // Processa os dados aqui.
+                                // Cria um objeto anônimo para guardar os dados.
+                                var BudgetQuery = new BudgetQuery
+                                {
+                                    Id = Convert.ToInt32(reader["id"]),
+                                    IdVisit = Convert.ToInt32(reader["visit_id"]),
+                                    IdUser = Convert.ToInt32(reader["user_id"]),
+                                    TotalValue = Convert.ToDouble(reader["total_value"]),
+                                    Description = reader["description"].ToString(),
+                                    Status = reader["status"].ToString(),
+                                    VisitDate = Convert.ToDateTime(reader["date_visit"])
+                                };
+                                
+                                // Adiciona o objeto, não a string!
+                                listProp.Items.Add(BudgetQuery);
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erro ao carregar orçamentos: " + ex.Message);
+                }
+            }
         }
 
         private void CarregarVisitas(int clientId)
@@ -277,6 +339,7 @@ namespace visit_tracker
         // -----------------------------
         // Evento ao clicar em uma linha do DataGridView
         // -----------------------------
+        /*
         private void dgvClient_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
@@ -293,7 +356,7 @@ namespace visit_tracker
             ShowId();
             txtResponsible.Text = UserSession.Name;
         }
-
+        */
         private void dgvClient_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
@@ -602,6 +665,69 @@ namespace visit_tracker
         private void btnCadClient_Click(object sender, EventArgs e)
         {
             new frm_Client().Show();
+            this.Hide();
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BuscarClientePorId()
+        {
+            if (string.IsNullOrWhiteSpace(cbxIdClient.Text))
+                return;
+
+            if (!int.TryParse(cbxIdClient.Text, out int idDigitado))
+            {
+                MessageBox.Show("Digite um ID válido.");
+                return;
+            }
+
+            for (int i = 0; i < cbxIdClient.Items.Count; i++)
+            {
+                DataRowView drv = (DataRowView)cbxIdClient.Items[i];
+
+                if (Convert.ToInt32(drv["id"]) == idDigitado)
+                {
+                    cbxIdClient.SelectedIndex = i;
+                    return; // achou, sai
+                }
+            }
+
+            MessageBox.Show("Cliente não encontrado.");
+        }
+
+
+        // O método cbxIdClient_KeyDown está correto, pois KeyEventArgs possui KeyCode.
+        // Não é necessário alterar esse método.
+
+        private void cbxIdClient_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Tab)
+            {
+                BuscarClientePorId();
+                e.SuppressKeyPress = true; // evita beep ou comportamento estranho
+            }
+        }
+
+        // Substitua o método cbxIdClient_Leave para usar EventArgs corretamente.
+        // O evento Leave não possui KeyCode, então remova a verificação de tecla.
+
+        private void cbxIdClient_Leave(object sender, EventArgs e)
+        {
+            BuscarClientePorId();
+        }
+
+        private void btnNewProp_Click(object sender, EventArgs e)
+        {
+            new frm_Prop().Show();
+            this.Hide();
+        }
+
+        private void btnCadProduct_Click(object sender, EventArgs e)
+        {
+            new frm_Prod().Show();
             this.Hide();
         }
     }

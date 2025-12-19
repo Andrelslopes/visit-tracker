@@ -363,8 +363,7 @@ namespace visit_tracker_form
                 }
 
                 MySqlConnection conn = new MySqlConnection(Program.connect);
-                conn.Open();
-
+                
                 try
                 {
                     if (conn.State != ConnectionState.Open)
@@ -895,11 +894,11 @@ namespace visit_tracker_form
             // Atribui o valor de 'Selected_Id' a variavel global 'idUser'
             idUser = Selected_Id;
 
-            txtId.Text = Selected_Id.ToString();
-            txtName.Text = dgvUsers.Rows[e.RowIndex].Cells[1].Value.ToString();
-            txtCpf.Text = dgvUsers.Rows[e.RowIndex].Cells[2].Value.ToString();
-            txtEmail.Text = dgvUsers.Rows[e.RowIndex].Cells[3].Value.ToString();
-            txtUser.Text = dgvUsers.Rows[e.RowIndex].Cells[4].Value.ToString();
+            txtId.Text      = Selected_Id.ToString();
+            txtName.Text    = dgvUsers.Rows[e.RowIndex].Cells[1].Value.ToString();
+            txtCpf.Text     = dgvUsers.Rows[e.RowIndex].Cells[2].Value.ToString();
+            txtEmail.Text   = dgvUsers.Rows[e.RowIndex].Cells[3].Value.ToString();
+            txtUser.Text    = dgvUsers.Rows[e.RowIndex].Cells[4].Value.ToString();
             
             if (e.RowIndex < 0) return;
 
