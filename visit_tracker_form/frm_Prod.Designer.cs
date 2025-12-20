@@ -51,20 +51,28 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btnExit = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtSeach = new System.Windows.Forms.TextBox();
+            this.cbxFilter = new System.Windows.Forms.ComboBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProduct)).BeginInit();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.groupBox2);
+            this.groupBox1.Controls.Add(this.label8);
+            this.groupBox1.Controls.Add(this.cbxFilter);
+            this.groupBox1.Controls.Add(this.txtSeach);
+            this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.txtModel);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.txtManufacturer);
             this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.btnSearchFile);
-            this.groupBox1.Controls.Add(this.txtFilePath);
-            this.groupBox1.Controls.Add(this.pictureBox1);
             this.groupBox1.Controls.Add(this.btnDelete);
             this.groupBox1.Controls.Add(this.btnClear);
             this.groupBox1.Controls.Add(this.btnEdit);
@@ -123,7 +131,7 @@
             // btnSearchFile
             // 
             this.btnSearchFile.Image = global::visit_tracker.Properties.Resources.pasta;
-            this.btnSearchFile.Location = new System.Drawing.Point(1001, 417);
+            this.btnSearchFile.Location = new System.Drawing.Point(234, 269);
             this.btnSearchFile.Name = "btnSearchFile";
             this.btnSearchFile.Size = new System.Drawing.Size(33, 23);
             this.btnSearchFile.TabIndex = 16;
@@ -132,17 +140,17 @@
             // 
             // txtFilePath
             // 
-            this.txtFilePath.Location = new System.Drawing.Point(761, 417);
+            this.txtFilePath.Location = new System.Drawing.Point(6, 269);
             this.txtFilePath.Name = "txtFilePath";
-            this.txtFilePath.Size = new System.Drawing.Size(234, 23);
+            this.txtFilePath.Size = new System.Drawing.Size(222, 23);
             this.txtFilePath.TabIndex = 15;
             // 
             // pictureBox1
             // 
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox1.Location = new System.Drawing.Point(761, 161);
+            this.pictureBox1.Location = new System.Drawing.Point(6, 22);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(273, 250);
+            this.pictureBox1.Size = new System.Drawing.Size(261, 241);
             this.pictureBox1.TabIndex = 13;
             this.pictureBox1.TabStop = false;
             // 
@@ -189,12 +197,13 @@
             // dgvProduct
             // 
             this.dgvProduct.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvProduct.Location = new System.Drawing.Point(7, 161);
+            this.dgvProduct.Location = new System.Drawing.Point(7, 207);
             this.dgvProduct.Name = "dgvProduct";
-            this.dgvProduct.Size = new System.Drawing.Size(748, 322);
+            this.dgvProduct.Size = new System.Drawing.Size(748, 276);
             this.dgvProduct.TabIndex = 8;
             this.dgvProduct.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProduct_CellContentClick);
             this.dgvProduct.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProduct_CellContentDoubleClick);
+            this.dgvProduct.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProduct_CellDoubleClick);
             // 
             // txtValue
             // 
@@ -278,6 +287,51 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(7, 158);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(67, 17);
+            this.label7.TabIndex = 21;
+            this.label7.Text = "Pesquisa:";
+            // 
+            // txtSeach
+            // 
+            this.txtSeach.Location = new System.Drawing.Point(7, 178);
+            this.txtSeach.Name = "txtSeach";
+            this.txtSeach.Size = new System.Drawing.Size(234, 23);
+            this.txtSeach.TabIndex = 22;
+            // 
+            // cbxFilter
+            // 
+            this.cbxFilter.FormattingEnabled = true;
+            this.cbxFilter.Location = new System.Drawing.Point(597, 176);
+            this.cbxFilter.Name = "cbxFilter";
+            this.cbxFilter.Size = new System.Drawing.Size(158, 25);
+            this.cbxFilter.TabIndex = 23;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(594, 156);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(42, 17);
+            this.label8.TabIndex = 24;
+            this.label8.Text = "Filtro:";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.pictureBox1);
+            this.groupBox2.Controls.Add(this.txtFilePath);
+            this.groupBox2.Controls.Add(this.btnSearchFile);
+            this.groupBox2.Location = new System.Drawing.Point(761, 23);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(273, 298);
+            this.groupBox2.TabIndex = 25;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "groupBox2";
+            // 
             // frm_Prod
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
@@ -294,6 +348,8 @@
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProduct)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -323,5 +379,10 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.ComboBox cbxFilter;
+        private System.Windows.Forms.TextBox txtSeach;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.GroupBox groupBox2;
     }
 }

@@ -22,6 +22,7 @@ namespace visit_tracker
             InitializeComponent();
             ShowId();
             UpdateDataGrid();
+            init();
         }
 
         private void frm_Prod_Load(object sender, EventArgs e)
@@ -61,6 +62,11 @@ namespace visit_tracker
 
         private void dgvProduct_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+
+        }
+
+        private void dgvProduct_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
             //evita erro se clicar no cabeçalho ou fora de uma linha válida
             if (e.RowIndex < 0) return;
 
@@ -79,7 +85,7 @@ namespace visit_tracker
                 MessageBox.Show("Ocorreu um erro ao selecionar a linha: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
+        // Método para salvar os dados no banco de dados
         private void btnSave_Click(object sender, EventArgs e)
         {
             string errorMessage = "";
@@ -167,7 +173,7 @@ namespace visit_tracker
                         insertCmd.Parameters.Add("@created_by", MySqlDbType.Int32).Value = UserId;
                         insertCmd.Parameters.Add("@updated_by", MySqlDbType.Int32).Value = UserId;
 
-                        //insertCmd.Parameters.AddWithValue("@updated_by", Environment.UserName); pesquisar como pegar o id do usuario logado
+                        //insertCmd.Parameters.AddWithValue("@updated_by", Environment.UserName);// pesquisar como pegar o id do usuario logado
                         insertCmd.ExecuteNonQuery();
                     }
 
@@ -193,7 +199,89 @@ namespace visit_tracker
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
+            string errorMessage = "";
 
+            if (string.IsNullOrWhiteSpace(txtId.Text))
+            {
+                errorMessage += "O campo Id é obrigatório.\n";
+                txtId.BackColor = Color.LightYellow;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtManufacturer.Text))
+            {
+                errorMessage += "O campo Fabricante é obrigatório.\n";
+                txtManufacturer.BackColor = Color.LightYellow;
+            }
+
+            if (string.IsNullOrEmpty(txtModel.Text))
+            {
+                errorMessage += "O campo Modelo é obrigatório. \n";
+                txtModel.BackColor = Color.LightYellow;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtDescription.Text))
+            {
+                errorMessage += "O campo Descrição é obrigatório.\n";
+                txtDescription.BackColor = Color.LightYellow;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtValue.Text))
+            {
+                errorMessage += "O campo Valor Unit. é obrigatório.\n";
+                txtValue.BackColor = Color.LightYellow;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtAmount.Text))
+            {
+                errorMessage += "O campo Quantidade é obrigatório.\n";
+                txtAmount.BackColor = Color.LightYellow;
+            }
+
+            if (!string.IsNullOrEmpty(errorMessage))
+            {
+                MessageBox.Show(errorMessage, "Erro de Validação", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            else
+            {
+                MySqlConnection conn = new MySqlConnection(Program.connect);
+                try
+                {
+                    int UserId = UserSession.Id;
+                    
+                    if (conn.State != ConnectionState.Open)
+                    {
+                        conn.Open();
+                    }
+                    MySqlCommand updateCmd = new MySqlCommand(
+                        "UPDATE products SET manufacturer = @manufacturer, model = @model, description = @description, unit_value = @unit_value, amount = @amount, updated_by = @updated_by WHERE id = @id", conn);
+                    
+                    updateCmd.Parameters.Add("@manufacturer", MySqlDbType.VarChar).Value = txtManufacturer.Text;
+                    updateCmd.Parameters.Add("@model", MySqlDbType.VarChar).Value = txtModel.Text;
+                    updateCmd.Parameters.Add("@description", MySqlDbType.VarChar).Value = txtDescription.Text;
+                    updateCmd.Parameters.Add("@unit_value", MySqlDbType.Decimal).Value = Convert.ToDecimal(txtValue.Text);
+                    updateCmd.Parameters.Add("@amount", MySqlDbType.Int32).Value = Convert.ToInt32(txtAmount.Text);
+                    updateCmd.Parameters.Add("@updated_by", MySqlDbType.Int32).Value = UserId;
+                    updateCmd.Parameters.Add("@id", MySqlDbType.Int32).Value = Convert.ToInt32(txtId.Text);
+                    
+                    updateCmd.ExecuteNonQuery();
+                    
+                    MessageBox.Show("Dados atualizados com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    cleartextbox();
+                    UpdateDataGrid();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ocorreu um erro ao atualizar os dados: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    if (conn.State == ConnectionState.Open)
+                    {
+                        conn.Close();
+                    }
+                }
+            }
         }
 
         private void btnClear_Click(object sender, EventArgs e)
@@ -203,7 +291,52 @@ namespace visit_tracker
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
+            DialogResult result = MessageBox.Show("Tem certeza de que deseja excluir este produto?", "Confirmação de Exclusão", 
+                MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
+            if (result != DialogResult.Yes)
+            {
+                return;
+            }
+            else
+            {
+                MySqlConnection conn = new MySqlConnection(Program.connect);
+                try
+                {
+                    string activateStatus = "0"; // Define o status de desativação
+                    int UserId = UserSession.Id; // Obtém o ID do usuário logado
+
+                    if (conn.State != ConnectionState.Open)
+                    {
+                        conn.Open();
+                    }
+
+                    MySqlCommand updateCmd = new MySqlCommand(
+                        "UPDATE products SET is_activated=@IsActivated, updated_by=@UpdatedBy  WHERE id = @id", conn); // Comando para atualizar o status de ativação
+
+                    updateCmd.Parameters.Add("@IsActivated", MySqlDbType.Int32).Value = activateStatus; // Define o status de desativação
+                    updateCmd.Parameters.Add("@UpdatedBy", MySqlDbType.Int32).Value = UserId; // Define o ID do usuário que realizou a exclusão
+                    updateCmd.Parameters.Add("@id", MySqlDbType.Int32).Value = Convert.ToInt32(txtId.Text); // Define o ID do produto a ser excluído
+
+                    updateCmd.ExecuteNonQuery(); // Executa o comando de atualização
+
+                    MessageBox.Show("Produto excluído com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    
+                    cleartextbox();
+                    UpdateDataGrid();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ocorreu um erro ao excluir o produto: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    if (conn.State == ConnectionState.Open)
+                    {
+                        conn.Close();
+                    }
+                }
+            }
         }
 
         private void btnSearchFile_Click(object sender, EventArgs e)
@@ -275,41 +408,40 @@ namespace visit_tracker
             }
         }
 
-        private void cleartextbox()
+        // Método para limpar os campos de texto
+        private void cleartextbox() 
         {
-            txtId.Text = string.Empty;
-            txtManufacturer.Text = string.Empty;
-            txtModel.Text = string.Empty;
+            txtId.Text = string.Empty; // Limpa o campo ID
+            txtManufacturer.Text = string.Empty; // Limpa o campo Fabricante
+            txtModel.Text = string.Empty; // Limpa o campo Modelo
             txtDescription.Text = string.Empty;
             txtValue.Text = string.Empty;
             txtAmount.Text = string.Empty;
             
-            ShowId();
+            ShowId(); // Atualiza o ID para o próximo valor disponível
+            UpdateDataGrid(); // Atualiza o DataGridView com os dados mais recentes
         }
-
+        // Método para atualizar o DataGridView com os dados do banco de dados
         private void UpdateDataGrid()
         {
-            using (MySqlConnection conn = new MySqlConnection(Program.connect))
+            using (MySqlConnection conn = new MySqlConnection(Program.connect)) // Cria uma nova conexão com o banco de dados
             {
-                try
+                try 
                 {
-                    if (conn.State != ConnectionState.Open)
+                    if (conn.State != ConnectionState.Open) // Verifica se a conexão está fechada
                     {
-                        conn.Open();
+                        conn.Open(); // Abre a conexão
                     }
 
-                    string query = "SELECT id AS 'ID', manufacturer AS 'Fabricante', model AS 'Modelo', description AS 'Descrição', unit_value AS 'Valor Unit.', amount AS 'Quantidade' FROM products";
+                    string query = "SELECT id AS 'ID', manufacturer AS 'Fabricante', model AS 'Modelo', description AS 'Descrição', unit_value AS 'Valor Unit.', amount AS 'Quantidade' FROM products WHERE is_activated = 1"; // Define a consulta SQL para selecionar os dados desejados
 
-                    MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn); // Cria um adaptador de dados MySQL com a consulta SQL e a conexão
 
-                    DataTable dataTable = new DataTable();
+                    DataTable dataTable = new DataTable(); // Cria uma nova tabela de dados
 
-                    adapter.Fill(dataTable);
+                    adapter.Fill(dataTable); // Preenche a tabela de dados com os resultados da consulta SQL
 
-                    dgvProduct.DataSource = dataTable;
-
-                    dgvProduct.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-
+                    dgvProduct.DataSource = dataTable; // Define a fonte de dados do DataGridView como a tabela de dados preenchida
                 }
                 catch (Exception ex)
                 {
@@ -317,12 +449,21 @@ namespace visit_tracker
                 }
                 finally
                 {
-                    if (conn.State == ConnectionState.Open)
+                    if (conn.State == ConnectionState.Open) // Verifica se a conexão está aberta
                     {
-                        conn.Close();
+                        conn.Close(); // Fecha a conexão
                     }
                 }
             }
+        }
+
+        private void init() // Configurações iniciais do DataGridView
+        {
+            dgvProduct.RowHeadersVisible = false; // Oculta a coluna de cabeçalho das linhas
+            dgvProduct.AllowUserToAddRows = false; // Impede que o usuário adicione novas linhas diretamente
+            dgvProduct.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill; // Ajusta automaticamente a largura das colunas para preencher o espaço disponível
+            dgvProduct.SelectionMode = DataGridViewSelectionMode.FullRowSelect; // Seleciona a linha inteira ao clicar em uma célula
+            dgvProduct.ReadOnly = true; // Torna o DataGridView somente leitura
         }
     }
 }

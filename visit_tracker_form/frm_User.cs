@@ -586,13 +586,13 @@ namespace visit_tracker_form
             {
                 MySqlConnection conn = new MySqlConnection(Program.connect);
 
-                if (conn.State != ConnectionState.Open)
-                {
-                    conn.Open();
-                }
-
                 try
                 {
+                    if (conn.State != ConnectionState.Open)
+                    {
+                        conn.Open();
+                    }
+
                     string valueActive = "0";
 
                     MySqlCommand insertDB = new MySqlCommand
