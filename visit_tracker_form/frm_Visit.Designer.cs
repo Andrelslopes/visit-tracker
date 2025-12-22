@@ -39,7 +39,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.txtTitle = new System.Windows.Forms.TextBox();
-            this.listVisists = new System.Windows.Forms.ListBox();
+            this.listVisits = new System.Windows.Forms.ListBox();
             this.txtDateVisit = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.txtResponsible = new System.Windows.Forms.TextBox();
@@ -168,15 +168,15 @@
             this.txtTitle.Size = new System.Drawing.Size(482, 23);
             this.txtTitle.TabIndex = 17;
             // 
-            // listVisists
+            // listVisits
             // 
-            this.listVisists.FormattingEnabled = true;
-            this.listVisists.ItemHeight = 17;
-            this.listVisists.Location = new System.Drawing.Point(6, 68);
-            this.listVisists.Name = "listVisists";
-            this.listVisists.Size = new System.Drawing.Size(482, 140);
-            this.listVisists.TabIndex = 0;
-            this.listVisists.SelectedIndexChanged += new System.EventHandler(this.listVisists_SelectedIndexChanged);
+            this.listVisits.FormattingEnabled = true;
+            this.listVisits.ItemHeight = 17;
+            this.listVisits.Location = new System.Drawing.Point(6, 68);
+            this.listVisits.Name = "listVisits";
+            this.listVisits.Size = new System.Drawing.Size(482, 140);
+            this.listVisits.TabIndex = 0;
+            this.listVisits.SelectedIndexChanged += new System.EventHandler(this.listVisits_SelectedIndexChanged);
             // 
             // txtDateVisit
             // 
@@ -338,7 +338,7 @@
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.txtTitle);
             this.groupBox2.Controls.Add(this.txtDateVisit);
-            this.groupBox2.Controls.Add(this.listVisists);
+            this.groupBox2.Controls.Add(this.listVisits);
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.txtId);
             this.groupBox2.Location = new System.Drawing.Point(12, 116);
@@ -417,7 +417,7 @@
         private System.Windows.Forms.ComboBox cbxIdClient;
         private System.Windows.Forms.TextBox txtDateVisit;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.ListBox listVisists;
+        private System.Windows.Forms.ListBox listVisits;
         private System.Windows.Forms.Button BtnExit;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtTitle;

@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using Mysqlx.Crud;
 using MySqlX.XDevAPI;
 using System;
 using System.Collections.Generic;
@@ -38,7 +39,7 @@ namespace visit_tracker
             txtResponsible.Text = UserSession.Name;
             txtTitle.Text = string.Empty;
             txtDescription.Text = string.Empty;
-            listVisists.Items.Clear();
+            listVisits.Items.Clear();
         }
 
         private void frm_Visit_Load(object sender, EventArgs e)
@@ -53,7 +54,7 @@ namespace visit_tracker
             cbxIdClient.SelectedIndex = -1; // nada selecionado inicialmente
             cbxIdClient.DropDownStyle = ComboBoxStyle.DropDown; // permite digitar para buscar
 
-            listVisists.Items.Clear();
+            listVisits.Items.Clear();
         }
         private void loadDate()
         {
@@ -126,9 +127,10 @@ namespace visit_tracker
             cbxIdClient.SelectedIndex = -1;   // nada selecionado inicialmente
         }
 
-        // -----------------------------
+        // ----------------------------- DESTIVADO TEMPORARIAMENTE -----------------------------
         // Carrega o DataGridView de clientes
         // -----------------------------
+
         /*
         private void UpdateDgvClient()
         {
@@ -155,37 +157,34 @@ namespace visit_tracker
 
         private void cbxIdClient_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Se ainda está carregando ou não há item selecionado, sai
             if (cbxIdClient.SelectedIndex < 0 || cbxIdClient.SelectedItem == null)
             {
                 txtNameClient.Text = string.Empty;
-                listVisists.Items.Clear();
+                listVisits.Items.Clear();
                 return;
             }
 
-            // cor padrão de volta
             cbxIdClient.BackColor = ColorTranslator.FromHtml(default);
 
-            // limpa campos
             txtTitle.Clear();
             txtDescription.Clear();
 
-            // pega o DataRowView atual
-            var drv = (DataRowView)cbxIdClient.SelectedItem;
+            // Obtém o DataRowView do item selecionado
+            DataRowView drvClient = (DataRowView)cbxIdClient.SelectedItem;
+            // Extrai o ID e o nome do cliente
+            int clientId = Convert.ToInt32(drvClient["id"]);
+            string clientName = drvClient["name"].ToString();
+            // Preenche o TextBox com o nome do cliente
+            txtNameClient.Text = clientName;
 
-            // nome do cliente
-            txtNameClient.Text = drv["name"].ToString();
-
-            // id do cliente
-            int clientId = Convert.ToInt32(drv["id"]);
-
-            // agora carrega as visitas desse cliente
+            // Carrega as visitas do cliente selecionado
             CarregarVisitas(clientId);
 
             loadDate();
             ShowId();
             txtResponsible.Text = UserSession.Name;
         }
+
 
         private void queryBudget(int visitId, ListBox listProp)
         {
@@ -252,15 +251,18 @@ namespace visit_tracker
                     conn.Open();
 
                     string query = @"SELECT 
-                        v.id, 
-                        v.title, 
-                        v.description, 
-                        u.id AS responsible_id,
-                        u.name AS responsible, 
-                        v.date_visit
-                    FROM visits v
-                    INNER JOIN users u ON v.responsible = u.id
-                    WHERE v.id_client = @id_client";
+                                        v.id AS visit_id,
+                                        v.title,
+                                        v.description,
+                                        v.id_client,
+                                        c.name AS client_name,
+                                        u.id AS responsible_id,
+                                        u.name AS responsible,
+                                        v.date_visit
+                                    FROM visits v
+                                    INNER JOIN users u ON v.responsible = u.id
+                                    INNER JOIN clients c ON c.id = v.id_client
+                                    WHERE v.id_client = @id_client";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
@@ -268,23 +270,27 @@ namespace visit_tracker
 
                         using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
-                            listVisists.Items.Clear();
+                            listVisits.Items.Clear();
 
                             while (reader.Read())
                             {
                                 // Cria um objeto anônimo para guardar os dados
                                 var visita = new Visits
                                 {
-                                    Id = Convert.ToInt32(reader["id"]),
+                                    Id = Convert.ToInt32(reader["visit_id"]),
                                     Titulo = reader["title"].ToString(),
                                     Descricao = reader["description"].ToString(),
-                                    Responsavel = reader["responsible"].ToString(),   // nome
-                                    IdResponsavel = Convert.ToInt32(reader["responsible_id"]), // id
+
+                                    IdCliente = Convert.ToInt32(reader["id_client"]),
+                                    NomeCliente = reader["client_name"].ToString(),
+
+                                    Responsavel = reader["responsible"].ToString(),
+                                    IdResponsavel = Convert.ToInt32(reader["responsible_id"]),
                                     DataVisita = Convert.ToDateTime(reader["date_visit"])
                                 };
 
                                 // Adiciona o objeto, não a string!
-                                listVisists.Items.Add(visita);
+                                listVisits.Items.Add(visita);
                             }
                         }
                     }
@@ -367,9 +373,9 @@ namespace visit_tracker
 
         }
 
-        private void listVisists_SelectedIndexChanged(object sender, EventArgs e)
+        private void listVisits_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (listVisists.SelectedItem is Visits visita)
+            if (listVisits.SelectedItem is Visits visita)
             {
                 txtId.Text = visita.Id.ToString();
                 txtResponsible.Tag = visita.IdResponsavel;
@@ -721,8 +727,30 @@ namespace visit_tracker
 
         private void btnNewProp_Click(object sender, EventArgs e)
         {
-            new frm_Prop().Show();
-            this.Hide();
+            Visits visita = listVisits.SelectedItem as Visits;
+
+            if (visita == null)
+            {
+                MessageBox.Show("Selecione uma visita.");
+                return;
+            }
+
+            frm_Prop frm = new frm_Prop(visita);
+            frm.ShowDialog();
+
+            /*
+            Visits visit = listVisits.SelectedItem as Visits;
+
+            if (listVisits.SelectedItem is Visits visita)
+            {
+                new frm_Prop().Show();
+                this.Hide();
+            }
+            else
+            {
+                MessageBox.Show("Selecione uma visita para ver os orçamentos.");
+                return;
+            }*/
         }
 
         private void btnCadProduct_Click(object sender, EventArgs e)

@@ -928,9 +928,10 @@ namespace visit_tracker_form
 
         private async void txtSearch_TextChanged(object sender, EventArgs e)
         {
+            // Obtém o texto do TextBox de busca
             string filter = txtSearch.Text.Trim(); // Remove espaços desnecessários
 
-            if (string.IsNullOrWhiteSpace(filter))
+            if (string.IsNullOrWhiteSpace(filter)) // Verifica se o campo de busca está vazio
             {
                 UpdateDgvUsers(); // Recarrega todos os dados se o campo estiver vazio
                 return;
@@ -942,7 +943,7 @@ namespace visit_tracker_form
             {
                 using (MySqlConnection conn = new MySqlConnection(Program.connect))
                 {
-                    await conn.OpenAsync();
+                    await conn.OpenAsync(); // Abre a conexão de forma assíncrona
 
                     using (MySqlCommand comando = new MySqlCommand(query, conn))
                     {

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,12 +18,18 @@ namespace visit_tracker
 {
     public partial class frm_Prod : Form
     {
+        private string filepath; // Variável para armazenar o caminho do arquivo de imagem
+        private string fullPath = string.Empty; // Variável para armazenar o caminho completo do arquivo de imagem
+        private string PathImagebank = string.Empty; // Variável para armazenar o caminho da imagem do produto
+
         public frm_Prod()
         {
             InitializeComponent();
             ShowId();
             UpdateDataGrid();
             init();
+            enumFilterProduct();
+            newFolder();
         }
 
         private void frm_Prod_Load(object sender, EventArgs e)
@@ -55,6 +62,83 @@ namespace visit_tracker
             txtValue.BackColor = ColorTranslator.FromHtml(default);
         }
 
+        private void cbxFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cbxFilter.BackColor = ColorTranslator.FromHtml(default);
+        }
+
+        private void txtSeach_TextChanged(object sender, EventArgs e)
+        {
+            string filterText = txtSeach.Text.Trim();// Obtém o texto de filtro digitado pelo usuário
+
+            if (string.IsNullOrEmpty(filterText)) // Se o texto de filtro estiver vazio, atualiza o DataGridView com todos os dados
+            {
+                UpdateDataGrid();
+                return;
+            }
+            else
+            {
+                MySqlConnection conn = new MySqlConnection(Program.connect);
+
+                try
+                {
+                    if (conn.State != ConnectionState.Open)
+                    {
+                        conn.Open();
+                    }
+
+                    // Obtém o valor selecionado no ComboBox como enum
+                    var selectedFilter = (AppEnums.FilterProduct)((dynamic)cbxFilter.SelectedItem).Value;
+
+                    string query = "SELECT id AS 'ID', manufacturer AS 'Fabricante', model AS 'Modelo', description AS 'Descrição', unit_value AS 'Valor Unit.', amount AS 'Quantidade' FROM products WHERE is_activated = 1 AND ";
+
+                    // Adiciona a condição de filtro com base no valor selecionado
+                    switch (selectedFilter)
+                    {
+                        case AppEnums.FilterProduct.Id: // Filtra por ID
+                            query += "id LIKE @filterText"; // Usando LIKE para permitir correspondência parcial
+                            break;
+                        case AppEnums.FilterProduct.Fabricante: // Filtra por Fabricante
+                            query += "manufacturer LIKE @filterText";
+                            break;
+                        case AppEnums.FilterProduct.Modelo: // Filtra por Modelo
+                            query += "model LIKE @filterText";
+                            break;
+                        case AppEnums.FilterProduct.Descricao: // Filtra por Descrição
+                            query += "description LIKE @filterText";
+                            break;
+                        default:
+                            MessageBox.Show("Por favor, selecione um filtro válido.");
+                            return;
+                    }
+                    // Cria o comando MySQL com a consulta e a conexão
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    // Adiciona o parâmetro de filtro com curingas para correspondência parcial
+                    cmd.Parameters.AddWithValue("@filterText", "%" + filterText + "%");
+                    // Cria o adaptador de dados e preenche o DataTable
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
+                    // Cria uma nova tabela de dados
+                    DataTable dataTable = new DataTable();
+                    // Preenche a tabela de dados com os resultados da consulta SQL
+                    adapter.Fill(dataTable);
+                    // Define a fonte de dados do DataGridView como a tabela de dados preenchida
+                    dgvProduct.DataSource = dataTable;
+                }
+                catch (Exception ex)
+                {
+                    cbxFilter.BackColor = Color.LightYellow;
+                    MessageBox.Show("Erro ao filtrar os dados: " + ex.Message);
+                }
+                finally
+                {
+                    if (conn.State == ConnectionState.Open)
+                    {
+                        conn.Close();
+                    }
+                }
+            }
+        }
+
         private void dgvProduct_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
@@ -73,12 +157,40 @@ namespace visit_tracker
             try
             {
                 // Preenche os TextBoxes com os dados da linha selecionada
-                txtId.Text = dgvProduct.CurrentRow.Cells["ID"].Value.ToString();
-                txtManufacturer.Text = dgvProduct.CurrentRow.Cells["Fabricante"].Value.ToString();
-                txtModel.Text = dgvProduct.CurrentRow.Cells["Modelo"].Value.ToString();
-                txtDescription.Text = dgvProduct.CurrentRow.Cells["Descrição"].Value.ToString();
-                txtValue.Text = dgvProduct.CurrentRow.Cells["Valor Unit."].Value.ToString();
-                txtAmount.Text = dgvProduct.CurrentRow.Cells["Quantidade"].Value.ToString();
+                
+                txtId.Text = dgvProduct.Rows[e.RowIndex].Cells[0].Value.ToString();
+                txtManufacturer.Text = dgvProduct.Rows[e.RowIndex].Cells[1].Value.ToString();
+                txtModel.Text = dgvProduct.Rows[e.RowIndex].Cells[2].Value.ToString();
+                txtDescription.Text = dgvProduct.Rows[e.RowIndex].Cells[3].Value.ToString();
+                txtValue.Text = dgvProduct.Rows[e.RowIndex].Cells[4].Value.ToString();
+                txtAmount.Text = dgvProduct.Rows[e.RowIndex].Cells[5].Value.ToString();
+
+                /* Carrega a imagem no pictureBox ao clicar duas vezes no DataGridView */
+
+                // Verifica se o clique foi em uma linha válida
+                if (e.RowIndex >= 0)
+                {
+                    // Obtém a linha selecionada
+                    DataGridViewRow row = dgvProduct.Rows[e.RowIndex];
+
+                    // Supondo que você tenha uma coluna com o ID do usuário
+                    int idUsuario = Convert.ToInt32(row.Cells[0].Value);
+
+                    // Buscar o caminho da imagem no banco de dados
+                    PathImagebank = SearchPathImage(idUsuario); // salva o caminho atual
+
+                    // Carrega a imagem no PictureBox, se o arquivo existir
+                    if (File.Exists(PathImagebank))
+                    {
+                        pictureBox1.Image = Image.FromFile(PathImagebank);
+                    }
+                    else
+                    {
+                        MessageBox.Show("O arquivo de imagem não foi encontrado no caminho especificado.", "Erro",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        pictureBox1.Image = null; // Limpa o PictureBox se o arquivo não for encontrado
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -162,14 +274,42 @@ namespace visit_tracker
                     {
                         txtId.BackColor = ColorTranslator.FromHtml(default);
 
+                        if (!string.IsNullOrWhiteSpace(filepath))
+                        {
+                            try
+                            {
+                                string pastaDestino = @"C:\Sistema\Imagens\";
+                                if (!Directory.Exists(pastaDestino))
+                                {
+                                    Directory.CreateDirectory(pastaDestino);
+                                }
+                                
+                                string nomeArquivo = Guid.NewGuid().ToString() + Path.GetExtension(filepath);
+                                fullPath = Path.Combine(pastaDestino, nomeArquivo);
+
+                                File.Copy(filepath, fullPath, true); // Copia a imagem para a pasta
+
+                                MessageBox.Show("Imagem salva com sucesso!");
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show("Erro ao salvar imagem: " + ex.Message);
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Nenhuma imagem selecionada para salvar.");
+                        }
+
                         MySqlCommand insertCmd = new MySqlCommand(
-                            "INSERT INTO products (manufacturer, model, description, unit_value, amount, created_by, updated_by) VALUES (@manufacturer, @model, @description, @unit_value, @amount, @created_by, @updated_by)", conn);
+                            "INSERT INTO products (manufacturer, model, description, unit_value, amount, file_path, created_by, updated_by) VALUES (@manufacturer, @model, @description, @unit_value, @amount, @filepath, @created_by, @updated_by)", conn);
 
                         insertCmd.Parameters.Add("@manufacturer", MySqlDbType.VarChar).Value = txtManufacturer.Text;
                         insertCmd.Parameters.Add("@model", MySqlDbType.VarChar).Value = txtModel.Text;
                         insertCmd.Parameters.Add("@description", MySqlDbType.VarChar).Value = txtDescription.Text;
                         insertCmd.Parameters.Add("@unit_value", MySqlDbType.Decimal).Value = Convert.ToDecimal(txtValue.Text);
                         insertCmd.Parameters.Add("@amount", MySqlDbType.Int32).Value = Convert.ToInt32(txtAmount.Text);
+                        insertCmd.Parameters.Add("@filepath", MySqlDbType.VarChar).Value = fullPath;
                         insertCmd.Parameters.Add("@created_by", MySqlDbType.Int32).Value = UserId;
                         insertCmd.Parameters.Add("@updated_by", MySqlDbType.Int32).Value = UserId;
 
@@ -178,7 +318,7 @@ namespace visit_tracker
                     }
 
                     MessageBox.Show("Dados salvos com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    
+
                     cleartextbox();
 
                     UpdateDataGrid();
@@ -244,28 +384,58 @@ namespace visit_tracker
             }
             else
             {
+                // Salva a imagem na pasta designada
+                if (!string.IsNullOrWhiteSpace(filepath)) // Verifica se um novo arquivo foi selecionado
+                {
+                    try
+                    {
+                        string pastaDestino = @"C:\Sistema\Imagens\";
+                        if (!Directory.Exists(pastaDestino))
+                        {
+                            Directory.CreateDirectory(pastaDestino);
+                        }
+
+                        string nomeArquivo = Guid.NewGuid().ToString() + Path.GetExtension(filepath);
+                        fullPath = Path.Combine(pastaDestino, nomeArquivo);
+
+                        File.Copy(filepath, fullPath, true); // Copia a imagem para a pasta
+
+                        MessageBox.Show("Imagem salva com sucesso!");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Erro ao salvar imagem: " + ex.Message);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Nenhuma imagem selecionada para salvar.");
+                    fullPath = PathImagebank; // Mantém o caminho da imagem existente se nenhum novo arquivo for selecionado
+                }
+
                 MySqlConnection conn = new MySqlConnection(Program.connect);
                 try
                 {
                     int UserId = UserSession.Id;
-                    
+
                     if (conn.State != ConnectionState.Open)
                     {
                         conn.Open();
                     }
                     MySqlCommand updateCmd = new MySqlCommand(
-                        "UPDATE products SET manufacturer = @manufacturer, model = @model, description = @description, unit_value = @unit_value, amount = @amount, updated_by = @updated_by WHERE id = @id", conn);
-                    
+                        "UPDATE products SET manufacturer = @manufacturer, model = @model, description = @description, unit_value = @unit_value, amount = @amount, file_path = @filepath, updated_by = @updated_by WHERE id = @id", conn);
+
                     updateCmd.Parameters.Add("@manufacturer", MySqlDbType.VarChar).Value = txtManufacturer.Text;
                     updateCmd.Parameters.Add("@model", MySqlDbType.VarChar).Value = txtModel.Text;
                     updateCmd.Parameters.Add("@description", MySqlDbType.VarChar).Value = txtDescription.Text;
                     updateCmd.Parameters.Add("@unit_value", MySqlDbType.Decimal).Value = Convert.ToDecimal(txtValue.Text);
                     updateCmd.Parameters.Add("@amount", MySqlDbType.Int32).Value = Convert.ToInt32(txtAmount.Text);
+                    updateCmd.Parameters.Add("@filepath", MySqlDbType.VarChar).Value = fullPath;
                     updateCmd.Parameters.Add("@updated_by", MySqlDbType.Int32).Value = UserId;
                     updateCmd.Parameters.Add("@id", MySqlDbType.Int32).Value = Convert.ToInt32(txtId.Text);
-                    
+
                     updateCmd.ExecuteNonQuery();
-                    
+
                     MessageBox.Show("Dados atualizados com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     cleartextbox();
                     UpdateDataGrid();
@@ -291,7 +461,7 @@ namespace visit_tracker
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Tem certeza de que deseja excluir este produto?", "Confirmação de Exclusão", 
+            DialogResult result = MessageBox.Show("Tem certeza de que deseja excluir este produto?", "Confirmação de Exclusão",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
             if (result != DialogResult.Yes)
@@ -321,7 +491,7 @@ namespace visit_tracker
                     updateCmd.ExecuteNonQuery(); // Executa o comando de atualização
 
                     MessageBox.Show("Produto excluído com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    
+
                     cleartextbox();
                     UpdateDataGrid();
                 }
@@ -338,18 +508,31 @@ namespace visit_tracker
                 }
             }
         }
+        //-----------------------------------------------------------
+        // Método para buscar o arquivo de imagem
+        //-----------------------------------------------------------
 
         private void btnSearchFile_Click(object sender, EventArgs e)
         {
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            OpenFileDialog openFileDialog1 = new OpenFileDialog() // Cria uma nova instância do OpenFileDialog
+            {
+                Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif|All Files|*.*", // Define os filtros de arquivo para imagens
+                Title = "Selecione uma imagem"      // Define o título da janela do diálogo
+            };
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK) // Exibe o diálogo e verifica se o usuário selecionou um arquivo
             {
                 string filePath = openFileDialog1.FileName;
                 MessageBox.Show("Arquivo selecionado: " + filePath, "Arquivo Selecionado", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            
+
             string imagePath = openFileDialog1.FileName;
 
             txtFilePath.Text = imagePath;
+
+            pictureBox1.ImageLocation = imagePath;
+
+            filepath = imagePath;   // Armazena o caminho do arquivo selecionado na variável filepath
 
         }
 
@@ -357,6 +540,10 @@ namespace visit_tracker
         {
             Application.Exit();
         }
+
+        //-----------------------------------------------------------
+        // Método para exibir o próximo ID disponível no campo txtId
+        //-----------------------------------------------------------
 
         private void ShowId()
         {
@@ -408,8 +595,10 @@ namespace visit_tracker
             }
         }
 
+        //-----------------------------------------------------------
         // Método para limpar os campos de texto
-        private void cleartextbox() 
+        //-----------------------------------------------------------
+        private void cleartextbox()
         {
             txtId.Text = string.Empty; // Limpa o campo ID
             txtManufacturer.Text = string.Empty; // Limpa o campo Fabricante
@@ -417,16 +606,21 @@ namespace visit_tracker
             txtDescription.Text = string.Empty;
             txtValue.Text = string.Empty;
             txtAmount.Text = string.Empty;
-            
+            txtFilePath.Text = string.Empty;
+            pictureBox1.Image = null; // Limpa a imagem do PictureBox
+
             ShowId(); // Atualiza o ID para o próximo valor disponível
             UpdateDataGrid(); // Atualiza o DataGridView com os dados mais recentes
         }
+
+        //-----------------------------------------------------------
         // Método para atualizar o DataGridView com os dados do banco de dados
+        //-----------------------------------------------------------
         private void UpdateDataGrid()
         {
             using (MySqlConnection conn = new MySqlConnection(Program.connect)) // Cria uma nova conexão com o banco de dados
             {
-                try 
+                try
                 {
                     if (conn.State != ConnectionState.Open) // Verifica se a conexão está fechada
                     {
@@ -456,6 +650,9 @@ namespace visit_tracker
                 }
             }
         }
+        //-----------------------------------------------------------
+        // Método para inicializar as configurações do DataGridView
+        //-----------------------------------------------------------
 
         private void init() // Configurações iniciais do DataGridView
         {
@@ -464,6 +661,95 @@ namespace visit_tracker
             dgvProduct.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill; // Ajusta automaticamente a largura das colunas para preencher o espaço disponível
             dgvProduct.SelectionMode = DataGridViewSelectionMode.FullRowSelect; // Seleciona a linha inteira ao clicar em uma célula
             dgvProduct.ReadOnly = true; // Torna o DataGridView somente leitura
+
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage; // Ajusta a imagem para preencher o PictureBox  
+        }
+        //-----------------------------------------------------------
+        // Método para popular o ComboBox com os valores do enum FilterProduct
+        //-----------------------------------------------------------
+        private void enumFilterProduct()
+        {
+            // Obtém todos os valores do enum 'AppEnums.FilterProduct' e faz cast para o tipo correto.
+            var values = Enum.GetValues(typeof(AppEnums.FilterProduct)).Cast<AppEnums.FilterProduct>();
+
+            // Percorre cada valor do enum
+            foreach (var value in values)
+            {
+                // Obtém a descrição do valor (provavelmente definida com [Description("Texto")])
+                string description = EnumHelper.GetDescription(value);
+
+                // Adiciona um item ao ComboBox como objeto anônimo
+                //     Text  = descrição amigável (o que o usuário vê na tela)
+                //     Value = valor do enum (o que você usará no código)
+                cbxFilter.Items.Add(new { Text = description, Value = value });
+            }
+
+            // Define que o texto visível no ComboBox será a propriedade "Text"
+            cbxFilter.DisplayMember = "Text";
+
+            // Define que o valor associado ao item será a propriedade "Value"
+            cbxFilter.ValueMember = "Value";
+
+            // Garante que nenhum item esteja selecionado inicialmente
+            cbxFilter.SelectedIndex = -1;
+        }
+        //-----------------------------------------------------------
+        // Método para criar a pasta de destino se ela não existir
+        //-----------------------------------------------------------
+        private void newFolder()
+        {
+            string pastaDestino = @"C:\Sistema\Imagens\"; // Define o caminho da pasta de destino
+
+            // Verifica se a pasta de destino existe
+            if (!Directory.Exists(pastaDestino))
+            {
+                Directory.CreateDirectory(pastaDestino); // Cria a pasta de destino se ela não existir
+            }
+        }
+        //-----------------------------------------------------------
+        // Método para buscar o caminho da imagem no banco de dados com base no ID do produto
+        //-----------------------------------------------------------
+        private string SearchPathImage(int idProduct)
+        {
+            using (MySqlConnection conn = new MySqlConnection(Program.connect))
+            {
+                try
+                {
+                    if (conn.State != ConnectionState.Open)
+                    {
+                        conn.Open();
+                    }
+                    //  Define a consulta SQL para buscar o caminho da imagem
+                    string query = "SELECT file_path FROM products WHERE id = @idProduct";
+                    //  Cria o comando MySQL com a consulta e a conexão
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    //  Adiciona o parâmetro do ID do produto
+                    cmd.Parameters.AddWithValue("@idProduct", idProduct);
+                    //  Executa o comando e obtém o caminho da imagem
+                    object result = cmd.ExecuteScalar();
+                    //  Verifica se o resultado não é nulo e retorna o caminho da imagem
+                    if (result != null && result != DBNull.Value)
+                    {
+                        return result.ToString();   // Retorna o caminho da imagem
+                    }
+                    else
+                    {
+                        return null;    // Retorna null se não houver caminho da imagem
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erro ao buscar o caminho da imagem: " + ex.Message);
+                    return null;
+                }
+                finally
+                {
+                    if (conn.State == ConnectionState.Open)
+                    {
+                        conn.Close();
+                    }
+                }
+            }
         }
     }
 }

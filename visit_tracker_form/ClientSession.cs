@@ -9,12 +9,12 @@ namespace visit_tracker
     internal class ClientSession
     {
         public int Id { get; set; }
-        public string Nome { get; set; }
+        public string Name { get; set; }
 
         // Isso ajuda a exibir o nome no ListBox, mas manter o Id "escondido"
         public override string ToString()
         {
-            return $"{Id} | {Nome}";
+            return $"{Id} | {Name}";
         }
     }
 }

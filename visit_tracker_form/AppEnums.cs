@@ -13,7 +13,6 @@ namespace visit_tracker
         {
             [Description("Operador")]
             Operador,
-
             [Description("Administrador")]
             Administrador
         }
@@ -22,12 +21,44 @@ namespace visit_tracker
         {
             [Description("Telefone")]
             Telefone,
-
             [Description("Celular")]
             Celular,
-
             [Description("Email")]
             Email
+        }
+
+        public enum VisitStatus
+        {
+            [Description("Agendado")]
+            Agendado,
+            [Description("Em Andamento")]
+            EmAndamento,
+            [Description("Concluído")]
+            Concluido,
+            [Description("Cancelado")]
+            Cancelado
+        }
+
+        public enum VisitType
+        {
+            [Description("Residencial")]
+            Residencial,
+            [Description("Comercial")]
+            Comercial,
+            [Description("Industrial")]
+            Industrial
+        }
+
+        public enum FilterProduct
+        {
+            [Description("Id")]
+            Id,
+            [Description("Fabricante")]
+            Fabricante,
+            [Description("Modelo")]
+            Modelo,
+            [Description("Descrição")]
+            Descricao
         }
     }
 }

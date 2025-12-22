@@ -5,8 +5,13 @@ public class Visits
     public int Id { get; set; }
     public string Titulo { get; set; }
     public string Descricao { get; set; }
-    public string Responsavel { get; set; }
+
+    public int IdCliente { get; set; }
+    public string NomeCliente { get; set; }
+
     public int IdResponsavel { get; set; }
+    public string Responsavel { get; set; }
+    
     public DateTime DataVisita { get; set; }
 
     public override string ToString()

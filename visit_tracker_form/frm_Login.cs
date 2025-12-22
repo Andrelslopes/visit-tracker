@@ -58,26 +58,26 @@ namespace visit_tracker_form
 
                         using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
-                            if (reader.Read())
+                            if (reader.Read()) // Se o usuário foi encontrado
                             {
-                                int userId = reader.GetInt32("id"); // Obtém o valor da coluna especicada.
+                                int userId = reader.GetInt32("id"); // Obtém o ID do usuário
 
-                                int attempts = reader.GetInt32("attempts");
+                                int attempts = reader.GetInt32("attempts"); // Obtém o número de tentativas
 
-                                string fullName = reader.GetString("name");
+                                string fullName = reader.GetString("name"); // Obtém o nome completo do usuário
 
-                                string hashSalvo = reader.GetString("password");
+                                string hashSalvo = reader.GetString("password"); // Obtém o hash da senha salva no banco
 
-                                bool senhaCorreta = BCrypt.Net.BCrypt.Verify(senhaDigitada, hashSalvo);
+                                bool senhaCorreta = BCrypt.Net.BCrypt.Verify(senhaDigitada, hashSalvo); // Verifica a senha digitada com o hash salvo
 
-                                bool isAdmin = reader.GetBoolean("is_admin");
+                                bool isAdmin = reader.GetBoolean("is_admin"); // Verifica se o usuário é admin
 
-                                bool isActivated = reader.GetBoolean("is_activated");
+                                bool isActivated = reader.GetBoolean("is_activated");   // Verifica se o usuário está ativado
 
-                                bool isBlocked = reader.GetBoolean("is_blocked");
+                                bool isBlocked = reader.GetBoolean("is_blocked"); // Verifica se o usuário está bloqueado
 
-                                UserSession.Id = userId;
-                                UserSession.Name = fullName;
+                                UserSession.Id = userId; // Armazena o ID do usuário na sessão
+                                UserSession.Name = fullName; // Armazena o nome completo do usuário na sessão
 
                                 if (isBlocked)
                                 {
