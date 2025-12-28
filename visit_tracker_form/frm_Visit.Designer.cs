@@ -40,7 +40,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.txtTitle = new System.Windows.Forms.TextBox();
             this.listVisits = new System.Windows.Forms.ListBox();
-            this.txtDateVisit = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.txtResponsible = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -59,6 +58,7 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.btnCadProduct = new System.Windows.Forms.Button();
+            this.dtpDateTime = new System.Windows.Forms.DateTimePicker();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -81,6 +81,7 @@
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.Size = new System.Drawing.Size(482, 228);
             this.txtDescription.TabIndex = 10;
+            this.txtDescription.TextChanged += new System.EventHandler(this.txtDescription_TextChanged);
             // 
             // label10
             // 
@@ -104,7 +105,6 @@
             this.groupBox1.TabIndex = 15;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Clientes:";
-            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // btnDate
             // 
@@ -167,6 +167,7 @@
             this.txtTitle.Name = "txtTitle";
             this.txtTitle.Size = new System.Drawing.Size(482, 23);
             this.txtTitle.TabIndex = 17;
+            this.txtTitle.TextChanged += new System.EventHandler(this.txtTitle_TextChanged);
             // 
             // listVisits
             // 
@@ -178,18 +179,10 @@
             this.listVisits.TabIndex = 0;
             this.listVisits.SelectedIndexChanged += new System.EventHandler(this.listVisits_SelectedIndexChanged);
             // 
-            // txtDateVisit
-            // 
-            this.txtDateVisit.Location = new System.Drawing.Point(85, 39);
-            this.txtDateVisit.Name = "txtDateVisit";
-            this.txtDateVisit.Size = new System.Drawing.Size(125, 23);
-            this.txtDateVisit.TabIndex = 15;
-            this.txtDateVisit.TextChanged += new System.EventHandler(this.txtDateVisit_TextChanged);
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(82, 19);
+            this.label6.Location = new System.Drawing.Point(90, 19);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(83, 17);
             this.label6.TabIndex = 14;
@@ -215,7 +208,7 @@
             // 
             this.txtId.Location = new System.Drawing.Point(6, 39);
             this.txtId.Name = "txtId";
-            this.txtId.Size = new System.Drawing.Size(73, 23);
+            this.txtId.Size = new System.Drawing.Size(81, 23);
             this.txtId.TabIndex = 1;
             this.txtId.TextChanged += new System.EventHandler(this.txtId_TextChanged);
             // 
@@ -330,6 +323,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.dtpDateTime);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.label10);
             this.groupBox2.Controls.Add(this.txtDescription);
@@ -337,7 +331,6 @@
             this.groupBox2.Controls.Add(this.txtResponsible);
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.txtTitle);
-            this.groupBox2.Controls.Add(this.txtDateVisit);
             this.groupBox2.Controls.Add(this.listVisits);
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.txtId);
@@ -368,6 +361,13 @@
             this.btnCadProduct.Text = "Produtos";
             this.btnCadProduct.UseVisualStyleBackColor = true;
             this.btnCadProduct.Click += new System.EventHandler(this.btnCadProduct_Click);
+            // 
+            // dtpDateTime
+            // 
+            this.dtpDateTime.Location = new System.Drawing.Point(93, 39);
+            this.dtpDateTime.Name = "dtpDateTime";
+            this.dtpDateTime.Size = new System.Drawing.Size(117, 23);
+            this.dtpDateTime.TabIndex = 29;
             // 
             // frm_Visit
             // 
@@ -415,7 +415,6 @@
         private System.Windows.Forms.TextBox txtId;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cbxIdClient;
-        private System.Windows.Forms.TextBox txtDateVisit;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ListBox listVisits;
         private System.Windows.Forms.Button BtnExit;
@@ -434,5 +433,6 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button btnCadProduct;
+        private System.Windows.Forms.DateTimePicker dtpDateTime;
     }
 }

@@ -6,12 +6,13 @@ public class BudgetQuery
     public int IdVisit { get; set; }
     public int IdUser { get; set; }
     public double TotalValue { get; set; }
+    public string Title { get; set; }
     public string Description { get; set; }
-    public string Status { get; set; }
-    public DateTime VisitDate { get; set; }
+    public string StatusId { get; set; }
+    public DateTime BudgetDate { get; set; }
 
     public override string ToString()
     {
-        return $"R$ {TotalValue:N2} - {Status}";
+        return $"R$ {TotalValue:N2} - {StatusId}";
     }
 }   

@@ -54,11 +54,25 @@ namespace visit_tracker
             cbxIdClient.SelectedIndex = -1; // nada selecionado inicialmente
             cbxIdClient.DropDownStyle = ComboBoxStyle.DropDown; // permite digitar para buscar
 
+            // Configura o ListView de visitas
             listVisits.Items.Clear();
+
+            // Configura o ListView de propostas/orçamentos
+            listProp.View = View.Details; // Define o modo de exibição como detalhes
+            listProp.FullRowSelect = true; // Permite selecionar a linha inteira
+            listProp.Columns.Clear(); // Limpa colunas existentes
+            listProp.Columns.Add("ID", 50); // Adiciona colunas
+            listProp.Columns.Add("Título", 250); // Adiciona colunas
+
+            // Define que o controle aceitará um formato personalizado
+            dtpDateTime.Format = DateTimePickerFormat.Custom;
+
+            // Define o formato desejado (Ex: 25/12/2023)
+            //dtpDateTime.CustomFormat = "dd/MM/yyyy";
         }
         private void loadDate()
         {
-            txtDateVisit.Text = DateTime.Now.ToString("dd/MM/yyyy");
+            dtpDateTime.Text = DateTime.Now.ToString("dd/MM/yyyy");
         }
 
         private void ShowId()
@@ -127,34 +141,9 @@ namespace visit_tracker
             cbxIdClient.SelectedIndex = -1;   // nada selecionado inicialmente
         }
 
-        // ----------------------------- DESTIVADO TEMPORARIAMENTE -----------------------------
-        // Carrega o DataGridView de clientes
-        // -----------------------------
-
-        /*
-        private void UpdateDgvClient()
-        {
-            string query = "SELECT id, name FROM clients WHERE is_activated = 1";
-
-            DataTable dt = new DataTable();
-
-            using (MySqlConnection conn = new MySqlConnection(Program.connect))
-            using (MySqlCommand cmd = new MySqlCommand(query, conn))
-            using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd))
-            {
-                adapter.Fill(dt);
-            }
-            // Ajuste nomes das colunas se quiser
-            if (dt.Columns.Contains("id"))
-                dt.Columns["id"].ColumnName = "Id";
-            if (dt.Columns.Contains("name"))
-                dt.Columns["name"].ColumnName = "Nome";
-
-            dgvClient.DataSource = dt;
-            dgvClient.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-        }
-        */
-
+        // --------------------------------------------------------------------
+        // Evento disparado quando o cliente é selecionado no ComboBox
+        // --------------------------------------------------------------------
         private void cbxIdClient_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbxIdClient.SelectedIndex < 0 || cbxIdClient.SelectedItem == null)
@@ -164,8 +153,7 @@ namespace visit_tracker
                 return;
             }
 
-            cbxIdClient.BackColor = ColorTranslator.FromHtml(default);
-
+            cbxIdClient.BackColor = Color.LightYellow;
             txtTitle.Clear();
             txtDescription.Clear();
 
@@ -179,33 +167,35 @@ namespace visit_tracker
 
             // Carrega as visitas do cliente selecionado
             CarregarVisitas(clientId);
-
             loadDate();
             ShowId();
             txtResponsible.Text = UserSession.Name;
         }
 
-
-        private void queryBudget(int visitId, ListBox listProp)
+        //--------------------------------------------------------------------
+        // Consulta orçamentos/propostas da visita selecionada
+        //--------------------------------------------------------------------
+        private void queryBudget(int visitId, ListView listProp)
         {
             using (MySqlConnection conn = new MySqlConnection(Program.connect))
             {
                 try
                 {
                     conn.Open();
-                    
-                    string query = @"SELECT 
-                        b.id, 
-                        b.visit_id, 
-                        b.user_id,
-                        b.total_value,
-                        b.description,
-                        b.status
-                        v.date_visit
-                    FROM budgets b
-                    INNER JOIN visits v sssON b.visit_id = v.id
-                    WHERE v.id = @id_visit"; ;
-                    
+
+                    string query = @"SELECT
+                                        b.id,
+                                        b.visit_id,
+                                        b.user_id,
+                                        b.title,
+                                        b.description,
+                                        b.budget_date,
+                                        b.status_id,
+                                        b.total_value
+                                     FROM budgets b
+                                     INNER JOIN visits v ON v.id = b.visit_id
+                                     WHERE v.id = @id_visit";
+
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@id_visit", visitId);
@@ -213,24 +203,25 @@ namespace visit_tracker
                         using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
                             listProp.Items.Clear();
-
+                            // Percorre os resultados da consulta
                             while (reader.Read())
                             {
-                                // Processa os dados aqui.
-                                // Cria um objeto anônimo para guardar os dados.
-                                var BudgetQuery = new BudgetQuery
+                                ListViewItem item = new ListViewItem(reader["id"].ToString());
+                                item.SubItems.Add(reader["title"].ToString());
+
+                                item.Tag = new BudgetQuery
                                 {
                                     Id = Convert.ToInt32(reader["id"]),
                                     IdVisit = Convert.ToInt32(reader["visit_id"]),
                                     IdUser = Convert.ToInt32(reader["user_id"]),
-                                    TotalValue = Convert.ToDouble(reader["total_value"]),
+                                    Title = reader["title"].ToString(),
                                     Description = reader["description"].ToString(),
-                                    Status = reader["status"].ToString(),
-                                    VisitDate = Convert.ToDateTime(reader["date_visit"])
+                                    BudgetDate = Convert.ToDateTime(reader["budget_date"]),
+                                    StatusId = reader["status_id"].ToString(),
+                                    TotalValue = Convert.ToDouble(reader["total_value"]),
                                 };
-                                
-                                // Adiciona o objeto, não a string!
-                                listProp.Items.Add(BudgetQuery);
+
+                                listProp.Items.Add(item);
                             }
                         }
                     }
@@ -242,6 +233,9 @@ namespace visit_tracker
             }
         }
 
+        //--------------------------------------------------------------------
+        // Carrega as visitas do cliente selecionado
+        //--------------------------------------------------------------------
         private void CarregarVisitas(int clientId)
         {
             using (MySqlConnection conn = new MySqlConnection(Program.connect))
@@ -302,90 +296,39 @@ namespace visit_tracker
             }
         }
 
-        private void txtDateVisit_TextChanged(object sender, EventArgs e)
-        {
-            /*FORMATAÇAO DO TEXTBOX txtBirth*/
-            // Obtém o texto do TextBox
-            string dateBirth = txtDateVisit.Text;
-
-            // Filtra apenas os dígitos do texto, removendo qualquer caractere não numérico
-            dateBirth = new string(dateBirth.Where(char.IsDigit).ToArray());
-
-            // Limita o comprimento da data a no máximo 10 dígitos
-            if (dateBirth.Length > 8)
-                dateBirth = dateBirth.Substring(0, 8);
-
-            // Variável para armazenar a data formatada
-            string formattedBirth = string.Empty; // 00/00/0000
-
-            // Adiciona os primeiros 2 dígitos
-            if (dateBirth.Length > 0)
-                formattedBirth += dateBirth.Substring(0, Math.Min(2, dateBirth.Length));
-
-            // Adiciona o segundo grupo de 3 dígitos com um ponto na frente
-            if (dateBirth.Length > 2)
-                formattedBirth += "/" + dateBirth.Substring(2, Math.Min(2, dateBirth.Length - 2));
-
-            // Adiciona o terceiro grupo de 3 dígitos com outro ponto na frente
-            if (dateBirth.Length > 4)
-                formattedBirth += "/" + dateBirth.Substring(4, Math.Min(4, dateBirth.Length - 4));
-
-            // Define o texto do TextBox como o CPF formatado
-            txtDateVisit.Text = formattedBirth;
-
-            // Ajusta a posição do cursor para o final do texto
-            txtDateVisit.SelectionStart = formattedBirth.Length;
-        }
-
         private void BtnExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
-        // -----------------------------
-        // Evento ao clicar em uma linha do DataGridView
-        // -----------------------------
-        /*
-        private void dgvClient_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                DataGridViewRow row = dgvClient.Rows[e.RowIndex];
-
-                // Seleciona no ComboBox pelo ID
-                cbxIdClient.SelectedValue = row.Cells["Id"].Value;
-
-                // Preenche o TextBox com o nome do cliente
-                txtNameClient.Text = row.Cells["Nome"].Value?.ToString();
-            }
-            loadDate();
-            ShowId();
-            txtResponsible.Text = UserSession.Name;
-        }
-        */
-        private void dgvClient_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void dgvClient_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
+        // --------------------------------------------------------------------
+        // Evento disparado quando uma visita é selecionada na lista
+        // --------------------------------------------------------------------
         private void listVisits_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (listVisits.SelectedItem is Visits visita)
+            // Limpa a lista de propostas
+            if (listVisits.SelectedItem is Visits visita)// Verifica se um item está selecionado
             {
                 txtId.Text = visita.Id.ToString();
                 txtResponsible.Tag = visita.IdResponsavel;
-                txtResponsible.Text = visita.Responsavel;// mostra o nome
-                txtDateVisit.Text = visita.DataVisita.ToString("dd/MM/yyyy");
+                txtResponsible.Text = visita.Responsavel;
+                dtpDateTime.Text = visita.DataVisita.ToString("dd/MM/yyyy");
                 txtTitle.Text = visita.Titulo;
                 txtDescription.Text = visita.Descricao;
+
+                // Carrega as propostas/orçamentos da visita selecionada
+                queryBudget(visita.Id, listProp);
+
+                if (listProp.Items.Count == 0)
+                {
+                    listProp.Items.Add("Nenhuma proposta para esta visita.");
+                }
             }
         }
 
+        // --------------------------------------------------------------------
+        // Botão Adicionar Visita
+        // --------------------------------------------------------------------
         private void btnAddVisit_Click(object sender, EventArgs e)
         {
             using (MySqlConnection conn = new MySqlConnection(Program.connect))
@@ -417,52 +360,52 @@ namespace visit_tracker
                     if (string.IsNullOrWhiteSpace(txtId.Text))
                     {
                         errorMessage += "Id: \n";
-                        txtId.BackColor = ColorTranslator.FromHtml("#FEC6C6");
+                        txtId.BackColor = Color.LightYellow;
                     }
 
                     if (string.IsNullOrWhiteSpace(cbxIdClient.Text))
                     {
                         errorMessage += "Id Cliente: \n";
-                        cbxIdClient.BackColor = ColorTranslator.FromHtml("#FEC6C6");
+                        cbxIdClient.BackColor = Color.LightYellow;
                     }
 
                     if (string.IsNullOrWhiteSpace(txtNameClient.Text))
                     {
                         errorMessage += "Nome Cliente: \n";
-                        txtNameClient.BackColor = ColorTranslator.FromHtml("#FEC6C6");
+                        txtNameClient.BackColor = Color.LightYellow;
                     }
                     if (string.IsNullOrWhiteSpace(txtResponsible.Text))
                     {
                         errorMessage += "Responsavel: \n";
-                        txtResponsible.BackColor = ColorTranslator.FromHtml("#FEC6C6");
+                        txtResponsible.BackColor = Color.LightYellow;
                     }
-                    if (string.IsNullOrWhiteSpace(txtDateVisit.Text))
+                    if (string.IsNullOrWhiteSpace(dtpDateTime.Text))
                     {
                         errorMessage += "Data Visita: \n";
-                        txtDateVisit.BackColor = ColorTranslator.FromHtml("#FEC6C6");
+                        dtpDateTime.BackColor = Color.LightYellow;
                     }
 
-                    else if (!DateTime.TryParse(txtDateVisit.Text, out DateTime dataDigitada))
+                    else if (!DateTime.TryParse(dtpDateTime.Text, out DateTime dataDigitada))
                     {
                         errorMessage += "Data Visita (inválida): \n";
-                        txtDateVisit.BackColor = ColorTranslator.FromHtml("#FEC6C6");
+                        dtpDateTime.BackColor = Color.LightYellow;
                     }
                     else if (dataDigitada.Date != DateTime.Today)
                     {
                         errorMessage += "Data Visita (deve ser a data de hoje): \n";
-                        txtDateVisit.BackColor = ColorTranslator.FromHtml("#FEC6C6");
+                        dtpDateTime.BackColor = Color.LightYellow;
                     }
 
                     if (string.IsNullOrWhiteSpace(txtTitle.Text))
                     {
                         errorMessage += "Titulo: \n";
-                        txtTitle.BackColor = ColorTranslator.FromHtml("#FEC6C6");
+                        txtTitle.BackColor = Color.LightYellow;
                     }
 
                     if (string.IsNullOrWhiteSpace(txtDescription.Text))
                     {
                         errorMessage += "Descrição: \n";
-                        txtDescription.BackColor = ColorTranslator.FromHtml("#FEC6C6");
+                        txtDescription.BackColor = Color.LightYellow;
                     }
                     if (!string.IsNullOrEmpty(errorMessage))
                     {
@@ -485,7 +428,7 @@ namespace visit_tracker
                             {
                                 cmd.Parameters.AddWithValue("@id_Client", cbxIdClient.Text);
                                 cmd.Parameters.AddWithValue("@Responsible", UserId);
-                                cmd.Parameters.AddWithValue("@Date_Visit", DateTime.Parse(txtDateVisit.Text));
+                                cmd.Parameters.AddWithValue("@Date_Visit", DateTime.Parse(dtpDateTime.Text));
                                 cmd.Parameters.AddWithValue("@Title", txtTitle.Text);
                                 cmd.Parameters.AddWithValue("@Description", txtDescription.Text);
                                 cmd.Parameters.AddWithValue("@Created_by", UserId);
@@ -519,12 +462,14 @@ namespace visit_tracker
                                 conn.Close();
                             }
                         }
-
                     }
                 }
             }
         }
 
+        // --------------------------------------------------------------------
+        // Botão Editar Visita
+        // --------------------------------------------------------------------
         private void btnEdit_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtId.Text))
@@ -540,46 +485,46 @@ namespace visit_tracker
                 if (string.IsNullOrWhiteSpace(txtId.Text))
                 {
                     errorMessage += "Id: \n";
-                    txtId.BackColor = ColorTranslator.FromHtml("#FEC6C6");
+                    txtId.BackColor = Color.LightYellow;
                 }
 
                 if (string.IsNullOrWhiteSpace(cbxIdClient.Text))
                 {
                     errorMessage += "Id Cliente: \n";
-                    cbxIdClient.BackColor = ColorTranslator.FromHtml("#FEC6C6");
+                    cbxIdClient.BackColor = Color.LightYellow;
                 }
 
                 if (string.IsNullOrWhiteSpace(txtNameClient.Text))
                 {
                     errorMessage += "Nome Cliente: \n";
-                    txtNameClient.BackColor = ColorTranslator.FromHtml("#FEC6C6");
+                    txtNameClient.BackColor = Color.LightYellow;
                 }
                 if (string.IsNullOrWhiteSpace(txtResponsible.Text))
                 {
                     errorMessage += "Responsavel: \n";
-                    txtResponsible.BackColor = ColorTranslator.FromHtml("#FEC6C6");
+                    txtResponsible.BackColor = Color.LightYellow;
                 }
-                if (string.IsNullOrWhiteSpace(txtDateVisit.Text))
+                if (string.IsNullOrWhiteSpace(dtpDateTime.Text))
                 {
                     errorMessage += "Data Visita: \n";
-                    txtDateVisit.BackColor = ColorTranslator.FromHtml("#FEC6C6");
+                    dtpDateTime.BackColor = Color.LightYellow;
                 }
 
-                else if (!DateTime.TryParse(txtDateVisit.Text, out DateTime dataDigitada))
+                else if (!DateTime.TryParse(dtpDateTime.Text, out DateTime dataDigitada))
                 {
                     errorMessage += "Data Visita (inválida): \n";
-                    txtDateVisit.BackColor = ColorTranslator.FromHtml("#FEC6C6");
+                    dtpDateTime.BackColor = Color.LightYellow;
                 }
                 else if (dataDigitada.Date != DateTime.Today)
                 {
                     errorMessage += "Data Visita (deve ser a data de hoje): \n";
-                    txtDateVisit.BackColor = ColorTranslator.FromHtml("#FEC6C6");
+                    dtpDateTime.BackColor = Color.LightYellow;
                 }
 
                 if (string.IsNullOrWhiteSpace(txtDescription.Text))
                 {
                     errorMessage += "Id Cliente: \n";
-                    txtDescription.BackColor = ColorTranslator.FromHtml("#FEC6C6");
+                    txtDescription.BackColor = Color.LightYellow;
                 }
                 if (!string.IsNullOrEmpty(errorMessage))
                 {
@@ -606,7 +551,7 @@ namespace visit_tracker
                             cmd.Parameters.AddWithValue("@title", txtTitle.Text);
                             cmd.Parameters.AddWithValue("@description", txtDescription.Text);
                             cmd.Parameters.AddWithValue("@responsible", (int)txtResponsible.Tag); // ID do responsável
-                            cmd.Parameters.AddWithValue("@date_visit", DateTime.Parse(txtDateVisit.Text));
+                            cmd.Parameters.AddWithValue("@date_visit", DateTime.Parse(dtpDateTime.Text));
 
                             int linhasAfetadas = cmd.ExecuteNonQuery();
 
@@ -651,6 +596,16 @@ namespace visit_tracker
             txtNameClient.BackColor = ColorTranslator.FromHtml(default);
         }
 
+        private void txtTitle_TextChanged(object sender, EventArgs e)
+        {
+            txtTitle.BackColor = ColorTranslator.FromHtml(default);
+        }
+
+        private void txtDescription_TextChanged(object sender, EventArgs e)
+        {
+            txtDescription.BackColor = ColorTranslator.FromHtml(default);
+        }
+
         private void btnDelete_Click(object sender, EventArgs e)
         {
 
@@ -672,11 +627,6 @@ namespace visit_tracker
         {
             new frm_Client().Show();
             this.Hide();
-        }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
         }
 
         private void BuscarClientePorId()
@@ -704,7 +654,6 @@ namespace visit_tracker
             MessageBox.Show("Cliente não encontrado.");
         }
 
-
         // O método cbxIdClient_KeyDown está correto, pois KeyEventArgs possui KeyCode.
         // Não é necessário alterar esse método.
 
@@ -731,26 +680,12 @@ namespace visit_tracker
 
             if (visita == null)
             {
-                MessageBox.Show("Selecione uma visita.");
+                MessageBox.Show("Selecione uma visita primeiro, para ver os orçamentos.");
                 return;
             }
 
             frm_Prop frm = new frm_Prop(visita);
             frm.ShowDialog();
-
-            /*
-            Visits visit = listVisits.SelectedItem as Visits;
-
-            if (listVisits.SelectedItem is Visits visita)
-            {
-                new frm_Prop().Show();
-                this.Hide();
-            }
-            else
-            {
-                MessageBox.Show("Selecione uma visita para ver os orçamentos.");
-                return;
-            }*/
         }
 
         private void btnCadProduct_Click(object sender, EventArgs e)

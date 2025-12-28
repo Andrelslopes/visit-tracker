@@ -41,6 +41,8 @@ namespace visit_tracker
             txtVisitDate.ReadOnly = true;
 
             txtDateProp.Text = DateTime.Now.ToString("dd/MM/yyyy");
+
+            loadProducts(); 
         }
 
         private void txtIdClient_TextChanged(object sender, EventArgs e)
@@ -212,6 +214,11 @@ namespace visit_tracker
             this.Close();
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void ShowId()
         {
             // Cria uma nova conexão com o banco de dados
@@ -256,9 +263,32 @@ namespace visit_tracker
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void loadProducts()
         {
+            string query = "SELECT * FROM products WHERE is_activated = 1";
 
+            DataTable dt = new DataTable();
+
+            using (MySqlConnection conn = new MySqlConnection(Program.connect))
+            {
+                if (conn.State == ConnectionState.Closed)
+                    conn.Open();
+                
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd))
+                    {
+                        adapter.Fill(dt);
+
+                        dt.Columns.Add("FullName", typeof(string), "id + ' - ' + description");
+                    }
+                    cbxProduct.DataSource = dt;
+                    cbxProduct.DisplayMember = "FullName";
+                    cbxProduct.ValueMember = "id";
+                    cbxProduct.Visible = true;
+                    cbxProduct.SelectedIndex = -1;
+                }
+            }   
         }
     }
 }
