@@ -42,7 +42,7 @@ namespace visit_tracker
 
             txtDateProp.Text = DateTime.Now.ToString("dd/MM/yyyy");
 
-            loadProducts(); 
+            loadProducts();
         }
 
         private void txtIdClient_TextChanged(object sender, EventArgs e)
@@ -273,7 +273,7 @@ namespace visit_tracker
             {
                 if (conn.State == ConnectionState.Closed)
                     conn.Open();
-                
+
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
                     using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd))
@@ -288,7 +288,19 @@ namespace visit_tracker
                     cbxProduct.Visible = true;
                     cbxProduct.SelectedIndex = -1;
                 }
-            }   
+            }
+        }
+
+        private void clearTextboxes()
+        {
+            txtIdProp.Clear(); 
+            txtIdProp.Text = "";
+            txtIdProp.Text = string.Empty;
+
+            txtTitle.Clear();
+            txtDescription.Clear();
+            txtDateProp.Text = DateTime.Now.ToString("dd/MM/yyyy");
+            rbPending.Checked = true;
         }
     }
 }

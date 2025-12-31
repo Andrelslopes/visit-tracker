@@ -51,7 +51,7 @@
             this.txtTitle = new System.Windows.Forms.TextBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.rbProgress = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.rbPending = new System.Windows.Forms.RadioButton();
             this.rbRejected = new System.Windows.Forms.RadioButton();
             this.rbApproved = new System.Windows.Forms.RadioButton();
             this.txtDescription = new System.Windows.Forms.TextBox();
@@ -305,7 +305,7 @@
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.rbProgress);
-            this.groupBox4.Controls.Add(this.radioButton1);
+            this.groupBox4.Controls.Add(this.rbPending);
             this.groupBox4.Controls.Add(this.rbRejected);
             this.groupBox4.Controls.Add(this.rbApproved);
             this.groupBox4.Location = new System.Drawing.Point(776, 24);
@@ -329,17 +329,17 @@
             this.rbProgress.Text = "Em Andamento";
             this.rbProgress.UseVisualStyleBackColor = true;
             // 
-            // radioButton1
+            // rbPending
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(16, 29);
-            this.radioButton1.Margin = new System.Windows.Forms.Padding(4);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(88, 21);
-            this.radioButton1.TabIndex = 20;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Pendente";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.rbPending.AutoSize = true;
+            this.rbPending.Location = new System.Drawing.Point(16, 29);
+            this.rbPending.Margin = new System.Windows.Forms.Padding(4);
+            this.rbPending.Name = "rbPending";
+            this.rbPending.Size = new System.Drawing.Size(88, 21);
+            this.rbPending.TabIndex = 20;
+            this.rbPending.TabStop = true;
+            this.rbPending.Text = "Pendente";
+            this.rbPending.UseVisualStyleBackColor = true;
             // 
             // rbRejected
             // 
@@ -562,7 +562,7 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtTitle;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.RadioButton rbPending;
         private System.Windows.Forms.RadioButton rbRejected;
         private System.Windows.Forms.RadioButton rbApproved;
         private System.Windows.Forms.TextBox txtDescription;

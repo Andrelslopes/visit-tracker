@@ -56,7 +56,7 @@
             this.txtPass.TabIndex = 8;
             this.txtPass.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtPass.UseSystemPasswordChar = true;
-            this.txtPass.TextChanged += new System.EventHandler(this.txtPass_TextChanged);
+            this.txtPass.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtPass_KeyDown);
             // 
             // txtLogin
             // 
@@ -70,7 +70,6 @@
             this.txtLogin.Size = new System.Drawing.Size(311, 26);
             this.txtLogin.TabIndex = 7;
             this.txtLogin.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txtLogin.TextChanged += new System.EventHandler(this.txtLogin_TextChanged);
             // 
             // label2
             // 
@@ -82,7 +81,6 @@
             this.label2.Size = new System.Drawing.Size(82, 25);
             this.label2.TabIndex = 6;
             this.label2.Text = "Senha:";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // label1
             // 
@@ -94,7 +92,6 @@
             this.label1.Size = new System.Drawing.Size(72, 25);
             this.label1.TabIndex = 5;
             this.label1.Text = "Login:";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // btnLogin
             // 

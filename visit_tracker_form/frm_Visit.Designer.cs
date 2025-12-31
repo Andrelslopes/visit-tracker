@@ -56,9 +56,9 @@
             this.listProp = new System.Windows.Forms.ListView();
             this.btnNewProp = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.dtpDateTime = new System.Windows.Forms.DateTimePicker();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.btnCadProduct = new System.Windows.Forms.Button();
-            this.dtpDateTime = new System.Windows.Forms.DateTimePicker();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -341,6 +341,13 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Visitas:";
             // 
+            // dtpDateTime
+            // 
+            this.dtpDateTime.Location = new System.Drawing.Point(93, 39);
+            this.dtpDateTime.Name = "dtpDateTime";
+            this.dtpDateTime.Size = new System.Drawing.Size(117, 23);
+            this.dtpDateTime.TabIndex = 29;
+            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.listProp);
@@ -361,13 +368,6 @@
             this.btnCadProduct.Text = "Produtos";
             this.btnCadProduct.UseVisualStyleBackColor = true;
             this.btnCadProduct.Click += new System.EventHandler(this.btnCadProduct_Click);
-            // 
-            // dtpDateTime
-            // 
-            this.dtpDateTime.Location = new System.Drawing.Point(93, 39);
-            this.dtpDateTime.Name = "dtpDateTime";
-            this.dtpDateTime.Size = new System.Drawing.Size(117, 23);
-            this.dtpDateTime.TabIndex = 29;
             // 
             // frm_Visit
             // 

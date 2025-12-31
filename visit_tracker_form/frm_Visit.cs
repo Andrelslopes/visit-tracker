@@ -24,7 +24,6 @@ namespace visit_tracker
         public frm_Visit()
         {
             InitializeComponent();
-            //UpdateDgvClient(); dgvClient foi retirado do formulário por enquanto.
             LoadClients();
             ShowId();
         }
@@ -46,6 +45,7 @@ namespace visit_tracker
         {
             // Resgata o nome do usuário que foi logado no sistema
             txtResponsible.Text = UserSession.Name;
+            
             // Carrega a data atual dentro do textbox 'txtDateVisit'
             loadDate();
 
@@ -62,7 +62,7 @@ namespace visit_tracker
             listProp.FullRowSelect = true; // Permite selecionar a linha inteira
             listProp.Columns.Clear(); // Limpa colunas existentes
             listProp.Columns.Add("ID", 50); // Adiciona colunas
-            listProp.Columns.Add("Título", 250); // Adiciona colunas
+            listProp.Columns.Add("Título", 270); // Adiciona colunas
 
             // Define que o controle aceitará um formato personalizado
             dtpDateTime.Format = DateTimePickerFormat.Custom;
@@ -146,17 +146,16 @@ namespace visit_tracker
         // --------------------------------------------------------------------
         private void cbxIdClient_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // Verifica se algum item está selecionado
             if (cbxIdClient.SelectedIndex < 0 || cbxIdClient.SelectedItem == null)
             {
                 txtNameClient.Text = string.Empty;
                 listVisits.Items.Clear();
+                txtTitle.Clear();
+                txtDescription.Clear();
                 return;
             }
-
-            cbxIdClient.BackColor = Color.LightYellow;
-            txtTitle.Clear();
-            txtDescription.Clear();
-
+            
             // Obtém o DataRowView do item selecionado
             DataRowView drvClient = (DataRowView)cbxIdClient.SelectedItem;
             // Extrai o ID e o nome do cliente
@@ -172,128 +171,24 @@ namespace visit_tracker
             txtResponsible.Text = UserSession.Name;
         }
 
-        //--------------------------------------------------------------------
-        // Consulta orçamentos/propostas da visita selecionada
-        //--------------------------------------------------------------------
-        private void queryBudget(int visitId, ListView listProp)
+        private void txtId_TextChanged(object sender, EventArgs e)
         {
-            using (MySqlConnection conn = new MySqlConnection(Program.connect))
-            {
-                try
-                {
-                    conn.Open();
-
-                    string query = @"SELECT
-                                        b.id,
-                                        b.visit_id,
-                                        b.user_id,
-                                        b.title,
-                                        b.description,
-                                        b.budget_date,
-                                        b.status_id,
-                                        b.total_value
-                                     FROM budgets b
-                                     INNER JOIN visits v ON v.id = b.visit_id
-                                     WHERE v.id = @id_visit";
-
-                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@id_visit", visitId);
-
-                        using (MySqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            listProp.Items.Clear();
-                            // Percorre os resultados da consulta
-                            while (reader.Read())
-                            {
-                                ListViewItem item = new ListViewItem(reader["id"].ToString());
-                                item.SubItems.Add(reader["title"].ToString());
-
-                                item.Tag = new BudgetQuery
-                                {
-                                    Id = Convert.ToInt32(reader["id"]),
-                                    IdVisit = Convert.ToInt32(reader["visit_id"]),
-                                    IdUser = Convert.ToInt32(reader["user_id"]),
-                                    Title = reader["title"].ToString(),
-                                    Description = reader["description"].ToString(),
-                                    BudgetDate = Convert.ToDateTime(reader["budget_date"]),
-                                    StatusId = reader["status_id"].ToString(),
-                                    TotalValue = Convert.ToDouble(reader["total_value"]),
-                                };
-
-                                listProp.Items.Add(item);
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Erro ao carregar orçamentos: " + ex.Message);
-                }
-            }
+            txtId.BackColor = ColorTranslator.FromHtml(default);
         }
 
-        //--------------------------------------------------------------------
-        // Carrega as visitas do cliente selecionado
-        //--------------------------------------------------------------------
-        private void CarregarVisitas(int clientId)
+        private void txtNameClient_TextChanged(object sender, EventArgs e)
         {
-            using (MySqlConnection conn = new MySqlConnection(Program.connect))
-            {
-                try
-                {
-                    conn.Open();
+            txtNameClient.BackColor = ColorTranslator.FromHtml(default);
+        }
 
-                    string query = @"SELECT 
-                                        v.id AS visit_id,
-                                        v.title,
-                                        v.description,
-                                        v.id_client,
-                                        c.name AS client_name,
-                                        u.id AS responsible_id,
-                                        u.name AS responsible,
-                                        v.date_visit
-                                    FROM visits v
-                                    INNER JOIN users u ON v.responsible = u.id
-                                    INNER JOIN clients c ON c.id = v.id_client
-                                    WHERE v.id_client = @id_client";
+        private void txtTitle_TextChanged(object sender, EventArgs e)
+        {
+            txtTitle.BackColor = ColorTranslator.FromHtml(default);
+        }
 
-                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@id_client", clientId);
-
-                        using (MySqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            listVisits.Items.Clear();
-
-                            while (reader.Read())
-                            {
-                                // Cria um objeto anônimo para guardar os dados
-                                var visita = new Visits
-                                {
-                                    Id = Convert.ToInt32(reader["visit_id"]),
-                                    Titulo = reader["title"].ToString(),
-                                    Descricao = reader["description"].ToString(),
-
-                                    IdCliente = Convert.ToInt32(reader["id_client"]),
-                                    NomeCliente = reader["client_name"].ToString(),
-
-                                    Responsavel = reader["responsible"].ToString(),
-                                    IdResponsavel = Convert.ToInt32(reader["responsible_id"]),
-                                    DataVisita = Convert.ToDateTime(reader["date_visit"])
-                                };
-
-                                // Adiciona o objeto, não a string!
-                                listVisits.Items.Add(visita);
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Erro ao carregar visitas: " + ex.Message);
-                }
-            }
+        private void txtDescription_TextChanged(object sender, EventArgs e)
+        {
+            txtDescription.BackColor = ColorTranslator.FromHtml(default);
         }
 
         private void BtnExit_Click(object sender, EventArgs e)
@@ -310,6 +205,7 @@ namespace visit_tracker
             if (listVisits.SelectedItem is Visits visita)// Verifica se um item está selecionado
             {
                 txtId.Text = visita.Id.ToString();
+
                 txtResponsible.Tag = visita.IdResponsavel;
                 txtResponsible.Text = visita.Responsavel;
                 dtpDateTime.Text = visita.DataVisita.ToString("dd/MM/yyyy");
@@ -586,26 +482,6 @@ namespace visit_tracker
             loadDate();
         }
 
-        private void txtId_TextChanged(object sender, EventArgs e)
-        {
-            txtId.BackColor = ColorTranslator.FromHtml(default);
-        }
-
-        private void txtNameClient_TextChanged(object sender, EventArgs e)
-        {
-            txtNameClient.BackColor = ColorTranslator.FromHtml(default);
-        }
-
-        private void txtTitle_TextChanged(object sender, EventArgs e)
-        {
-            txtTitle.BackColor = ColorTranslator.FromHtml(default);
-        }
-
-        private void txtDescription_TextChanged(object sender, EventArgs e)
-        {
-            txtDescription.BackColor = ColorTranslator.FromHtml(default);
-        }
-
         private void btnDelete_Click(object sender, EventArgs e)
         {
 
@@ -671,6 +547,15 @@ namespace visit_tracker
 
         private void cbxIdClient_Leave(object sender, EventArgs e)
         {
+            // Verifica se algum item está selecionado
+            if (cbxIdClient.SelectedIndex < 0 || cbxIdClient.SelectedItem == null)
+            {
+                txtNameClient.Text = string.Empty;
+                listVisits.Items.Clear();
+                txtTitle.Clear();
+                txtDescription.Clear();
+                return;
+            }
             BuscarClientePorId();
         }
 
@@ -692,6 +577,130 @@ namespace visit_tracker
         {
             new frm_Prod().Show();
             this.Hide();
+        }
+
+        //--------------------------------------------------------------------
+        // Consulta orçamentos/propostas da visita selecionada
+        //--------------------------------------------------------------------
+        private void queryBudget(int visitId, ListView listProp)
+        {
+            using (MySqlConnection conn = new MySqlConnection(Program.connect))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string query = @"SELECT
+                                        b.id,
+                                        b.visit_id,
+                                        b.user_id,
+                                        b.title,
+                                        b.description,
+                                        b.budget_date,
+                                        b.status_id,
+                                        b.total_value
+                                     FROM budgets b
+                                     INNER JOIN visits v ON v.id = b.visit_id
+                                     WHERE v.id = @id_visit";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@id_visit", visitId);
+
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            listProp.Items.Clear();
+                            // Percorre os resultados da consulta
+                            while (reader.Read())
+                            {
+                                ListViewItem item = new ListViewItem(reader["id"].ToString());
+                                item.SubItems.Add(reader["title"].ToString());
+
+                                item.Tag = new BudgetQuery
+                                {
+                                    Id = Convert.ToInt32(reader["id"]),
+                                    IdVisit = Convert.ToInt32(reader["visit_id"]),
+                                    IdUser = Convert.ToInt32(reader["user_id"]),
+                                    Title = reader["title"].ToString(),
+                                    Description = reader["description"].ToString(),
+                                    BudgetDate = Convert.ToDateTime(reader["budget_date"]),
+                                    StatusId = reader["status_id"].ToString(),
+                                    TotalValue = Convert.ToDouble(reader["total_value"]),
+                                };
+
+                                listProp.Items.Add(item);
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erro ao carregar orçamentos: " + ex.Message);
+                }
+            }
+        }
+
+        //--------------------------------------------------------------------
+        // Carrega as visitas do cliente selecionado
+        //--------------------------------------------------------------------
+        private void CarregarVisitas(int clientId)
+        {
+            using (MySqlConnection conn = new MySqlConnection(Program.connect))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string query = @"SELECT 
+                                        v.id AS visit_id,
+                                        v.title,
+                                        v.description,
+                                        v.id_client,
+                                        c.name AS client_name,
+                                        u.id AS responsible_id,
+                                        u.name AS responsible,
+                                        v.date_visit
+                                    FROM visits v
+                                    INNER JOIN users u ON v.responsible = u.id
+                                    INNER JOIN clients c ON c.id = v.id_client
+                                    WHERE v.id_client = @id_client";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@id_client", clientId);
+
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            listVisits.Items.Clear();
+
+                            while (reader.Read())
+                            {
+                                // Cria um objeto anônimo para guardar os dados
+                                var visita = new Visits
+                                {
+                                    Id = Convert.ToInt32(reader["visit_id"]),
+                                    Titulo = reader["title"].ToString(),
+                                    Descricao = reader["description"].ToString(),
+
+                                    IdCliente = Convert.ToInt32(reader["id_client"]),
+                                    NomeCliente = reader["client_name"].ToString(),
+
+                                    Responsavel = reader["responsible"].ToString(),
+                                    IdResponsavel = Convert.ToInt32(reader["responsible_id"]),
+                                    DataVisita = Convert.ToDateTime(reader["date_visit"])
+                                };
+
+                                // Adiciona o objeto, não a string!
+                                listVisits.Items.Add(visita);
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erro ao carregar visitas: " + ex.Message);
+                }
+            }
         }
     }
 }

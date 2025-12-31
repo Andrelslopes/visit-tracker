@@ -30,6 +30,9 @@ namespace visit_tracker_form
 
         }
 
+        //----------------------------------------------------------
+        // Botão de Login
+        //----------------------------------------------------------
         private void btnLogin_Click(object sender, EventArgs e)
         {
             string usuario = txtLogin.Text.Trim();
@@ -51,13 +54,25 @@ namespace visit_tracker_form
                         conn.Open();
                     }
 
-                    string query = "SELECT id, name, username, password, is_admin, is_activated, attempts, is_blocked FROM users WHERE username = @Username";
+                    string query = @"SELECT 
+                                        id,
+                                        name,
+                                        username,
+                                        password,
+                                        is_admin,
+                                        is_activated,
+                                        attempts,
+                                        is_blocked
+                                    FROM users 
+                                    WHERE username = @Username";
+
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@Username", usuario);
 
                         using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
+                            // Lê o resultado da consulta
                             if (reader.Read()) // Se o usuário foi encontrado
                             {
                                 int userId = reader.GetInt32("id"); // Obtém o ID do usuário
@@ -77,42 +92,41 @@ namespace visit_tracker_form
                                 bool isBlocked = reader.GetBoolean("is_blocked"); // Verifica se o usuário está bloqueado
 
                                 UserSession.Id = userId; // Armazena o ID do usuário na sessão
+                                
                                 UserSession.Name = fullName; // Armazena o nome completo do usuário na sessão
 
-                                if (isBlocked)
+                                
+                                if (isBlocked) // Verifica se o usuário está bloqueado
                                 {
                                     MessageBox.Show("Este Usuário está bloqueado. \nPor favor entre em contato com o administrador.", "Erro",
                                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
                                 else
                                 {
-                                    if (senhaCorreta)
+                                    if (senhaCorreta) // Se a senha estiver correta
                                     {
                                         reader.Close(); // precisa fechar antes de fazer outro comando!
-                                        if (attempts != 0)
+                                        
+                                        if (attempts != 0) // Reseta as tentativas se estiver diferente de 0
                                         {
                                             string updateQuery = "UPDATE users SET attempts = 0, is_blocked = 0 WHERE id=@IdUser";
+                                            
                                             using (MySqlCommand updateCmd = new MySqlCommand(updateQuery, conn))
                                             {
                                                 updateCmd.Parameters.AddWithValue("@IdUser", userId);
+                                                
                                                 updateCmd.ExecuteNonQuery();
                                             }
                                         }
 
-                                        if (isAdmin)
+                                        if (isAdmin) // Verifica se o usuário é admin
                                         {
-                                            //MessageBox.Show($"Login Bem-sucedido! \n Seja Bem Vindo {fullName}.", "Sucesso",
-                                            //MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                                             // Abrir tela principal
                                             new frm_User().Show();
                                             this.Hide();
                                         }
                                         else
                                         {
-                                            //MessageBox.Show($"Login Bem-sucedido! \n Seja Bem Vindo {fullName}.", "Sucesso",
-                                            //MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                                             //Abrir tela Visitas
                                             new frm_Visit().Show();
                                             this.Hide();
@@ -214,29 +228,19 @@ namespace visit_tracker_form
             UpdateButtonView();
         }
 
-        private void txtLogin_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txtPass_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void txtPass_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Permitir o login ao pressionar Enter
+            if (e.KeyCode == Keys.Enter)
+            {
+                // Simula o clique no botão de login
+                btnLogin.PerformClick();
+            }
         }
     }
 }
