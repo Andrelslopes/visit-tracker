@@ -92,12 +92,12 @@ namespace visit_tracker_form
                                 bool isBlocked = reader.GetBoolean("is_blocked"); // Verifica se o usuário está bloqueado
 
                                 UserSession.Id = userId; // Armazena o ID do usuário na sessão
-                                
+
                                 UserSession.Name = fullName; // Armazena o nome completo do usuário na sessão
 
                                 if (isActivated != true)
                                 {
-                                    MessageBox.Show("Este Usuário Excluido ou Desativado. \nPor favor entre em contato com o administrador.","Alerta!",
+                                    MessageBox.Show("Este Usuário Excluido ou Desativado. \nPor favor entre em contato com o administrador.", "Alerta!",
                                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 }
                                 else
@@ -212,6 +212,9 @@ namespace visit_tracker_form
             }
         }
 
+        //----------------------------------------------------------
+        // Método para visualizar senha
+        //----------------------------------------------------------
         private void UpdateButtonView()
         {
             if (visiblePass)
@@ -228,6 +231,9 @@ namespace visit_tracker_form
             }
         }
 
+        //----------------------------------------------------------
+        // Botão de Visualizar Senha
+        //----------------------------------------------------------
         private void btnShowPass_Click(object sender, EventArgs e)
         {
             // Alterar a visibilidade da senha
@@ -235,11 +241,17 @@ namespace visit_tracker_form
             UpdateButtonView();
         }
 
+        //----------------------------------------------------------
+        // Botão de Sair
+        //----------------------------------------------------------
         private void btnExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
+        //----------------------------------------------------------
+        // Botão de Login - Permitir o login ao pressionar Enter
+        //----------------------------------------------------------
         private void txtPass_KeyDown(object sender, KeyEventArgs e)
         {
             // Permitir o login ao pressionar Enter
