@@ -95,91 +95,98 @@ namespace visit_tracker_form
                                 
                                 UserSession.Name = fullName; // Armazena o nome completo do usuário na sessão
 
-                                
-                                if (isBlocked) // Verifica se o usuário está bloqueado
+                                if (isActivated != true)
                                 {
-                                    MessageBox.Show("Este Usuário está bloqueado. \nPor favor entre em contato com o administrador.", "Erro",
-                                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    MessageBox.Show("Este Usuário Excluido ou Desativado. \nPor favor entre em contato com o administrador.","Alerta!",
+                                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 }
                                 else
                                 {
-                                    if (senhaCorreta) // Se a senha estiver correta
+                                    if (isBlocked) // Verifica se o usuário está bloqueado
                                     {
-                                        reader.Close(); // precisa fechar antes de fazer outro comando!
-                                        
-                                        if (attempts != 0) // Reseta as tentativas se estiver diferente de 0
-                                        {
-                                            string updateQuery = "UPDATE users SET attempts = 0, is_blocked = 0 WHERE id=@IdUser";
-                                            
-                                            using (MySqlCommand updateCmd = new MySqlCommand(updateQuery, conn))
-                                            {
-                                                updateCmd.Parameters.AddWithValue("@IdUser", userId);
-                                                
-                                                updateCmd.ExecuteNonQuery();
-                                            }
-                                        }
-
-                                        if (isAdmin) // Verifica se o usuário é admin
-                                        {
-                                            // Abrir tela principal
-                                            new frm_User().Show();
-                                            this.Hide();
-                                        }
-                                        else
-                                        {
-                                            //Abrir tela Visitas
-                                            new frm_Visit().Show();
-                                            this.Hide();
-                                        }
+                                        MessageBox.Show("Este Usuário está bloqueado. \nPor favor entre em contato com o administrador.", "Erro",
+                                                MessageBoxButtons.OK, MessageBoxIcon.Error);
                                     }
                                     else
                                     {
-                                        // Se o usuário digitar a senha errada
-                                        MessageBox.Show($"Senha inválida.\n Restam {5 - attempts} tentativas", "Erro",
-                                            MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                                        attempts++;
-                                        reader.Close(); // precisa fechar antes de fazer outro comando!
-                                        try
+                                        if (senhaCorreta) // Se a senha estiver correta
                                         {
-                                            MySqlCommand insertDB = new MySqlCommand
-                                                ("UPDATE users SET attempts=@Attempts WHERE id=@IdUser", conn);
+                                            reader.Close(); // precisa fechar antes de fazer outro comando!
 
-                                            insertDB.Parameters.Add("@Attempts", MySqlDbType.Int32).Value = attempts;
-                                            insertDB.Parameters.Add("@IdUser", MySqlDbType.Int32).Value = Convert.ToInt32(userId);
-
-                                            // Executa o comando de inserção
-                                            insertDB.ExecuteNonQuery();
-
-                                            if (attempts >= 5)
+                                            if (attempts != 0) // Reseta as tentativas se estiver diferente de 0
                                             {
-                                                try
-                                                {
-                                                    string updateQuery = "UPDATE users SET is_blocked = 1 WHERE id=@IdUser";
-                                                    using (MySqlCommand updateCmd = new MySqlCommand(updateQuery, conn))
-                                                    {
-                                                        updateCmd.Parameters.AddWithValue("@IdUser", userId);
-                                                        updateCmd.ExecuteNonQuery();
-                                                    }
+                                                string updateQuery = "UPDATE users SET attempts = 0, is_blocked = 0 WHERE id=@IdUser";
 
-                                                    MessageBox.Show("Sua conta foi bloqueada.\nVocê excedeu o número máximo de tentativas.", "Conta Bloqueada",
-                                                        MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                                                }
-                                                catch (Exception ex)
+                                                using (MySqlCommand updateCmd = new MySqlCommand(updateQuery, conn))
                                                 {
-                                                    MessageBox.Show("Erro Interno ao alterar as informações: " + ex.Message,
-                                                        "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                    updateCmd.Parameters.AddWithValue("@IdUser", userId);
+
+                                                    updateCmd.ExecuteNonQuery();
                                                 }
+                                            }
+
+                                            if (isAdmin) // Verifica se o usuário é admin
+                                            {
+                                                // Abrir tela principal
+                                                new frm_User().Show();
+                                                this.Hide();
                                             }
                                             else
                                             {
-                                                return;
+                                                //Abrir tela Visitas
+                                                new frm_Visit().Show();
+                                                this.Hide();
                                             }
                                         }
-                                        catch (Exception ex)
+                                        else
                                         {
-                                            MessageBox.Show("Erro Interno ao alterar as informações: " + ex.Message,
-                                                "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                            // Se o usuário digitar a senha errada
+                                            MessageBox.Show($"Senha inválida.\n Restam {4 - attempts} tentativas", "Erro",
+                                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                                            attempts++;
+                                            reader.Close(); // precisa fechar antes de fazer outro comando!
+                                            try
+                                            {
+                                                MySqlCommand insertDB = new MySqlCommand
+                                                    ("UPDATE users SET attempts=@Attempts WHERE id=@IdUser", conn);
+
+                                                insertDB.Parameters.Add("@Attempts", MySqlDbType.Int32).Value = attempts;
+                                                insertDB.Parameters.Add("@IdUser", MySqlDbType.Int32).Value = Convert.ToInt32(userId);
+
+                                                // Executa o comando de inserção
+                                                insertDB.ExecuteNonQuery();
+
+                                                if (attempts > 4)
+                                                {
+                                                    try
+                                                    {
+                                                        string updateQuery = "UPDATE users SET is_blocked = 1 WHERE id=@IdUser";
+                                                        using (MySqlCommand updateCmd = new MySqlCommand(updateQuery, conn))
+                                                        {
+                                                            updateCmd.Parameters.AddWithValue("@IdUser", userId);
+                                                            updateCmd.ExecuteNonQuery();
+                                                        }
+
+                                                        MessageBox.Show("Sua conta foi bloqueada.\nVocê excedeu o número máximo de tentativas.", "Conta Bloqueada",
+                                                            MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                                                    }
+                                                    catch (Exception ex)
+                                                    {
+                                                        MessageBox.Show("Erro Interno ao alterar as informações: " + ex.Message,
+                                                            "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    return;
+                                                }
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                MessageBox.Show("Erro Interno ao alterar as informações: " + ex.Message,
+                                                    "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                            }
                                         }
                                     }
                                 }

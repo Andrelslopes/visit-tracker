@@ -33,14 +33,11 @@
             this.btnDelet = new System.Windows.Forms.Button();
             this.BtnExit = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.progressBar2 = new ProgressBarCustomized();
             this.cbxUserType = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.progressBar1 = new ProgressBarCustomized();
             this.txtId = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.txtUser = new System.Windows.Forms.TextBox();
-            this.txtPass = new System.Windows.Forms.TextBox();
             this.btnShowPass2 = new System.Windows.Forms.Button();
             this.txtEmail = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -53,6 +50,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.txtPass = new System.Windows.Forms.TextBox();
             this.btnVisit = new System.Windows.Forms.Button();
             this.btnCadClient = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
@@ -62,6 +60,8 @@
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.btnLogin = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
+            this.progressBar2 = new System.Windows.Forms.ProgressBar();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUsers)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -136,15 +136,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Novo Usuário:";
             // 
-            // progressBar2
-            // 
-            this.progressBar2.BackColor = System.Drawing.SystemColors.ScrollBar;
-            this.progressBar2.Location = new System.Drawing.Point(490, 161);
-            this.progressBar2.Name = "progressBar2";
-            this.progressBar2.Size = new System.Drawing.Size(151, 10);
-            this.progressBar2.TabIndex = 16;
-            this.progressBar2.Click += new System.EventHandler(this.progressBar2_Click);
-            // 
             // cbxUserType
             // 
             this.cbxUserType.FormattingEnabled = true;
@@ -161,16 +152,6 @@
             this.label9.Size = new System.Drawing.Size(109, 17);
             this.label9.TabIndex = 21;
             this.label9.Text = "Tipo de Usuário:";
-            // 
-            // progressBar1
-            // 
-            this.progressBar1.BackColor = System.Drawing.SystemColors.ScrollBar;
-            this.progressBar1.Location = new System.Drawing.Point(333, 161);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(151, 10);
-            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.progressBar1.TabIndex = 15;
-            this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
             // 
             // txtId
             // 
@@ -196,14 +177,6 @@
             this.txtUser.Size = new System.Drawing.Size(155, 23);
             this.txtUser.TabIndex = 4;
             this.txtUser.TextChanged += new System.EventHandler(this.txtUser_TextChanged);
-            // 
-            // txtPass
-            // 
-            this.txtPass.Location = new System.Drawing.Point(333, 135);
-            this.txtPass.Name = "txtPass";
-            this.txtPass.Size = new System.Drawing.Size(151, 23);
-            this.txtPass.TabIndex = 5;
-            this.txtPass.TextChanged += new System.EventHandler(this.txtPass_TextChanged);
             // 
             // btnShowPass2
             // 
@@ -315,6 +288,14 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Nome:";
             // 
+            // txtPass
+            // 
+            this.txtPass.Location = new System.Drawing.Point(333, 135);
+            this.txtPass.Name = "txtPass";
+            this.txtPass.Size = new System.Drawing.Size(151, 23);
+            this.txtPass.TabIndex = 5;
+            this.txtPass.TextChanged += new System.EventHandler(this.txtPass_TextChanged);
+            // 
             // btnVisit
             // 
             this.btnVisit.Location = new System.Drawing.Point(857, 137);
@@ -407,6 +388,25 @@
             this.label10.TabIndex = 21;
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // progressBar2
+            // 
+            this.progressBar2.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.progressBar2.Location = new System.Drawing.Point(490, 161);
+            this.progressBar2.Name = "progressBar2";
+            this.progressBar2.Size = new System.Drawing.Size(151, 10);
+            this.progressBar2.TabIndex = 16;
+            this.progressBar2.Click += new System.EventHandler(this.progressBar2_Click);
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.progressBar1.Location = new System.Drawing.Point(333, 161);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(151, 10);
+            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.progressBar1.TabIndex = 15;
+            this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
+            // 
             // frm_User
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
@@ -467,12 +467,12 @@
         private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.Button btnCadClient;
         private System.Windows.Forms.Button btnLogin;
-        private ProgressBarCustomized progressBar2;
-        private ProgressBarCustomized progressBar1;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button btnVisit;
         private System.Windows.Forms.ComboBox cbxUserType;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.ProgressBar progressBar2;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }
