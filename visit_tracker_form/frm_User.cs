@@ -886,8 +886,96 @@ namespace visit_tracker_form
             UpdateButtonView2();
         }
 
+        private void queryUser()
+        {
+            
+            string username = txtUser.Text.Trim();
+            if (string.IsNullOrWhiteSpace(username))
+            {
+                MessageBox.Show("Por favor, selecione um usuário da lista para editar ou excluir.",
+                    "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(Program.connect))
+                {
+                    conn.Open();
+                    string query = @"SELECT 
+                                        id,
+                                        name,
+                                        username,
+                                        password,
+                                        is_admin,
+                                        is_activated,
+                                        attempts,
+                                        is_blocked
+                                    FROM users 
+                                    WHERE username = @Username";
+
+                    int userId = 0;
+                    bool isActivated = false;
+                    bool isBlocked = false;
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@Username", username);
+
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (!reader.Read())
+                            {
+                                MessageBox.Show("Usuário não encontrado.",
+                                    "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                                return;
+                            }
+
+                            userId = reader.GetInt32("id");
+                            isBlocked = reader.GetBoolean("is_blocked");
+                            isActivated = reader.GetBoolean("is_activated");
+                        }
+
+                        if (isBlocked)
+                        {
+                            groupBox1.BackColor = ColorTranslator.FromHtml("#FEC6C6");
+
+                            DialogResult result = MessageBox.Show("Este usuário está bloqueado. \nDeseja desbloquear?",
+                                "Aviso",MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                            if (result == DialogResult.Yes)
+                            {
+                                // Desbloqueia o usuário
+                                using (MySqlCommand unblockCmd = new MySqlCommand("UPDATE users SET is_blocked = 0, attempts = 0 WHERE id = @IdUser", conn))
+                                {
+                                    unblockCmd.Parameters.AddWithValue("@IdUser", userId);
+                                    unblockCmd.ExecuteNonQuery();
+                                }
+                                MessageBox.Show("Usuário desbloqueado com sucesso.", 
+                                    "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                groupBox1.BackColor = ColorTranslator.FromHtml(default);
+                            }
+                            else
+                            {
+                                // Se o usuário não quiser desbloquear, apenas retorna
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ocorreu um erro:\n\n{ex.Message}", "Erro",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void dgvUsers_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            groupBox1.BackColor = ColorTranslator.FromHtml(default);
+
             // Obtendo o ID da linha quando clicado duas vezes dentro do dgvUser.
             int Selected_Id = Convert.ToInt32(dgvUsers.Rows[e.RowIndex].Cells[0].Value);
 
@@ -919,6 +1007,8 @@ namespace visit_tracker_form
             {
                 cbxUserType.SelectedIndex = -1;
             }
+
+            queryUser();
         }
 
         private void dgvUsers_CellContentClick(object sender, DataGridViewCellEventArgs e)

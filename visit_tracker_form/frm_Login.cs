@@ -66,7 +66,7 @@ namespace visit_tracker_form
                                     FROM users 
                                     WHERE username = @Username";
 
-                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn)) //
                     {
                         cmd.Parameters.AddWithValue("@Username", usuario);
 
@@ -97,7 +97,7 @@ namespace visit_tracker_form
 
                                 if (isActivated != true)
                                 {
-                                    MessageBox.Show("Este Usuário Excluido ou Desativado. \nPor favor entre em contato com o administrador.", "Alerta!",
+                                    MessageBox.Show("Usuário Excluido ou Desativado. \nPor favor entre em contato com o administrador.", "Alerta!",
                                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 }
                                 else
