@@ -888,7 +888,6 @@ namespace visit_tracker_form
 
         private void queryUser()
         {
-            
             string username = txtUser.Text.Trim();
             if (string.IsNullOrWhiteSpace(username))
             {
@@ -903,20 +902,21 @@ namespace visit_tracker_form
                 {
                     conn.Open();
                     string query = @"SELECT 
-                                        id,
-                                        name,
-                                        username,
-                                        password,
-                                        is_admin,
-                                        is_activated,
-                                        attempts,
-                                        is_blocked
-                                    FROM users 
-                                    WHERE username = @Username";
+                                id,
+                                name,
+                                username,
+                                password,
+                                is_admin,
+                                is_activated,
+                                attempts,
+                                is_blocked
+                            FROM users 
+                            WHERE username = @Username";
 
                     int userId = 0;
                     bool isActivated = false;
                     bool isBlocked = false;
+                    int attempts = 0;
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
@@ -935,6 +935,8 @@ namespace visit_tracker_form
                             userId = reader.GetInt32("id");
                             isBlocked = reader.GetBoolean("is_blocked");
                             isActivated = reader.GetBoolean("is_activated");
+                            attempts = reader.GetInt32("attempts");
+
                         }
 
                         if (isBlocked)
@@ -942,7 +944,7 @@ namespace visit_tracker_form
                             groupBox1.BackColor = ColorTranslator.FromHtml("#FEC6C6");
 
                             DialogResult result = MessageBox.Show("Este usuário está bloqueado. \nDeseja desbloquear?",
-                                "Aviso",MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                                "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                             if (result == DialogResult.Yes)
                             {
@@ -952,7 +954,7 @@ namespace visit_tracker_form
                                     unblockCmd.Parameters.AddWithValue("@IdUser", userId);
                                     unblockCmd.ExecuteNonQuery();
                                 }
-                                MessageBox.Show("Usuário desbloqueado com sucesso.", 
+                                MessageBox.Show("Usuário desbloqueado com sucesso.",
                                     "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 groupBox1.BackColor = ColorTranslator.FromHtml(default);
                             }
@@ -971,6 +973,7 @@ namespace visit_tracker_form
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private void dgvUsers_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
